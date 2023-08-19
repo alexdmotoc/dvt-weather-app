@@ -13,6 +13,10 @@ final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
     private let client: HTTPClient
     private let builder: WeatherAPIURLRequestBuilder
     
+    enum Error: Swift.Error {
+        case invalidData
+    }
+    
     init(client: HTTPClient, builder: WeatherAPIURLRequestBuilder = .init()) {
         self.client = client
         self.builder = builder
@@ -20,7 +24,8 @@ final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
     
     func fetch(coordinates: CLLocationCoordinate2D) async throws -> WeatherInformation {
         let request = try builder.path("/weather").coordinates(coordinates).build()
-        let (_, _) = try await client.load(urlReqeust: request)
+        let (_, response) = try await client.load(urlReqeust: request)
+        guard response.statusCode == 200 else { throw Error.invalidData }
         return WeatherInformation.makeMock()
     }
 }
@@ -52,19 +57,38 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     func test_onClientError_deliversError() async throws {
         let mockError = makeNSError()
         let (_, sut) = makeSUT(clientError: mockError)
+        
+        try await expect(sut, toCompleteWith: mockError)
+    }
+    
+    func test_fetch_onNon200StatusCodeReturnsInvalidDataError() async throws {
+        let (client, sut) = makeSUT()
+        
+        for statusCode in [199, 201, 300, 400, 500] {
+            client.statusCode = statusCode
+            try await expect(sut, toCompleteWith: RemoteWeatherFetcherImpl.Error.invalidData)
+        }
+    }
+    
+    // MARK: - Helpers
+    
+    private func expect(_ sut: RemoteWeatherFetcherImpl, toCompleteWith expectedError: Error) async throws {
         var didThrow = false
         
         do {
             _ = try await sut.fetch(coordinates: makeCoordinates())
         } catch {
-            XCTAssertEqual(error as NSError, mockError)
+            switch (error, expectedError) {
+            case let (error as RemoteWeatherFetcherImpl.Error, expectedError as RemoteWeatherFetcherImpl.Error):
+                XCTAssertEqual(error, expectedError)
+            case let (error as NSError, expectedError as NSError):
+                XCTAssertEqual(error, expectedError)
+            }
             didThrow = true
         }
         
         XCTAssertTrue(didThrow)
     }
-    
-    // MARK: - Helpers
     
     private func makeNSError() -> NSError {
         NSError(domain: "mock", code: 0)
@@ -94,11 +118,18 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     private class HTTPClientSpy: HTTPClient {
         var loadCalledCount = 0
         var error: Error?
+        var statusCode: Int?
         
         func load(urlReqeust: URLRequest) async throws -> (Data, HTTPURLResponse) {
             loadCalledCount += 1
             if let error { throw error }
-            return (Data(), HTTPURLResponse())
+            let response: HTTPURLResponse
+            if let statusCode {
+                response = .init(url: urlReqeust.url!, statusCode: statusCode, httpVersion: nil, headerFields: nil)!
+            } else {
+                response = HTTPURLResponse()
+            }
+            return (Data(), response)
         }
     }
 }
