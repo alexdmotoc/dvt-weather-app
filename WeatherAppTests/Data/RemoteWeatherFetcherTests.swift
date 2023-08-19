@@ -22,7 +22,21 @@ final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
 }
 
 final class RemoteWeatherFetcherTests: XCTestCase {
-
     
-
+    func test_init_doesntInvokeFetch() {
+        let client = HTTPClientSpy()
+        let sut = RemoteWeatherFetcherImpl(client: client)
+        XCTAssertEqual(client.loadCalledCount, 0)
+    }
+    
+    // MARK: - Helpers
+    
+    private class HTTPClientSpy: HTTPClient {
+        var loadCalledCount = 0
+        
+        func load(urlReqeust: URLRequest) async throws -> (Data, HTTPURLResponse) {
+            loadCalledCount += 1
+            throw NSError()
+        }
+    }
 }
