@@ -22,6 +22,8 @@ public struct WeatherInformation {
     }
 }
 
+// MARK: - Subtypes
+
 extension WeatherInformation {
     public struct Location {
         public let name: String

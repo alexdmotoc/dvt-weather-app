@@ -11,7 +11,7 @@ import CoreLocation
 public struct WeatherAPIURLRequestBuilder {
     private var path: String
     private var coordinates: CLLocationCoordinate2D
-    private var appId: String
+    private let appId: String
     
     public init(
         path: String = "",
