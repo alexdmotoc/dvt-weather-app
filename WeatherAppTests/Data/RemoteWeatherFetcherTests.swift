@@ -40,6 +40,15 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         XCTAssertEqual(client.loadCalledCount, 1)
     }
     
+    func test_fetchTwice_invokesClientTwice() async throws {
+        let (client, sut) = makeSUT()
+        
+        _ = try await sut.fetch(coordinates: .init(latitude: 12, longitude: 12))
+        _ = try await sut.fetch(coordinates: .init(latitude: 12, longitude: 12))
+        
+        XCTAssertEqual(client.loadCalledCount, 2)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(
@@ -49,8 +58,8 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         let client = HTTPClientSpy()
         let sut = RemoteWeatherFetcherImpl(client: client)
         
-        checkIsDeallocated(sut: client)
-        checkIsDeallocated(sut: sut)
+        checkIsDeallocated(sut: client, file: file, line: line)
+        checkIsDeallocated(sut: sut, file: file, line: line)
         
         return (client, sut)
     }
