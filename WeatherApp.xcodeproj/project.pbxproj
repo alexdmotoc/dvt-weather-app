@@ -14,6 +14,7 @@
 		8704C5062A9121250076BB69 /* RemoteWeatherFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C5052A9121250076BB69 /* RemoteWeatherFetcher.swift */; };
 		8704C5082A9121F40076BB69 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C5072A9121F40076BB69 /* HTTPClient.swift */; };
 		8704C50C2A9123900076BB69 /* WeatherInformation+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C50B2A9123900076BB69 /* WeatherInformation+Mock.swift */; };
+		8704C50F2A9129C30076BB69 /* WeatherAPIURLRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C50E2A9129C30076BB69 /* WeatherAPIURLRequestBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,7 @@
 		8704C5052A9121250076BB69 /* RemoteWeatherFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteWeatherFetcher.swift; sourceTree = "<group>"; };
 		8704C5072A9121F40076BB69 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		8704C50B2A9123900076BB69 /* WeatherInformation+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherInformation+Mock.swift"; sourceTree = "<group>"; };
+		8704C50E2A9129C30076BB69 /* WeatherAPIURLRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPIURLRequestBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,7 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				8704C5052A9121250076BB69 /* RemoteWeatherFetcher.swift */,
-				8704C5072A9121F40076BB69 /* HTTPClient.swift */,
+				8704C50D2A9127330076BB69 /* Network */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -114,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				8704C4F62A90CDCE0076BB69 /* RemoteWeatherFetcherTests.swift */,
+				8704C5102A912F150076BB69 /* Network */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -124,6 +127,22 @@
 				8704C50B2A9123900076BB69 /* WeatherInformation+Mock.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		8704C50D2A9127330076BB69 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				8704C5072A9121F40076BB69 /* HTTPClient.swift */,
+				8704C50E2A9129C30076BB69 /* WeatherAPIURLRequestBuilder.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		8704C5102A912F150076BB69 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,6 +258,7 @@
 				8704C5062A9121250076BB69 /* RemoteWeatherFetcher.swift in Sources */,
 				8704C5032A911DEB0076BB69 /* WeatherInformation.swift in Sources */,
 				8704C5082A9121F40076BB69 /* HTTPClient.swift in Sources */,
+				8704C50F2A9129C30076BB69 /* WeatherAPIURLRequestBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
