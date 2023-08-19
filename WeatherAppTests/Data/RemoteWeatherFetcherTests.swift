@@ -35,7 +35,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     func test_fetch_invokesClientOnce() async throws {
         let (client, sut) = makeSUT()
         
-        _ = try await sut.fetch(coordinates: .init(latitude: 12, longitude: 12))
+        _ = try await sut.fetch(coordinates: makeCoordinates())
         
         XCTAssertEqual(client.loadCalledCount, 1)
     }
@@ -43,19 +43,46 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     func test_fetchTwice_invokesClientTwice() async throws {
         let (client, sut) = makeSUT()
         
-        _ = try await sut.fetch(coordinates: .init(latitude: 12, longitude: 12))
-        _ = try await sut.fetch(coordinates: .init(latitude: 12, longitude: 12))
+        _ = try await sut.fetch(coordinates: makeCoordinates())
+        _ = try await sut.fetch(coordinates: makeCoordinates())
         
         XCTAssertEqual(client.loadCalledCount, 2)
     }
     
+    func test_onClientError_deliversError() async throws {
+        let mockError = makeNSError()
+        let (_, sut) = makeSUT(clientError: mockError)
+        var didThrow = false
+        
+        do {
+            _ = try await sut.fetch(coordinates: makeCoordinates())
+        } catch {
+            XCTAssertEqual(error as NSError, mockError)
+            didThrow = true
+        }
+        
+        XCTAssertTrue(didThrow)
+    }
+    
     // MARK: - Helpers
     
+    private func makeNSError() -> NSError {
+        NSError(domain: "mock", code: 0)
+    }
+    
+    private func makeCoordinates() -> CLLocationCoordinate2D {
+        .init(latitude: 12, longitude: 12)
+    }
+    
     private func makeSUT(
+        clientError: Error? = nil,
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> (client: HTTPClientSpy, sut: RemoteWeatherFetcherImpl) {
+        
         let client = HTTPClientSpy()
+        client.error = clientError
+        
         let sut = RemoteWeatherFetcherImpl(client: client)
         
         checkIsDeallocated(sut: client, file: file, line: line)
@@ -66,9 +93,11 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     
     private class HTTPClientSpy: HTTPClient {
         var loadCalledCount = 0
+        var error: Error?
         
         func load(urlReqeust: URLRequest) async throws -> (Data, HTTPURLResponse) {
             loadCalledCount += 1
+            if let error { throw error }
             return (Data(), HTTPURLResponse())
         }
     }
