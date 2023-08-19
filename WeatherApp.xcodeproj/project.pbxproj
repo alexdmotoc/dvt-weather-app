@@ -8,8 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		8704C4F22A90CDCE0076BB69 /* WeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8704C4E92A90CDCE0076BB69 /* WeatherApp.framework */; };
-		8704C4F72A90CDCE0076BB69 /* WeatherAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C4F62A90CDCE0076BB69 /* WeatherAppTests.swift */; };
+		8704C4F72A90CDCE0076BB69 /* RemoteWeatherFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C4F62A90CDCE0076BB69 /* RemoteWeatherFetcherTests.swift */; };
 		8704C4F82A90CDCE0076BB69 /* WeatherApp.h in Headers */ = {isa = PBXBuildFile; fileRef = 8704C4EC2A90CDCE0076BB69 /* WeatherApp.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		8704C5032A911DEB0076BB69 /* WeatherInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C5022A911DEB0076BB69 /* WeatherInformation.swift */; };
+		8704C5062A9121250076BB69 /* RemoteWeatherFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C5052A9121250076BB69 /* RemoteWeatherFetcher.swift */; };
+		8704C5082A9121F40076BB69 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C5072A9121F40076BB69 /* HTTPClient.swift */; };
+		8704C50C2A9123900076BB69 /* WeatherInformation+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C50B2A9123900076BB69 /* WeatherInformation+Mock.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,7 +30,11 @@
 		8704C4E92A90CDCE0076BB69 /* WeatherApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = WeatherApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8704C4EC2A90CDCE0076BB69 /* WeatherApp.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeatherApp.h; sourceTree = "<group>"; };
 		8704C4F12A90CDCE0076BB69 /* WeatherAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8704C4F62A90CDCE0076BB69 /* WeatherAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppTests.swift; sourceTree = "<group>"; };
+		8704C4F62A90CDCE0076BB69 /* RemoteWeatherFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteWeatherFetcherTests.swift; sourceTree = "<group>"; };
+		8704C5022A911DEB0076BB69 /* WeatherInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInformation.swift; sourceTree = "<group>"; };
+		8704C5052A9121250076BB69 /* RemoteWeatherFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteWeatherFetcher.swift; sourceTree = "<group>"; };
+		8704C5072A9121F40076BB69 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
+		8704C50B2A9123900076BB69 /* WeatherInformation+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherInformation+Mock.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +78,8 @@
 			isa = PBXGroup;
 			children = (
 				8704C4EC2A90CDCE0076BB69 /* WeatherApp.h */,
+				8704C5042A9121100076BB69 /* Data */,
+				8704C5012A911DCD0076BB69 /* Models */,
 			);
 			path = WeatherApp;
 			sourceTree = "<group>";
@@ -77,9 +87,43 @@
 		8704C4F52A90CDCE0076BB69 /* WeatherAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				8704C4F62A90CDCE0076BB69 /* WeatherAppTests.swift */,
+				8704C50A2A91237F0076BB69 /* Helpers */,
+				8704C5092A91228C0076BB69 /* Data */,
 			);
 			path = WeatherAppTests;
+			sourceTree = "<group>";
+		};
+		8704C5012A911DCD0076BB69 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				8704C5022A911DEB0076BB69 /* WeatherInformation.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8704C5042A9121100076BB69 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				8704C5052A9121250076BB69 /* RemoteWeatherFetcher.swift */,
+				8704C5072A9121F40076BB69 /* HTTPClient.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		8704C5092A91228C0076BB69 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				8704C4F62A90CDCE0076BB69 /* RemoteWeatherFetcherTests.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		8704C50A2A91237F0076BB69 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				8704C50B2A9123900076BB69 /* WeatherInformation+Mock.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,6 +188,7 @@
 				TargetAttributes = {
 					8704C4E82A90CDCE0076BB69 = {
 						CreatedOnToolsVersion = 14.3.1;
+						LastSwiftMigration = 1430;
 					};
 					8704C4F02A90CDCE0076BB69 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -191,6 +236,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8704C5062A9121250076BB69 /* RemoteWeatherFetcher.swift in Sources */,
+				8704C5032A911DEB0076BB69 /* WeatherInformation.swift in Sources */,
+				8704C5082A9121F40076BB69 /* HTTPClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -198,7 +246,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8704C4F72A90CDCE0076BB69 /* WeatherAppTests.swift in Sources */,
+				8704C4F72A90CDCE0076BB69 /* RemoteWeatherFetcherTests.swift in Sources */,
+				8704C50C2A9123900076BB69 /* WeatherInformation+Mock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,6 +384,7 @@
 		8704C4FC2A90CDCE0076BB69 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -359,6 +409,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -366,6 +417,7 @@
 		8704C4FD2A90CDCE0076BB69 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -397,6 +449,7 @@
 		8704C4FF2A90CDCE0076BB69 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
@@ -412,6 +465,7 @@
 		8704C5002A90CDCE0076BB69 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
