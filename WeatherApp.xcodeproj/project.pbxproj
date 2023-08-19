@@ -15,6 +15,7 @@
 		8704C5082A9121F40076BB69 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C5072A9121F40076BB69 /* HTTPClient.swift */; };
 		8704C50C2A9123900076BB69 /* WeatherInformation+Mock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C50B2A9123900076BB69 /* WeatherInformation+Mock.swift */; };
 		8704C50F2A9129C30076BB69 /* WeatherAPIURLRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C50E2A9129C30076BB69 /* WeatherAPIURLRequestBuilder.swift */; };
+		8704C5122A91333A0076BB69 /* XCTestCase+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C5112A91333A0076BB69 /* XCTestCase+Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,7 @@
 		8704C5072A9121F40076BB69 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		8704C50B2A9123900076BB69 /* WeatherInformation+Mock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherInformation+Mock.swift"; sourceTree = "<group>"; };
 		8704C50E2A9129C30076BB69 /* WeatherAPIURLRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPIURLRequestBuilder.swift; sourceTree = "<group>"; };
+		8704C5112A91333A0076BB69 /* XCTestCase+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Utils.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 			isa = PBXGroup;
 			children = (
 				8704C50B2A9123900076BB69 /* WeatherInformation+Mock.swift */,
+				8704C5112A91333A0076BB69 /* XCTestCase+Utils.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 			files = (
 				8704C4F72A90CDCE0076BB69 /* RemoteWeatherFetcherTests.swift in Sources */,
 				8704C50C2A9123900076BB69 /* WeatherInformation+Mock.swift in Sources */,
+				8704C5122A91333A0076BB69 /* XCTestCase+Utils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

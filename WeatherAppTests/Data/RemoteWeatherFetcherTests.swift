@@ -20,7 +20,7 @@ final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
     
     func fetch(coordinates: CLLocationCoordinate2D) async throws -> WeatherInformation {
         let request = try builder.path("/weather").coordinates(coordinates).build()
-        let (data, response) = try await client.load(urlReqeust: request)
+        let (_, _) = try await client.load(urlReqeust: request)
         return WeatherInformation.makeMock()
     }
 }
@@ -28,14 +28,12 @@ final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
 final class RemoteWeatherFetcherTests: XCTestCase {
     
     func test_init_doesntInvokeFetch() {
-        let client = HTTPClientSpy()
-        let _ = RemoteWeatherFetcherImpl(client: client)
+        let (client, _) = makeSUT()
         XCTAssertEqual(client.loadCalledCount, 0)
     }
     
     func test_fetch_invokesClientOnce() async throws {
-        let client = HTTPClientSpy()
-        let sut = RemoteWeatherFetcherImpl(client: client)
+        let (client, sut) = makeSUT()
         
         _ = try await sut.fetch(coordinates: .init(latitude: 12, longitude: 12))
         
@@ -43,6 +41,19 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     }
     
     // MARK: - Helpers
+    
+    private func makeSUT(
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> (client: HTTPClientSpy, sut: RemoteWeatherFetcherImpl) {
+        let client = HTTPClientSpy()
+        let sut = RemoteWeatherFetcherImpl(client: client)
+        
+        checkIsDeallocated(sut: client)
+        checkIsDeallocated(sut: sut)
+        
+        return (client, sut)
+    }
     
     private class HTTPClientSpy: HTTPClient {
         var loadCalledCount = 0
