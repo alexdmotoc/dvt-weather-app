@@ -12,15 +12,18 @@ public struct WeatherAPIURLRequestBuilder {
     private var path: String
     private var coordinates: CLLocationCoordinate2D
     private let appId: String
+    private let baseURL: String
     
     public init(
         path: String = "",
         coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(),
-        appId: String = "e7550ddf86286a184072ad3828a1de20"
+        appId: String = "e7550ddf86286a184072ad3828a1de20",
+        baseURL: String = "https://api.openweathermap.org/data/2.5"
     ) {
         self.path = path
         self.coordinates = coordinates
         self.appId = appId
+        self.baseURL = baseURL
     }
     
     public func path(_ path: String) -> Self {
@@ -36,7 +39,7 @@ public struct WeatherAPIURLRequestBuilder {
     }
     
     public func build() throws -> URLRequest {
-        guard var baseURL = URL(string: "https://api.openweathermap.org/data/2.5") else {
+        guard var baseURL = URL(string: baseURL) else {
             throw Error.invalidBaseURL
         }
         var queryItems: [URLQueryItem] = []

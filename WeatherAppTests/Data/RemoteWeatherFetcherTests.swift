@@ -51,9 +51,25 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         }
     }
     
+    func test_fetch_forecast_onNon200StatusCodeReturnsInvalidDataError() async throws {
+        let (client, sut) = makeSUT()
+        
+        for statusCode in [199, 201, 300, 400, 500] {
+            client.stubs[forecastURLRequest()] = .init(data: nil, response: makeResponse(statusCode: statusCode), error: nil)
+            try await expect(sut, toCompleteWith: RemoteWeatherFetcherImpl.Error.invalidData)
+        }
+    }
+    
     func test_fetch_on200StatusCodeWithInvalidDataReturnsInvalidDataError() async throws {
         let (client, sut) = makeSUT()
         client.stubs[weatherURLRequest()] = .init(data: Data("invalid data".utf8), response: makeResponse(statusCode: 200), error: nil)
+        
+        try await expect(sut, toCompleteWith: RemoteWeatherFetcherImpl.Error.invalidData)
+    }
+    
+    func test_fetch_forecast_on200StatusCodeWithInvalidDataReturnsInvalidDataError() async throws {
+        let (client, sut) = makeSUT()
+        client.stubs[forecastURLRequest()] = .init(data: Data("invalid data".utf8), response: makeResponse(statusCode: 200), error: nil)
         
         try await expect(sut, toCompleteWith: RemoteWeatherFetcherImpl.Error.invalidData)
     }

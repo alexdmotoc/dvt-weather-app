@@ -26,4 +26,10 @@ class WeatherAPIURLRequestBuilderTests: XCTestCase {
         XCTAssertEqual(request.url?.absoluteString, "https://api.openweathermap.org/data/2.5/forecast?lat=1.00000&lon=1.00000&appid=mockAppId")
     }
     
+    func test_invalidBaseURL_throwsError() {
+        let builder = WeatherAPIURLRequestBuilder(appId: "mockAppId", baseURL: "")
+        
+        XCTAssertThrowsError(try builder.build())
+    }
+    
 }
