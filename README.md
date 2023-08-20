@@ -1,12 +1,12 @@
-#Weather App
+# Weather App
 
 In the following section I added the specifications for the application in a user-story based approach, in order to be clear what the app needs to do.
 
-##Specs
+## Specs
 
-###Story: User requests to see the weather for his current location
+### Story: User requests to see the weather for his current location
 
-###Narative #1
+### Narative #1
 
 ```
 As an online geolocated user
@@ -14,7 +14,7 @@ I want to be able to see the weather information for my current location
   together with a 5-day forecast and an indication of the last updated date (timestamp)
 ```
 
-####Acceptance criteria
+#### Acceptance criteria
 
 ```
 Given the user has internet connectivity and provided location permissions
@@ -29,7 +29,7 @@ Given the user has internet connectivity,
     The weather information is updated from the API
 ``` 
 
-###Narative #2
+### Narative #2
 
 ```
 As an offline geolocated user
@@ -37,7 +37,7 @@ I want to be able to see the cached weather information
   together with an indication of the last updated date (timestamp)
 ```
 
-####Acceptance criteria
+#### Acceptance criteria
 
 ```
 Given the user has no internet connectivity,
@@ -53,14 +53,14 @@ Given the user has no internet connectivity,
     An error is displayed
 ```
 
-###Narative #3
+### Narative #3
 
 ```
 As a non-geolocated (didn't give location permission) user (online/offline)
     I want to see an option to go to Settings app and enable geolocation
 ```
 
-####Acceptance criteria
+#### Acceptance criteria
 
 ```
 Given the user didn't accept location permissions,
@@ -68,15 +68,15 @@ Given the user didn't accept location permissions,
     The app will display a message to go to Settings and enable location permissions
 ```
 
-###Story: User requests to see the weather information for his favourite locations
+### Story: User requests to see the weather information for his favourite locations
 
-###Narative
+### Narative
 
 ```
 As a user, I want to be able to add favourite locations and see the weather information
 ```
 
-####Acceptance criteria
+#### Acceptance criteria
 
 ```
 Given the user opens the app,
@@ -84,15 +84,15 @@ Given the user opens the app,
     He will be able to add a new city as favourite and see weather information
 ```
 
-###Story: User requests to see extra information about his favourite locations
+### Story: User requests to see extra information about his favourite locations
 
-###Narative
+### Narative
 
 ```
 As a user, I want to be able to see extra information about my favourite locations
 ```
 
-####Acceptance criteria
+#### Acceptance criteria
 
 ```
 Given the user opens the app,
@@ -100,15 +100,15 @@ Given the user opens the app,
     He will be able to select a favourite location and see more details about it
 ```
 
-###Story: User requests to see favourite locations on map
+### Story: User requests to see favourite locations on map
 
-###Narative
+### Narative
 
 ```
 As a user, I want to be able to see my favourite locations on a map
 ```
 
-####Acceptance criteria
+#### Acceptance criteria
 
 ```
 Given the user opens the app,
