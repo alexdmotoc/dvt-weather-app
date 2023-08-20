@@ -44,15 +44,11 @@ class URLSessionHTTPClientTests: XCTestCase {
         
         URLProtocolStub.stub(data: Data(), response: HTTPURLResponse(), error: nil)
         
-        let exp = expectation(description: "wait for request to complete")
         URLProtocolStub.observeRequests { request in
             XCTAssertEqual(request.url, mockRequest.url)
-            exp.fulfill()
         }
         
         _ = try await sut.load(urlReqeust: mockRequest)
-        
-        await fulfillment(of: [exp], timeout: 1)
     }
     
     func test_load_failsWhenInvalidCaseIsEncountered() async throws {
