@@ -107,10 +107,6 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         XCTAssertTrue(didThrow)
     }
     
-    private func makeNSError() -> NSError {
-        NSError(domain: "mock", code: 0)
-    }
-    
     private func makeCoordinates() -> CLLocationCoordinate2D {
         .init(latitude: 12, longitude: 12)
     }

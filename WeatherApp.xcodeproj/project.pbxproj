@@ -19,6 +19,7 @@
 		8704C5172A9261C80076BB69 /* CurrentWeatherAPIDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C5162A9261C80076BB69 /* CurrentWeatherAPIDTO.swift */; };
 		8704C5192A926CEE0076BB69 /* ForecastWeatherAPIDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C5182A926CEE0076BB69 /* ForecastWeatherAPIDTO.swift */; };
 		8704C51C2A926EC20076BB69 /* WeatherInformationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C51B2A926EC20076BB69 /* WeatherInformationTests.swift */; };
+		8704C51E2A9271800076BB69 /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C51D2A9271800076BB69 /* URLSessionHTTPClientTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		8704C5162A9261C80076BB69 /* CurrentWeatherAPIDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherAPIDTO.swift; sourceTree = "<group>"; };
 		8704C5182A926CEE0076BB69 /* ForecastWeatherAPIDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastWeatherAPIDTO.swift; sourceTree = "<group>"; };
 		8704C51B2A926EC20076BB69 /* WeatherInformationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInformationTests.swift; sourceTree = "<group>"; };
+		8704C51D2A9271800076BB69 /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +153,7 @@
 		8704C5102A912F150076BB69 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				8704C51D2A9271800076BB69 /* URLSessionHTTPClientTests.swift */,
 				8704C5132A9134D50076BB69 /* WeatherAPIURLRequestBuilderTests.swift */,
 			);
 			path = Network;
@@ -298,6 +301,7 @@
 			files = (
 				8704C4F72A90CDCE0076BB69 /* RemoteWeatherFetcherTests.swift in Sources */,
 				8704C51C2A926EC20076BB69 /* WeatherInformationTests.swift in Sources */,
+				8704C51E2A9271800076BB69 /* URLSessionHTTPClientTests.swift in Sources */,
 				8704C5142A9134D50076BB69 /* WeatherAPIURLRequestBuilderTests.swift in Sources */,
 				8704C5122A91333A0076BB69 /* XCTestCase+Utils.swift in Sources */,
 			);

@@ -17,4 +17,8 @@ extension XCTestCase {
             XCTAssertNil(sut, file: file, line: line)
         }
     }
+    
+    func makeNSError() -> NSError {
+        NSError(domain: "mock", code: 0)
+    }
 }
