@@ -87,7 +87,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     
     func test_fetch_on200StatusCodeWithvalidDataAndNonEmptyForecastReturnsWeatherInformation() async throws {
         let forecast = makeForecast()
-        let weatherInfo = makeWeatherInformation(forecast: forecast)
+        let weatherInfo = makeWeatherInformation(forecast: ForecastReducer.reduceHourlyForecastToDaily(forecast))
         let (client, sut) = makeSUT()
         client.stubs[weatherURLRequest()] = .init(data: makeWeatherJSONData(from: weatherInfo), response: makeResponse(statusCode: 200), error: nil)
         client.stubs[forecastURLRequest()] = .init(data: makeForecastJSONData(from: forecast), response: makeResponse(statusCode: 200), error: nil)

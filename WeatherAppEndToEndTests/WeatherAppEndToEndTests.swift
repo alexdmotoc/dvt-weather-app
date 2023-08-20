@@ -16,6 +16,7 @@ final class WeatherAppEndToEndTests: XCTestCase {
         let weather = try await makeSUT().fetch(coordinates: clujNapocaCoordinates)
         
         XCTAssertEqual(weather.location.name, "Cluj-Napoca")
+        XCTAssertEqual(weather.forecast.count, 5)
     }
     
     // MARK: - Helpers

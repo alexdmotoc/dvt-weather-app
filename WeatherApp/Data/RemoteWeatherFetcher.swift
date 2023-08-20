@@ -30,26 +30,30 @@ public final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
     public func fetch(coordinates: CLLocationCoordinate2D) async throws -> WeatherInformation {
         let currentWeather = try await fetchCurrentWeather(coordinates: coordinates)
         let forecast = try await fetchForecastWeather(coordinates: coordinates)
-        return currentWeather.weatherInformation(with: forecast.forecast)
+        return currentWeather.weatherInformation(with: ForecastReducer.reduceHourlyForecastToDaily(forecast.forecast))
     }
     
-    func fetchCurrentWeather(coordinates: CLLocationCoordinate2D) async throws -> CurrentWeatherAPIDTO {
+    private func fetchCurrentWeather(coordinates: CLLocationCoordinate2D) async throws -> CurrentWeatherAPIDTO {
         let request = try builder.path("/weather").coordinates(coordinates).build()
         let (data, response) = try await client.load(urlReqeust: request)
-        guard response.statusCode == 200 else { throw Error.invalidData }
-        guard let currentWeather = try? JSONDecoder().decode(CurrentWeatherAPIDTO.self, from: data) else {
-            throw Error.invalidData
-        }
-        return currentWeather
+        return try DataMapper.map(data: data, response: response)
     }
     
-    func fetchForecastWeather(coordinates: CLLocationCoordinate2D) async throws -> ForecastWeatherAPIDTO {
+    private func fetchForecastWeather(coordinates: CLLocationCoordinate2D) async throws -> ForecastWeatherAPIDTO {
         let request = try builder.path("/forecast").coordinates(coordinates).build()
         let (data, response) = try await client.load(urlReqeust: request)
-        guard response.statusCode == 200 else { throw Error.invalidData }
-        guard let forecast = try? JSONDecoder().decode(ForecastWeatherAPIDTO.self, from: data) else {
-            throw Error.invalidData
-        }
-        return forecast
+        return try DataMapper.map(data: data, response: response)
+    }
+}
+
+// MARK: - Helpers
+
+private enum DataMapper {
+    static func map<T: Decodable>(data: Data, response: HTTPURLResponse) throws -> T {
+        guard
+            response.statusCode == 200,
+            let mapped = try? JSONDecoder().decode(T.self, from: data)
+        else { throw RemoteWeatherFetcherImpl.Error.invalidData }
+        return mapped
     }
 }
