@@ -134,3 +134,11 @@ The arrows have the following meaning:
 We can observe from the diagram that the bottleneck for our design is the `WeatherRepository` protocol, since all our view models depend on it. When implementig we will assess the need to split this repository into smaller ones. 
 
 ![](architecture.png)
+
+## Tests
+
+The tests are organized per module.
+
+The end-to-end tests are designed to hit the actual API and prove we have correctness when doing so. They are in a separate test suite because we don't want to slow our test suite down with API calls. These tests are run on the CI
+
+Note we have a CI scheme that incorporates all tests. This scheme is used for code coverage as well.
