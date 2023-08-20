@@ -35,7 +35,9 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     
     func test_onClientError_deliversError() async throws {
         let mockError = makeNSError()
-        let (_, sut) = makeSUT(clientError: mockError)
+        let (client, sut) = makeSUT()
+        
+        client.stubs[weatherURLRequest()] = .init(data: nil, response: nil, error: mockError)
         
         try await expect(sut, toCompleteWith: mockError)
     }
@@ -44,24 +46,23 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         let (client, sut) = makeSUT()
         
         for statusCode in [199, 201, 300, 400, 500] {
-            client.statusCode = statusCode
+            client.stubs[weatherURLRequest()] = .init(data: nil, response: makeResponse(statusCode: statusCode), error: nil)
             try await expect(sut, toCompleteWith: RemoteWeatherFetcherImpl.Error.invalidData)
         }
     }
     
     func test_fetch_on200StatusCodeWithInvalidDataReturnsInvalidDataError() async throws {
-        let (_, sut) = makeSUT(clientStatusCode: 200, clientData: Data("invalid data".utf8))
+        let (client, sut) = makeSUT()
+        client.stubs[weatherURLRequest()] = .init(data: Data("invalid data".utf8), response: makeResponse(statusCode: 200), error: nil)
         
         try await expect(sut, toCompleteWith: RemoteWeatherFetcherImpl.Error.invalidData)
     }
     
     func test_fetch_on200StatusCodeWithValidDataAndEmptyForecastReturnsWeatherInformation() async throws {
         let weatherInfo = makeWeatherInformation()
-        let (_, sut) = makeSUT(
-            clientStatusCode: 200,
-            clientData: makeWeatherJSONData(from: weatherInfo),
-            clientForecastData: makeForecastJSONData(from: [])
-        )
+        let (client, sut) = makeSUT()
+        client.stubs[weatherURLRequest()] = .init(data: makeWeatherJSONData(from: weatherInfo), response: makeResponse(statusCode: 200), error: nil)
+        client.stubs[forecastURLRequest()] = .init(data: makeForecastJSONData(from: []), response: makeResponse(statusCode: 200), error: nil)
         
         let result = try await sut.fetch(coordinates: makeCoordinates())
         
@@ -71,11 +72,9 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     func test_fetch_on200StatusCodeWithvalidDataAndNonEmptyForecastReturnsWeatherInformation() async throws {
         let forecast = makeForecast()
         let weatherInfo = makeWeatherInformation(forecast: forecast)
-        let (_, sut) = makeSUT(
-            clientStatusCode: 200,
-            clientData: makeWeatherJSONData(from: weatherInfo),
-            clientForecastData: makeForecastJSONData(from: forecast)
-        )
+        let (client, sut) = makeSUT()
+        client.stubs[weatherURLRequest()] = .init(data: makeWeatherJSONData(from: weatherInfo), response: makeResponse(statusCode: 200), error: nil)
+        client.stubs[forecastURLRequest()] = .init(data: makeForecastJSONData(from: forecast), response: makeResponse(statusCode: 200), error: nil)
         
         let result = try await sut.fetch(coordinates: makeCoordinates())
         
@@ -83,6 +82,18 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     }
     
     // MARK: - Helpers
+    
+    private func makeResponse(statusCode: Int) -> HTTPURLResponse {
+        .init(url: URL(string: "https://someurl.com")!, statusCode: statusCode, httpVersion: nil, headerFields: nil)!
+    }
+    
+    private func weatherURLRequest() -> URLRequest {
+        try! WeatherAPIURLRequestBuilder().path("/weather").coordinates(makeCoordinates()).build()
+    }
+    
+    private func forecastURLRequest() -> URLRequest {
+        try! WeatherAPIURLRequestBuilder().path("/forecast").coordinates(makeCoordinates()).build()
+    }
     
     private func expect(
         _ sut: RemoteWeatherFetcherImpl,
@@ -165,19 +176,14 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     }
     
     private func makeSUT(
-        clientError: Error? = nil,
-        clientStatusCode: Int? = nil,
-        clientData: Data? = nil,
-        clientForecastData: Data? = nil,
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> (client: HTTPClientSpy, sut: RemoteWeatherFetcherImpl) {
         
+        let weatherInfo = makeWeatherInformation()
         let client = HTTPClientSpy()
-        client.error = clientError
-        client.statusCode = clientStatusCode
-        client.expectedData = clientData ?? makeWeatherJSONData(from: makeWeatherInformation())
-        client.expectedForecastData = clientForecastData ?? makeForecastJSONData(from: makeForecast())
+        client.stubs[weatherURLRequest()] = .init(data: makeWeatherJSONData(from: weatherInfo), response: makeResponse(statusCode: 200), error: nil)
+        client.stubs[forecastURLRequest()] = .init(data: makeForecastJSONData(from: []), response: makeResponse(statusCode: 200), error: nil)
         
         let sut = RemoteWeatherFetcherImpl(client: client)
         
@@ -188,33 +194,29 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     }
     
     private class HTTPClientSpy: HTTPClient {
+        struct Stub {
+            let data: Data?
+            let response: HTTPURLResponse?
+            let error: Error?
+        }
+        
         var loadCalledCount = 0
-        var error: Error?
-        var statusCode: Int?
-        var expectedData: Data?
-        var expectedForecastData: Data?
+        var stubs: [URLRequest: Stub] = [:]
         
         func load(urlReqeust: URLRequest) async throws -> (Data, HTTPURLResponse) {
             loadCalledCount += 1
-            if let error { throw error }
             
-            let response: HTTPURLResponse
-            if let statusCode {
-                response = .init(url: urlReqeust.url!, statusCode: statusCode, httpVersion: nil, headerFields: nil)!
-            } else {
-                response = HTTPURLResponse()
+            let stub = stubs[urlReqeust]
+            
+            if let error = stub?.error {
+                throw error
             }
             
-            let data: Data
-            if let expectedData, urlReqeust.url!.absoluteString.contains("/weather") {
-                data = expectedData
-            } else if let expectedForecastData, urlReqeust.url!.absoluteString.contains("/forecast") {
-                data = expectedForecastData
-            } else {
-                data = Data()
+            if let data = stub?.data, let response = stub?.response {
+                return (data, response)
             }
             
-            return (data, response)
+            return (Data(), HTTPURLResponse())
         }
     }
 }
