@@ -16,7 +16,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         XCTAssertEqual(client.loadCalledCount, 0)
     }
     
-    func test_fetch_invokesClientOnce() async throws {
+    func test_fetch_invokesClientTwice() async throws {
         let (client, sut) = makeSUT()
         
         _ = try await sut.fetch(coordinates: makeCoordinates())
@@ -24,7 +24,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         XCTAssertEqual(client.loadCalledCount, 2)
     }
     
-    func test_fetchTwice_invokesClientTwice() async throws {
+    func test_fetchTwice_invokesClient4Times() async throws {
         let (client, sut) = makeSUT()
         
         _ = try await sut.fetch(coordinates: makeCoordinates())
