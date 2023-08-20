@@ -1,6 +1,6 @@
 # Weather App
 
-[![Swift](https://github.com/alexdmotoc/dvt-weather-app/actions/workflows/CI.yml/badge.svg)](https://github.com/alexdmotoc/dvt-weather-app/actions/workflows/CI.yml)
+[![CI](https://github.com/alexdmotoc/dvt-weather-app/actions/workflows/CI.yml/badge.svg)](https://github.com/alexdmotoc/dvt-weather-app/actions/workflows/CI.yml)
 
 In the following section I added the specifications for the application in a user-story based approach, in order to be clear what the app needs to do.
 
