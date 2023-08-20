@@ -24,6 +24,7 @@
 		870B6F982A9286C800BE5B87 /* WeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8704C4E92A90CDCE0076BB69 /* WeatherApp.framework */; };
 		870B6F9E2A9287A500BE5B87 /* XCTestCase+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C5112A91333A0076BB69 /* XCTestCase+Utils.swift */; };
 		870B6FA12A92AC0500BE5B87 /* ForecastReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870B6FA02A92AC0500BE5B87 /* ForecastReducer.swift */; };
+		870B6FA32A92AE4F00BE5B87 /* ForecastReducerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870B6FA22A92AE4F00BE5B87 /* ForecastReducerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		870B6F962A9286C800BE5B87 /* WeatherAppEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppEndToEndTests.swift; sourceTree = "<group>"; };
 		870B6F9F2A9288B700BE5B87 /* CI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CI.xctestplan; sourceTree = "<group>"; };
 		870B6FA02A92AC0500BE5B87 /* ForecastReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastReducer.swift; sourceTree = "<group>"; };
+		870B6FA22A92AE4F00BE5B87 /* ForecastReducerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastReducerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				8704C4F62A90CDCE0076BB69 /* RemoteWeatherFetcherTests.swift */,
+				870B6FA22A92AE4F00BE5B87 /* ForecastReducerTests.swift */,
 				8704C5102A912F150076BB69 /* Network */,
 			);
 			path = Data;
@@ -367,6 +370,7 @@
 				8704C4F72A90CDCE0076BB69 /* RemoteWeatherFetcherTests.swift in Sources */,
 				8704C51C2A926EC20076BB69 /* WeatherInformationTests.swift in Sources */,
 				8704C51E2A9271800076BB69 /* URLSessionHTTPClientTests.swift in Sources */,
+				870B6FA32A92AE4F00BE5B87 /* ForecastReducerTests.swift in Sources */,
 				8704C5142A9134D50076BB69 /* WeatherAPIURLRequestBuilderTests.swift in Sources */,
 				8704C5122A91333A0076BB69 /* XCTestCase+Utils.swift in Sources */,
 			);
