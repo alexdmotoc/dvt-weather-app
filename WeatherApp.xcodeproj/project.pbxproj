@@ -59,6 +59,7 @@
 		8704C51D2A9271800076BB69 /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
 		870B6F942A9286C800BE5B87 /* WeatherAppEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		870B6F962A9286C800BE5B87 /* WeatherAppEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppEndToEndTests.swift; sourceTree = "<group>"; };
+		870B6F9F2A9288B700BE5B87 /* CI.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CI.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +92,7 @@
 		8704C4DF2A90CDCE0076BB69 = {
 			isa = PBXGroup;
 			children = (
+				870B6F9F2A9288B700BE5B87 /* CI.xctestplan */,
 				8704C4EB2A90CDCE0076BB69 /* WeatherApp */,
 				8704C4F52A90CDCE0076BB69 /* WeatherAppTests */,
 				870B6F952A9286C800BE5B87 /* WeatherAppEndToEndTests */,
