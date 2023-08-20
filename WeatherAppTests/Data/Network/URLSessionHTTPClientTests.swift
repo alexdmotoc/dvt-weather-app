@@ -57,7 +57,7 @@ class URLSessionHTTPClientTests: XCTestCase {
         XCTAssertTrue(didThrow)
     }
     
-    func test_getURL_executesTheAppropriateURLRequest() async throws {
+    func test_load_executesTheAppropriateURLRequest() async throws {
         
         let mockRequest = makeURLRequest()
         let sut = makeSUT()
@@ -75,6 +75,42 @@ class URLSessionHTTPClientTests: XCTestCase {
         await fulfillment(of: [exp], timeout: 1)
     }
     
+    func test_load_failsWhenInvalidCaseIsEncountered() async throws {
+        var err = try await getResultingError(data: nil, response: makeURLResponse(), error: nil)
+        XCTAssertNotNil(err)
+        
+        err = try await getResultingError(data: makeData(), response: nil, error: makeNSError())
+        XCTAssertNotNil(err)
+        
+        err = try await getResultingError(data: nil, response: makeURLResponse(), error: makeNSError())
+        XCTAssertNotNil(err)
+        
+        err = try await getResultingError(data: nil, response: makeHTTPURLResponse(), error: makeNSError())
+        XCTAssertNotNil(err)
+        
+        err = try await getResultingError(data: makeData(), response: makeURLResponse(), error: makeNSError())
+        XCTAssertNotNil(err)
+        
+        err = try await getResultingError(data: makeData(), response: makeHTTPURLResponse(), error: makeNSError())
+        XCTAssertNotNil(err)
+        
+        err = try await getResultingError(data: makeData(), response: makeURLResponse(), error: makeNSError())
+        XCTAssertNotNil(err)
+    }
+    
+    func test_load_deliversEmptyDataWhenStubbedWithNilDataAndHTTPURLResponse() async throws {
+        let mockResponse = makeHTTPURLResponse()
+        let sut = makeSUT()
+        
+        URLProtocolStub.stub(data: nil, response: mockResponse, error: nil)
+        
+        let (data, response) = try await sut.load(urlReqeust: makeURLRequest())
+        
+        XCTAssertEqual(data, Data())
+        XCTAssertEqual(response.url, mockResponse.url)
+        XCTAssertEqual(response.statusCode, mockResponse.statusCode)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> HTTPClient {
@@ -85,6 +121,38 @@ class URLSessionHTTPClientTests: XCTestCase {
     
     private func makeURLRequest() -> URLRequest {
         try! WeatherAPIURLRequestBuilder().path("/mock").build()
+    }
+    
+    private func makeData() -> Data {
+        .init("some data".utf8)
+    }
+    
+    private func makeURLResponse() -> URLResponse {
+        .init(url: URL(string: "https://someurl.com")!, mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
+    }
+    
+    private func makeHTTPURLResponse() -> HTTPURLResponse {
+        .init(url: URL(string: "https://someurl.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+    }
+    
+    private func getResultingError(
+        data: Data?,
+        response: URLResponse?,
+        error: Error?,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) async throws -> Error? {
+        URLProtocolStub.stub(data: data, response: response, error: error)
+        
+        var encounteredError: Error?
+        
+        do {
+            _ = try await makeSUT(file: file, line: line).load(urlReqeust: makeURLRequest())
+        } catch {
+            encounteredError = error
+        }
+        
+        return encounteredError
     }
     
     /// This class allows us to intercept network requests and bypass the actual exection of the request.
