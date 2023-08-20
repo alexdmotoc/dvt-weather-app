@@ -111,6 +111,20 @@ class URLSessionHTTPClientTests: XCTestCase {
         XCTAssertEqual(response.statusCode, mockResponse.statusCode)
     }
     
+    func test_load_deliversDataAndHTTPURLResponse() async throws {
+        let mockResponse = makeHTTPURLResponse()
+        let mockData = makeData()
+        let sut = makeSUT()
+        
+        URLProtocolStub.stub(data: mockData, response: mockResponse, error: nil)
+        
+        let (data, response) = try await sut.load(urlReqeust: makeURLRequest())
+        
+        XCTAssertEqual(data, mockData)
+        XCTAssertEqual(response.url, mockResponse.url)
+        XCTAssertEqual(response.statusCode, mockResponse.statusCode)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> HTTPClient {
