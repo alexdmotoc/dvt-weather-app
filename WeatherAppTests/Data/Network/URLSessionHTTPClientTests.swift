@@ -57,6 +57,24 @@ class URLSessionHTTPClientTests: XCTestCase {
         XCTAssertTrue(didThrow)
     }
     
+    func test_getURL_executesTheAppropriateURLRequest() async throws {
+        
+        let mockRequest = makeURLRequest()
+        let sut = makeSUT()
+        
+        URLProtocolStub.stub(data: Data(), response: HTTPURLResponse(), error: nil)
+        
+        let exp = expectation(description: "wait for request to complete")
+        URLProtocolStub.observeRequests { request in
+            XCTAssertEqual(request.url, mockRequest.url)
+            exp.fulfill()
+        }
+        
+        _ = try await sut.load(urlReqeust: mockRequest)
+        
+        await fulfillment(of: [exp], timeout: 1)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> HTTPClient {
@@ -113,8 +131,6 @@ class URLSessionHTTPClientTests: XCTestCase {
             
             if let observer = Self.requestObserver {
                 observer(request)
-                client?.urlProtocolDidFinishLoading(self)
-                return
             }
             
             if let data = Self.stub?.data {
