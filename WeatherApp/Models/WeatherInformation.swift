@@ -57,9 +57,16 @@ extension WeatherInformation {
         }
     }
     
+    /// For the sake of this problem, we only support sunny, cloudy and rainy weather types.
+    /// Other weather types are blended with the existing ones, i.e. they will be reduced to .rainy.
+    ///
     public enum WeatherType {
         case sunny, cloudy, rainy
         
+        /// Initialization with weather ID. The possible ID values are found [here](https://openweathermap.org/weather-conditions).
+        /// Other weather types that are not supported are blended into the .rainy type (e.g. snow, mist, thunderstorm, etc).
+        /// - Parameter weatherId: the weather ID
+        ///
         public init(weatherId: Int?) {
             switch weatherId {
             case .none: self = .sunny
