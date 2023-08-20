@@ -8,7 +8,7 @@
 import Foundation
 import CoreLocation
 
-public struct WeatherInformation {
+public struct WeatherInformation: Equatable {
     public let location: Location
     public let temperature: Temperature
     public let weatherType: WeatherType
@@ -25,7 +25,7 @@ public struct WeatherInformation {
 // MARK: - Subtypes
 
 extension WeatherInformation {
-    public struct Location {
+    public struct Location: Equatable {
         public let name: String
         public let coordinates: CLLocationCoordinate2D
         
@@ -35,7 +35,7 @@ extension WeatherInformation {
         }
     }
     
-    public struct Temperature {
+    public struct Temperature: Equatable {
         public let current: Double
         public let min: Double
         public let max: Double
@@ -47,7 +47,7 @@ extension WeatherInformation {
         }
     }
     
-    public struct Forecast {
+    public struct Forecast: Equatable {
         public let day: String
         public let currentTemp: Double
         public let weatherType: WeatherType
@@ -61,5 +61,11 @@ extension WeatherInformation {
     
     public enum WeatherType {
         case sunny, cloudy, rainy
+    }
+}
+
+extension CLLocationCoordinate2D: Equatable {
+    public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
+        lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
     }
 }

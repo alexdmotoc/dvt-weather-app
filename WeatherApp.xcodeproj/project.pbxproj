@@ -17,6 +17,7 @@
 		8704C50F2A9129C30076BB69 /* WeatherAPIURLRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C50E2A9129C30076BB69 /* WeatherAPIURLRequestBuilder.swift */; };
 		8704C5122A91333A0076BB69 /* XCTestCase+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C5112A91333A0076BB69 /* XCTestCase+Utils.swift */; };
 		8704C5142A9134D50076BB69 /* WeatherAPIURLRequestBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C5132A9134D50076BB69 /* WeatherAPIURLRequestBuilderTests.swift */; };
+		8704C5172A9261C80076BB69 /* CurrentWeatherAPIDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C5162A9261C80076BB69 /* CurrentWeatherAPIDTO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		8704C50E2A9129C30076BB69 /* WeatherAPIURLRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPIURLRequestBuilder.swift; sourceTree = "<group>"; };
 		8704C5112A91333A0076BB69 /* XCTestCase+Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XCTestCase+Utils.swift"; sourceTree = "<group>"; };
 		8704C5132A9134D50076BB69 /* WeatherAPIURLRequestBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPIURLRequestBuilderTests.swift; sourceTree = "<group>"; };
+		8704C5162A9261C80076BB69 /* CurrentWeatherAPIDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherAPIDTO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				8704C5052A9121250076BB69 /* RemoteWeatherFetcher.swift */,
+				8704C5152A9261AE0076BB69 /* DTO */,
 				8704C50D2A9127330076BB69 /* Network */,
 			);
 			path = Data;
@@ -149,6 +152,14 @@
 				8704C5132A9134D50076BB69 /* WeatherAPIURLRequestBuilderTests.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		8704C5152A9261AE0076BB69 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				8704C5162A9261C80076BB69 /* CurrentWeatherAPIDTO.swift */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,6 +272,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8704C5172A9261C80076BB69 /* CurrentWeatherAPIDTO.swift in Sources */,
 				8704C5062A9121250076BB69 /* RemoteWeatherFetcher.swift in Sources */,
 				8704C5032A911DEB0076BB69 /* WeatherInformation.swift in Sources */,
 				8704C5082A9121F40076BB69 /* HTTPClient.swift in Sources */,

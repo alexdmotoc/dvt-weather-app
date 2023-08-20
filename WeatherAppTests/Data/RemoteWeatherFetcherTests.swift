@@ -29,7 +29,7 @@ final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
         guard let currentWeather = try? JSONDecoder().decode(CurrentWeatherAPIDTO.self, from: data) else {
             throw Error.invalidData
         }
-        return WeatherInformation.makeMock()
+        return currentWeather.weatherInformation(with: [])
     }
 }
 
@@ -37,6 +37,7 @@ struct CurrentWeatherAPIDTO: Codable {
     let coord: Coordinates
     let weather: [Weather]
     let main: Main
+    let name: String
     
     struct Coordinates: Codable {
         let lat: Double
@@ -51,6 +52,35 @@ struct CurrentWeatherAPIDTO: Codable {
         let temp: Double
         let temp_min: Double
         let temp_max: Double
+    }
+}
+
+extension CurrentWeatherAPIDTO {
+    func weatherInformation(with forecast: [WeatherInformation.Forecast]) -> WeatherInformation {
+        let weatherType: WeatherInformation.WeatherType
+        switch weather.first?.id {
+        case .none: weatherType = .sunny
+        case .some(let value):
+            switch value {
+            case ..<800: weatherType = .rainy
+            case 800: weatherType = .sunny
+            case 801...: weatherType = .cloudy
+            default: weatherType = .sunny
+            }
+        }
+        
+        return WeatherInformation(
+            location: .init(
+                name: name,
+                coordinates: .init(latitude: coord.lat, longitude: coord.lon)
+            ),
+            temperature: .init(
+                current: main.temp,
+                min: main.temp_min,
+                max: main.temp_max
+            ), weatherType: weatherType,
+            forecast: forecast
+        )
     }
 }
 
@@ -100,6 +130,15 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         try await expect(sut, toCompleteWith: RemoteWeatherFetcherImpl.Error.invalidData)
     }
     
+    func test_fetch_on200StatusCodeWithValidDataAndEmptyForecastReturnsWeatherInformation() async throws {
+        let weatherInfo = makeWeatherInformation()
+        let (_, sut) = makeSUT(clientStatusCode: 200, clientData: makeWeatherJSONData(from: weatherInfo))
+        
+        let result = try await sut.fetch(coordinates: makeCoordinates())
+        
+        XCTAssertEqual(result, weatherInfo)
+    }
+    
     // MARK: - Helpers
     
     private func expect(
@@ -133,19 +172,49 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         .init(latitude: 12, longitude: 12)
     }
     
-    private static func makeValidWeatherData() -> Data {
-        let dto = CurrentWeatherAPIDTO(
-            coord: .init(lat: 10, lon: 10),
-            weather: [.init(id: 123)],
-            main: .init(temp: 123, temp_min: 100, temp_max: 200)
+    private func makeWeatherInformation(
+        locationName: String = "mock",
+        forecast: [WeatherInformation.Forecast] = []
+    ) -> WeatherInformation {
+        .init(
+            location: .init(
+                name: locationName,
+                coordinates: .init(latitude: 10, longitude: 10)
+            ),
+            temperature: .init(current: 123, min: 100, max: 200),
+            weatherType: .sunny,
+            forecast: forecast
         )
-        return (try? JSONEncoder().encode(dto)) ?? Data()
+    }
+    
+    private func makeWeatherJSONData(from information: WeatherInformation) -> Data {
+        let weatherId: Int
+        
+        switch information.weatherType {
+        case .sunny: weatherId = 800
+        case .cloudy: weatherId = 801
+        case .rainy: weatherId = 500
+        }
+        
+        return try! JSONSerialization.data(withJSONObject: [
+            "coord": [
+                "lat": information.location.coordinates.latitude,
+                "lon": information.location.coordinates.longitude
+            ],
+            "weather": [ ["id": weatherId] ],
+            "main": [
+                "temp": information.temperature.current,
+                "temp_min": information.temperature.min,
+                "temp_max": information.temperature.max
+            ],
+            "name": information.location.name
+        ] as [String: Any])
     }
     
     private func makeSUT(
         clientError: Error? = nil,
         clientStatusCode: Int? = nil,
-        clientData: Data? = makeValidWeatherData(),
+        clientData: Data? = nil,
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> (client: HTTPClientSpy, sut: RemoteWeatherFetcherImpl) {
@@ -153,7 +222,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         let client = HTTPClientSpy()
         client.error = clientError
         client.statusCode = clientStatusCode
-        client.expectedData = clientData
+        client.expectedData = clientData ?? makeWeatherJSONData(from: makeWeatherInformation())
         
         let sut = RemoteWeatherFetcherImpl(client: client)
         
