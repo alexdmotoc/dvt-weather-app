@@ -48,12 +48,10 @@ extension WeatherInformation {
     }
     
     public struct Forecast: Equatable {
-        public let day: String
         public let currentTemp: Double
         public let weatherType: WeatherType
         
-        public init(day: String, currentTemp: Double, weatherType: WeatherType) {
-            self.day = day
+        public init(currentTemp: Double, weatherType: WeatherType) {
             self.currentTemp = currentTemp
             self.weatherType = weatherType
         }
@@ -61,6 +59,19 @@ extension WeatherInformation {
     
     public enum WeatherType {
         case sunny, cloudy, rainy
+        
+        public init(weatherId: Int?) {
+            switch weatherId {
+            case .none: self = .sunny
+            case .some(let value):
+                switch value {
+                case ..<800: self = .rainy
+                case 800: self = .sunny
+                case 801...: self = .cloudy
+                default: self = .sunny
+                }
+            }
+        }
     }
 }
 

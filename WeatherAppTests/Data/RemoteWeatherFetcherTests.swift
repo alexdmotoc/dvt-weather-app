@@ -23,13 +23,29 @@ final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
     }
     
     func fetch(coordinates: CLLocationCoordinate2D) async throws -> WeatherInformation {
-        let weatherRequest = try builder.path("/weather").coordinates(coordinates).build()
-        let (data, response) = try await client.load(urlReqeust: weatherRequest)
+        let currentWeather = try await fetchCurrentWeather(coordinates: coordinates)
+        let forecast = try await fetchForecastWeather(coordinates: coordinates)
+        return currentWeather.weatherInformation(with: forecast.forecast)
+    }
+    
+    func fetchCurrentWeather(coordinates: CLLocationCoordinate2D) async throws -> CurrentWeatherAPIDTO {
+        let request = try builder.path("/weather").coordinates(coordinates).build()
+        let (data, response) = try await client.load(urlReqeust: request)
         guard response.statusCode == 200 else { throw Error.invalidData }
         guard let currentWeather = try? JSONDecoder().decode(CurrentWeatherAPIDTO.self, from: data) else {
             throw Error.invalidData
         }
-        return currentWeather.weatherInformation(with: [])
+        return currentWeather
+    }
+    
+    func fetchForecastWeather(coordinates: CLLocationCoordinate2D) async throws -> ForecastWeatherAPIDTO {
+        let request = try builder.path("/forecast").coordinates(coordinates).build()
+        let (data, response) = try await client.load(urlReqeust: request)
+        guard response.statusCode == 200 else { throw Error.invalidData }
+        guard let forecast = try? JSONDecoder().decode(ForecastWeatherAPIDTO.self, from: data) else {
+            throw Error.invalidData
+        }
+        return forecast
     }
 }
 
@@ -57,18 +73,7 @@ struct CurrentWeatherAPIDTO: Codable {
 
 extension CurrentWeatherAPIDTO {
     func weatherInformation(with forecast: [WeatherInformation.Forecast]) -> WeatherInformation {
-        let weatherType: WeatherInformation.WeatherType
-        switch weather.first?.id {
-        case .none: weatherType = .sunny
-        case .some(let value):
-            switch value {
-            case ..<800: weatherType = .rainy
-            case 800: weatherType = .sunny
-            case 801...: weatherType = .cloudy
-            default: weatherType = .sunny
-            }
-        }
-        
+        let weatherType = WeatherInformation.WeatherType(weatherId: weather.first?.id)
         return WeatherInformation(
             location: .init(
                 name: name,
@@ -84,6 +89,27 @@ extension CurrentWeatherAPIDTO {
     }
 }
 
+struct ForecastWeatherAPIDTO: Codable {
+    let list: [Item]
+    
+    struct Item: Codable {
+        let main: Main
+        let weather: [Weather]
+    }
+    
+    struct Main: Codable {
+        let temp: Double
+    }
+    
+    struct Weather: Codable {
+        let id: Int
+    }
+    
+    var forecast: [WeatherInformation.Forecast] {
+        list.map { .init(currentTemp: $0.main.temp, weatherType: .init(weatherId: $0.weather.first?.id)) }
+    }
+}
+
 final class RemoteWeatherFetcherTests: XCTestCase {
     
     func test_init_doesntInvokeFetch() {
@@ -96,7 +122,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         
         _ = try await sut.fetch(coordinates: makeCoordinates())
         
-        XCTAssertEqual(client.loadCalledCount, 1)
+        XCTAssertEqual(client.loadCalledCount, 2)
     }
     
     func test_fetchTwice_invokesClientTwice() async throws {
@@ -105,7 +131,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         _ = try await sut.fetch(coordinates: makeCoordinates())
         _ = try await sut.fetch(coordinates: makeCoordinates())
         
-        XCTAssertEqual(client.loadCalledCount, 2)
+        XCTAssertEqual(client.loadCalledCount, 4)
     }
     
     func test_onClientError_deliversError() async throws {
@@ -132,7 +158,25 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     
     func test_fetch_on200StatusCodeWithValidDataAndEmptyForecastReturnsWeatherInformation() async throws {
         let weatherInfo = makeWeatherInformation()
-        let (_, sut) = makeSUT(clientStatusCode: 200, clientData: makeWeatherJSONData(from: weatherInfo))
+        let (_, sut) = makeSUT(
+            clientStatusCode: 200,
+            clientData: makeWeatherJSONData(from: weatherInfo),
+            clientForecastData: makeForecastJSONData(from: [])
+        )
+        
+        let result = try await sut.fetch(coordinates: makeCoordinates())
+        
+        XCTAssertEqual(result, weatherInfo)
+    }
+    
+    func test_fetch_on200StatusCodeWithvalidDataAndNonEmptyForecastReturnsWeatherInformation() async throws {
+        let forecast = makeForecast()
+        let weatherInfo = makeWeatherInformation(forecast: forecast)
+        let (_, sut) = makeSUT(
+            clientStatusCode: 200,
+            clientData: makeWeatherJSONData(from: weatherInfo),
+            clientForecastData: makeForecastJSONData(from: forecast)
+        )
         
         let result = try await sut.fetch(coordinates: makeCoordinates())
         
@@ -188,20 +232,12 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     }
     
     private func makeWeatherJSONData(from information: WeatherInformation) -> Data {
-        let weatherId: Int
-        
-        switch information.weatherType {
-        case .sunny: weatherId = 800
-        case .cloudy: weatherId = 801
-        case .rainy: weatherId = 500
-        }
-        
-        return try! JSONSerialization.data(withJSONObject: [
+        try! JSONSerialization.data(withJSONObject: [
             "coord": [
                 "lat": information.location.coordinates.latitude,
                 "lon": information.location.coordinates.longitude
             ],
-            "weather": [ ["id": weatherId] ],
+            "weather": [ ["id": information.weatherType.weatherId] ],
             "main": [
                 "temp": information.temperature.current,
                 "temp_min": information.temperature.min,
@@ -211,10 +247,33 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         ] as [String: Any])
     }
     
+    private func makeForecast() -> [WeatherInformation.Forecast] {
+        [
+            .init(currentTemp: 123, weatherType: .sunny),
+            .init(currentTemp: 100, weatherType: .rainy),
+            .init(currentTemp: 101, weatherType: .cloudy)
+        ]
+    }
+    
+    private func makeForecastJSONData(from forecast: [WeatherInformation.Forecast]) -> Data {
+        let list = forecast.map {
+            [
+                "main": [
+                    "temp": $0.currentTemp
+                ],
+                "weather": [ ["id": $0.weatherType.weatherId] ]
+            ] as [String: Any]
+        }
+        return try! JSONSerialization.data(withJSONObject: [
+            "list": list
+        ])
+    }
+    
     private func makeSUT(
         clientError: Error? = nil,
         clientStatusCode: Int? = nil,
         clientData: Data? = nil,
+        clientForecastData: Data? = nil,
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> (client: HTTPClientSpy, sut: RemoteWeatherFetcherImpl) {
@@ -223,6 +282,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         client.error = clientError
         client.statusCode = clientStatusCode
         client.expectedData = clientData ?? makeWeatherJSONData(from: makeWeatherInformation())
+        client.expectedForecastData = clientForecastData ?? makeForecastJSONData(from: makeForecast())
         
         let sut = RemoteWeatherFetcherImpl(client: client)
         
@@ -237,6 +297,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         var error: Error?
         var statusCode: Int?
         var expectedData: Data?
+        var expectedForecastData: Data?
         
         func load(urlReqeust: URLRequest) async throws -> (Data, HTTPURLResponse) {
             loadCalledCount += 1
@@ -250,13 +311,25 @@ final class RemoteWeatherFetcherTests: XCTestCase {
             }
             
             let data: Data
-            if let expectedData {
+            if let expectedData, urlReqeust.url!.absoluteString.contains("/weather") {
                 data = expectedData
+            } else if let expectedForecastData, urlReqeust.url!.absoluteString.contains("/forecast") {
+                data = expectedForecastData
             } else {
                 data = Data()
             }
             
             return (data, response)
+        }
+    }
+}
+
+private extension WeatherInformation.WeatherType {
+    var weatherId: Int {
+        switch self {
+        case .sunny: return 800
+        case .cloudy: return 801
+        case .rainy: return 500
         }
     }
 }
