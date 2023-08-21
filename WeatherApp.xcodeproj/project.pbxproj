@@ -33,6 +33,7 @@
 		870B6FB42A93BAAF00BE5B87 /* CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870B6FB32A93BAAF00BE5B87 /* CoreDataHelpers.swift */; };
 		870B6FB62A93C33400BE5B87 /* CoreDataWeatherStore+WeatherStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870B6FB52A93C33400BE5B87 /* CoreDataWeatherStore+WeatherStore.swift */; };
 		874E1B5F2A93D0F4000AE0E4 /* WeatherInformationMO+Mappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874E1B5E2A93D0F4000AE0E4 /* WeatherInformationMO+Mappings.swift */; };
+		874E1B612A93D659000AE0E4 /* CoreDataWeatherStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874E1B602A93D659000AE0E4 /* CoreDataWeatherStoreTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +81,7 @@
 		870B6FB32A93BAAF00BE5B87 /* CoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHelpers.swift; sourceTree = "<group>"; };
 		870B6FB52A93C33400BE5B87 /* CoreDataWeatherStore+WeatherStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataWeatherStore+WeatherStore.swift"; sourceTree = "<group>"; };
 		874E1B5E2A93D0F4000AE0E4 /* WeatherInformationMO+Mappings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherInformationMO+Mappings.swift"; sourceTree = "<group>"; };
+		874E1B602A93D659000AE0E4 /* CoreDataWeatherStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataWeatherStoreTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				870B6FB12A93A35A00BE5B87 /* WeatherCacheTests.swift */,
+				874E1B602A93D659000AE0E4 /* CoreDataWeatherStoreTests.swift */,
 			);
 			path = Cache;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 				8704C51E2A9271800076BB69 /* URLSessionHTTPClientTests.swift in Sources */,
 				870B6FA32A92AE4F00BE5B87 /* ForecastReducerTests.swift in Sources */,
 				870B6FB22A93A35A00BE5B87 /* WeatherCacheTests.swift in Sources */,
+				874E1B612A93D659000AE0E4 /* CoreDataWeatherStoreTests.swift in Sources */,
 				8704C5142A9134D50076BB69 /* WeatherAPIURLRequestBuilderTests.swift in Sources */,
 				8704C5122A91333A0076BB69 /* XCTestCase+Utils.swift in Sources */,
 			);
