@@ -37,4 +37,13 @@ extension XCTestCase {
             forecast: forecast
         )
     }
+    
+    func makeIndividualForecast() -> WeatherInformation.Forecast {
+        .init(currentTemp: 123, weatherType: .init(rawValue: Int.random(in: 0 ... 2)) ?? .sunny)
+    }
+    
+    func makeWeatherInformationWithForecast(name: String = "mock") -> WeatherInformation {
+        let forecast = (0 ..< 5).map { _ in makeIndividualForecast() }
+        return makeWeatherInformation(locationName: name, forecast: forecast)
+    }
 }

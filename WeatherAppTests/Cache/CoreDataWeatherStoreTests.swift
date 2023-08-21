@@ -20,14 +20,14 @@ class CoreDataWeatherStoreTests: XCTestCase {
     
     func test_save_returnsNoError() throws {
         let sut = makeSUT()
-        let itemsToSave = (0 ..< 5).map { _ in makeWeatherInformation() }
+        let itemsToSave = (0 ..< 5).map { _ in makeWeatherInformationWithForecast() }
         
         try sut.save(itemsToSave)
     }
     
     func test_save_returnsSavedItems() throws {
         let sut = makeSUT()
-        let itemsToSave = (0 ..< 5).map { _ in makeWeatherInformation() }
+        let itemsToSave = (0 ..< 5).map { _ in makeWeatherInformationWithForecast() }
         
         try sut.save(itemsToSave)
         let savedItems = try sut.load()
@@ -42,7 +42,7 @@ class CoreDataWeatherStoreTests: XCTestCase {
     
     func test_deleteAllItems_emptiesStore() throws {
         let sut = makeSUT()
-        let itemsToSave = (0 ..< 5).map { _ in makeWeatherInformation() }
+        let itemsToSave = (0 ..< 5).map { _ in makeWeatherInformationWithForecast() }
         
         try sut.save(itemsToSave)
         var savedItems = try sut.load()
@@ -60,14 +60,5 @@ class CoreDataWeatherStoreTests: XCTestCase {
         let store = try! CoreDataWeatherStore(storeURL: url)
         checkIsDeallocated(sut: store, file: file, line: line)
         return store
-    }
-    
-    func makeForecast() -> WeatherInformation.Forecast {
-        .init(currentTemp: 123, weatherType: .init(rawValue: Int.random(in: 0 ... 2)) ?? .sunny)
-    }
-    
-    func makeWeatherInformation() -> WeatherInformation {
-        let forecast = (0 ..< 5).map { _ in makeForecast() }
-        return makeWeatherInformation(locationName: "mock", forecast: forecast)
     }
 }
