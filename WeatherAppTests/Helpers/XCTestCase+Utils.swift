@@ -25,9 +25,11 @@ extension XCTestCase {
     
     func makeWeatherInformation(
         locationName: String = "mock",
+        isCurrentLocation: Bool = false,
         forecast: [WeatherInformation.Forecast] = []
     ) -> WeatherInformation {
         .init(
+            isCurrentLocation: isCurrentLocation,
             location: .init(
                 name: locationName,
                 coordinates: .init(latitude: 10, longitude: 10)
@@ -42,12 +44,12 @@ extension XCTestCase {
         .init(currentTemp: 123, weatherType: .init(rawValue: Int.random(in: 0 ... 2)) ?? .sunny)
     }
     
-    func makeWeatherInformationWithForecast(name: String = "mock") -> WeatherInformation {
+    func makeWeatherInformationWithForecast(name: String = "mock", isCurrentLocation: Bool = false) -> WeatherInformation {
         let forecast = (0 ..< 5).map { _ in makeIndividualForecast() }
-        return makeWeatherInformation(locationName: name, forecast: forecast)
+        return makeWeatherInformation(locationName: name, isCurrentLocation: isCurrentLocation, forecast: forecast)
     }
     
     func makeWeatherInformationArray(name: String = "mock") -> [WeatherInformation] {
-        (0 ..< 5).map { _ in makeWeatherInformationWithForecast(name: name) }
+        (0 ..< 5).map { index in makeWeatherInformationWithForecast(name: name, isCurrentLocation: index == 0) }
     }
 }

@@ -18,6 +18,7 @@
         <relationship name="weatherInformation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherInformationMO" inverseName="temperature" inverseEntity="WeatherInformationMO"/>
     </entity>
     <entity name="WeatherInformationMO" representedClassName="WeatherInformationMO" syncable="YES" codeGenerationType="class">
+        <attribute name="isCurrentLocation" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="order" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="weatherType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="forecast" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="ForecastMO" inverseName="weatherInformation" inverseEntity="ForecastMO"/>

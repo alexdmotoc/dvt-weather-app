@@ -9,12 +9,14 @@ import Foundation
 import CoreLocation
 
 public struct WeatherInformation: Equatable {
+    public let isCurrentLocation: Bool
     public let location: Location
     public let temperature: Temperature
     public let weatherType: WeatherType
     public let forecast: [Forecast]
     
-    public init(location: Location, temperature: Temperature, weatherType: WeatherType, forecast: [Forecast]) {
+    public init(isCurrentLocation: Bool, location: Location, temperature: Temperature, weatherType: WeatherType, forecast: [Forecast]) {
+        self.isCurrentLocation = isCurrentLocation
         self.location = location
         self.temperature = temperature
         self.weatherType = weatherType

@@ -30,9 +30,10 @@ struct CurrentWeatherAPIDTO: Codable {
 }
 
 extension CurrentWeatherAPIDTO {
-    func weatherInformation(with forecast: [WeatherInformation.Forecast]) -> WeatherInformation {
+    func weatherInformation(with forecast: [WeatherInformation.Forecast], isCurrentLocation: Bool) -> WeatherInformation {
         let weatherType = WeatherInformation.WeatherType(weatherId: weather.first?.id)
         return WeatherInformation(
+            isCurrentLocation: isCurrentLocation,
             location: .init(
                 name: name,
                 coordinates: .init(latitude: coord.lat, longitude: coord.lon)
@@ -41,7 +42,8 @@ extension CurrentWeatherAPIDTO {
                 current: main.temp,
                 min: main.temp_min,
                 max: main.temp_max
-            ), weatherType: weatherType,
+            ),
+            weatherType: weatherType,
             forecast: forecast
         )
     }

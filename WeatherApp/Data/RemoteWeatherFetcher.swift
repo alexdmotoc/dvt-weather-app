@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 
 public protocol RemoteWeatherFetcher {
-    func fetch(coordinates: CLLocationCoordinate2D) async throws -> WeatherInformation
+    func fetch(coordinates: CLLocationCoordinate2D, isCurrentLocation: Bool) async throws -> WeatherInformation
 }
 
 // MARK: - Implementation
@@ -27,10 +27,10 @@ public final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
         self.builder = builder
     }
     
-    public func fetch(coordinates: CLLocationCoordinate2D) async throws -> WeatherInformation {
+    public func fetch(coordinates: CLLocationCoordinate2D, isCurrentLocation: Bool) async throws -> WeatherInformation {
         let currentWeather = try await fetchCurrentWeather(coordinates: coordinates)
         let forecast = try await fetchForecastWeather(coordinates: coordinates)
-        return currentWeather.weatherInformation(with: ForecastReducer.reduceHourlyForecastToDaily(forecast.forecast))
+        return currentWeather.weatherInformation(with: ForecastReducer.reduceHourlyForecastToDaily(forecast.forecast), isCurrentLocation: isCurrentLocation)
     }
     
     private func fetchCurrentWeather(coordinates: CLLocationCoordinate2D) async throws -> CurrentWeatherAPIDTO {

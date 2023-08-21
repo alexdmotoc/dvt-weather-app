@@ -25,28 +25,14 @@ final class WeatherRepositoryImpl: WeatherRepository {
         let weatherCache = try cache.load()
         cacheHandler(weatherCache)
         
-        let newWeather = try await withThrowingTaskGroup(of: WeatherInformation.self) { [weak self] group in
-            guard let self else { return [] as [WeatherInformation] }
-            group.addTask {
-                try await self.fetcher.fetch(coordinates: self.currentLocation())
-            }
-            
-            weatherCache.forEach { cachedWeather in
-                group.addTask {
-                    try await self.fetcher.fetch(coordinates: cachedWeather.location.coordinates)
-                }
-            }
-            
-            var results: [WeatherInformation] = []
-            
-            for try await result in group {
-                results.append(result)
-            }
-            
-            return results
+        let currentWeather = try await fetcher.fetch(coordinates: currentLocation(), isCurrentLocation: true)
+        var results = [currentWeather]
+        for favouriteWeather in weatherCache.filter({ !$0.isCurrentLocation }) {
+            let updatedFavouriteWeather = try await fetcher.fetch(coordinates: favouriteWeather.location.coordinates, isCurrentLocation: false)
+            results.append(updatedFavouriteWeather)
         }
         
-        return newWeather
+        return results
     }
     
     func addFavouriteLocation(coordinates: CLLocationCoordinate2D) async throws -> WeatherInformation {
@@ -83,7 +69,7 @@ class WeatherRepositoryTests: XCTestCase {
         XCTAssertEqual(results, [mockRemoteWeather])
     }
     
-    func test_getWeather_getsWeatherAtFavouriteLocations() async throws {
+    func test_getWeather_getsWeatherAtFavouriteLocationsReplacingCurrentWeather() async throws {
         let (fetcher, cache, sut) = makeSUT()
         let mockCachedWeather = makeWeatherInformationArray()
         let mockRemoteWeather = makeWeatherInformationWithForecast()
@@ -92,8 +78,8 @@ class WeatherRepositoryTests: XCTestCase {
         
         let results = try await sut.getWeather(cacheHandler: { _ in })
         
-        XCTAssertEqual(fetcher.fetchCount, mockCachedWeather.count + 1) // + 1 for current weather call
-        XCTAssertEqual(results, [mockRemoteWeather] + Array(repeating: mockRemoteWeather, count: mockCachedWeather.count))
+        XCTAssertEqual(fetcher.fetchCount, mockCachedWeather.count)
+        XCTAssertEqual(results, Array(repeating: mockRemoteWeather, count: mockCachedWeather.count))
     }
     
     // MARK: - Helpers
@@ -121,7 +107,7 @@ class WeatherRepositoryTests: XCTestCase {
         var stub: (error: Error?, weather: WeatherInformation?) = (nil, nil)
         var fetchCount = 0
         
-        func fetch(coordinates: CLLocationCoordinate2D) async throws -> WeatherInformation {
+        func fetch(coordinates: CLLocationCoordinate2D, isCurrentLocation: Bool) async throws -> WeatherInformation {
             fetchCount += 1
             if let error = stub.error { throw error }
             if let weather = stub.weather { return weather }
