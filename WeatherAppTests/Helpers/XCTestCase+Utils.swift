@@ -46,4 +46,8 @@ extension XCTestCase {
         let forecast = (0 ..< 5).map { _ in makeIndividualForecast() }
         return makeWeatherInformation(locationName: name, forecast: forecast)
     }
+    
+    func makeWeatherInformationArray(name: String = "mock") -> [WeatherInformation] {
+        (0 ..< 5).map { _ in makeWeatherInformationWithForecast(name: name) }
+    }
 }
