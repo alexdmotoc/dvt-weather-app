@@ -32,6 +32,7 @@
 		870B6FB22A93A35A00BE5B87 /* WeatherCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870B6FB12A93A35A00BE5B87 /* WeatherCacheTests.swift */; };
 		870B6FB42A93BAAF00BE5B87 /* CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870B6FB32A93BAAF00BE5B87 /* CoreDataHelpers.swift */; };
 		870B6FB62A93C33400BE5B87 /* CoreDataWeatherStore+WeatherStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870B6FB52A93C33400BE5B87 /* CoreDataWeatherStore+WeatherStore.swift */; };
+		874E1B5F2A93D0F4000AE0E4 /* WeatherInformationMO+Mappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874E1B5E2A93D0F4000AE0E4 /* WeatherInformationMO+Mappings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		870B6FB12A93A35A00BE5B87 /* WeatherCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherCacheTests.swift; sourceTree = "<group>"; };
 		870B6FB32A93BAAF00BE5B87 /* CoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataHelpers.swift; sourceTree = "<group>"; };
 		870B6FB52A93C33400BE5B87 /* CoreDataWeatherStore+WeatherStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreDataWeatherStore+WeatherStore.swift"; sourceTree = "<group>"; };
+		874E1B5E2A93D0F4000AE0E4 /* WeatherInformationMO+Mappings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherInformationMO+Mappings.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -246,6 +248,7 @@
 				870B6FAB2A93A04700BE5B87 /* CoreDataWeatherStore.swift */,
 				870B6FB52A93C33400BE5B87 /* CoreDataWeatherStore+WeatherStore.swift */,
 				870B6FB32A93BAAF00BE5B87 /* CoreDataHelpers.swift */,
+				874E1B5E2A93D0F4000AE0E4 /* WeatherInformationMO+Mappings.swift */,
 				870B6FAD2A93A0B500BE5B87 /* WeatherData.xcdatamodeld */,
 			);
 			path = CoreData;
@@ -405,6 +408,7 @@
 				8704C5062A9121250076BB69 /* RemoteWeatherFetcher.swift in Sources */,
 				870B6FA12A92AC0500BE5B87 /* ForecastReducer.swift in Sources */,
 				870B6FB42A93BAAF00BE5B87 /* CoreDataHelpers.swift in Sources */,
+				874E1B5F2A93D0F4000AE0E4 /* WeatherInformationMO+Mappings.swift in Sources */,
 				870B6FAF2A93A0B500BE5B87 /* WeatherData.xcdatamodeld in Sources */,
 				8704C5192A926CEE0076BB69 /* ForecastWeatherAPIDTO.swift in Sources */,
 				8704C5032A911DEB0076BB69 /* WeatherInformation.swift in Sources */,

@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22G74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ForecastMO" representedClassName="ForecastMO" syncable="YES" codeGenerationType="class">
-        <attribute name="currentTemp" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="weatherType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="weatherInformation" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherInformationMO" inverseName="forecast" inverseEntity="WeatherInformationMO"/>
+        <attribute name="currentTemp" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="weatherType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="weatherInformation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherInformationMO" inverseName="forecast" inverseEntity="WeatherInformationMO"/>
     </entity>
     <entity name="LocationMO" representedClassName="LocationMO" syncable="YES" codeGenerationType="class">
         <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
-        <relationship name="weatherInformation" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherInformationMO" inverseName="location" inverseEntity="WeatherInformationMO"/>
+        <relationship name="weatherInformation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherInformationMO" inverseName="location" inverseEntity="WeatherInformationMO"/>
     </entity>
     <entity name="TemperatureMO" representedClassName="TemperatureMO" syncable="YES" codeGenerationType="class">
-        <attribute name="current" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="max" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="min" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <relationship name="weatherInformation" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherInformationMO" inverseName="temperature" inverseEntity="WeatherInformationMO"/>
+        <attribute name="current" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="max" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="min" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="weatherInformation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherInformationMO" inverseName="temperature" inverseEntity="WeatherInformationMO"/>
     </entity>
     <entity name="WeatherInformationMO" representedClassName="WeatherInformationMO" syncable="YES" codeGenerationType="class">
-        <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="weatherType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="forecast" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ForecastMO" inverseName="weatherInformation" inverseEntity="ForecastMO"/>
-        <relationship name="location" maxCount="1" deletionRule="Nullify" destinationEntity="LocationMO" inverseName="weatherInformation" inverseEntity="LocationMO"/>
-        <relationship name="temperature" maxCount="1" deletionRule="Nullify" destinationEntity="TemperatureMO" inverseName="weatherInformation" inverseEntity="TemperatureMO"/>
+        <attribute name="order" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="weatherType" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="forecast" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="ForecastMO" inverseName="weatherInformation" inverseEntity="ForecastMO"/>
+        <relationship name="location" maxCount="1" deletionRule="Cascade" destinationEntity="LocationMO" inverseName="weatherInformation" inverseEntity="LocationMO"/>
+        <relationship name="temperature" maxCount="1" deletionRule="Cascade" destinationEntity="TemperatureMO" inverseName="weatherInformation" inverseEntity="TemperatureMO"/>
     </entity>
 </model>
