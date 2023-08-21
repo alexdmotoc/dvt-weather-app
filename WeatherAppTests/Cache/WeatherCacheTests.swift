@@ -8,24 +8,6 @@
 import XCTest
 import WeatherApp
 
-final class WeatherCacheImpl: WeatherCache {
-    
-    private let store: WeatherStore
-    
-    init(store: WeatherStore) {
-        self.store = store
-    }
-    
-    func save(_ weather: [WeatherInformation]) throws {
-        try store.deleteAllItems()
-        try store.save(weather)
-    }
-    
-    func load() throws -> [WeatherInformation] {
-        try store.load()
-    }
-}
-
 class WeatherCacheTests: XCTestCase {
     
     func test_weatherCache_onInitDoesNothing() {
