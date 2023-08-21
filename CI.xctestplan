@@ -35,6 +35,13 @@
         "identifier" : "870B6F932A9286C800BE5B87",
         "name" : "WeatherAppEndToEndTests"
       }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:WeatherApp.xcodeproj",
+        "identifier" : "874E1B732A93DF4E000AE0E4",
+        "name" : "WeatherAppCacheIntegrationTests"
+      }
     }
   ],
   "version" : 1

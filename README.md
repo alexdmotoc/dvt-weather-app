@@ -144,3 +144,7 @@ The tests are organized per module.
 The end-to-end tests are designed to hit the actual API and prove we have correctness when doing so. They are in a separate test suite because we don't want to slow our test suite down with API calls. These tests are run on the CI
 
 Note we have a CI scheme that incorporates all tests. This scheme is used for code coverage as well.
+
+## API secret
+
+The API secret is pushed to git to facilitate testing. It's not a best practice but for the sake of this test and simplicity I pushed the API secret. It's hardcoded in `WeatherAPIURLRequestBuilder`.

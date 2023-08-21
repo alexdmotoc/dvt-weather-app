@@ -138,21 +138,6 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         .init(latitude: 12, longitude: 12)
     }
     
-    private func makeWeatherInformation(
-        locationName: String = "mock",
-        forecast: [WeatherInformation.Forecast] = []
-    ) -> WeatherInformation {
-        .init(
-            location: .init(
-                name: locationName,
-                coordinates: .init(latitude: 10, longitude: 10)
-            ),
-            temperature: .init(current: 123, min: 100, max: 200),
-            weatherType: .sunny,
-            forecast: forecast
-        )
-    }
-    
     private func makeWeatherJSONData(from information: WeatherInformation) -> Data {
         try! JSONSerialization.data(withJSONObject: [
             "coord": [
