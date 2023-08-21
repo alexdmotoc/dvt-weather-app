@@ -21,19 +21,36 @@ final class WeatherCacheImpl: WeatherCache {
     }
     
     func load() throws -> [WeatherInformation] {
-        []
+        try store.load()
     }
 }
 
 class WeatherCacheTests: XCTestCase {
     
     func test_weatherCache_onInitDoesNothing() {
-        let store = WeatherStoreSpy()
-        _ = WeatherCacheImpl(store: store)
+        let (store, _) = makeSUT()
         XCTAssertTrue(store.receivedMessages.isEmpty)
     }
     
+    func test_weatherCache_onLoadOnceCallsLoadOnce() throws {
+        let (store, cache) = makeSUT()
+        
+        _ = try cache.load()
+        
+        XCTAssertEqual(store.receivedMessages, [.load])
+    }
+    
     // MARK: - Helpers
+    
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (store: WeatherStoreSpy, cache: WeatherCache) {
+        let store = WeatherStoreSpy()
+        let cache = WeatherCacheImpl(store: store)
+        
+        checkIsDeallocated(sut: store, file: file, line: line)
+        checkIsDeallocated(sut: cache, file: file, line: line)
+        
+        return (store, cache)
+    }
     
     private class WeatherStoreSpy: WeatherStore {
         
