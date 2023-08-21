@@ -17,7 +17,8 @@ final class WeatherCacheImpl: WeatherCache {
     }
     
     func save(_ weather: [WeatherInformation]) throws {
-        
+        try store.deleteAllItems()
+        try store.save(weather)
     }
     
     func load() throws -> [WeatherInformation] {
@@ -49,6 +50,15 @@ class WeatherCacheTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.load, .load])
     }
     
+    func test_weatherCache_onSaveDeletesPreviousCacheAndSavesNewOne() throws {
+        let (store, cache) = makeSUT()
+        let mockData = [makeWeatherInformation()]
+        
+        try cache.save(mockData)
+        
+        XCTAssertEqual(store.receivedMessages, [.deleteAllItems, .save(mockData)])
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (store: WeatherStoreSpy, cache: WeatherCache) {
@@ -70,15 +80,16 @@ class WeatherCacheTests: XCTestCase {
         }
         
         var receivedMessages: [ReceivedMessage] = []
-        var stubbedLoad: [WeatherInformation] = []
+        var stubbedData: [WeatherInformation] = []
         
         func save(_ weather: [WeatherInformation]) throws {
             receivedMessages.append(.save(weather))
+            stubbedData = weather
         }
         
         func load() throws -> [WeatherInformation] {
             receivedMessages.append(.load)
-            return stubbedLoad
+            return stubbedData
         }
         
         func deleteAllItems() throws {
