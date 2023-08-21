@@ -40,6 +40,15 @@ class WeatherCacheTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.load])
     }
     
+    func test_weatherCache_onLoadTwiceCallsLoadTwice() throws {
+        let (store, cache) = makeSUT()
+        
+        _ = try cache.load()
+        _ = try cache.load()
+        
+        XCTAssertEqual(store.receivedMessages, [.load, .load])
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (store: WeatherStoreSpy, cache: WeatherCache) {
