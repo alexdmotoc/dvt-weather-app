@@ -32,6 +32,8 @@ final class WeatherRepositoryImpl: WeatherRepository {
             results.append(updatedFavouriteWeather)
         }
         
+        try cache.save(results)
+        
         return results
     }
     
@@ -80,6 +82,18 @@ class WeatherRepositoryTests: XCTestCase {
         
         XCTAssertEqual(fetcher.fetchCount, mockCachedWeather.count)
         XCTAssertEqual(results, Array(repeating: mockRemoteWeather, count: mockCachedWeather.count))
+    }
+    
+    func test_getWeather_replacesOldCache() async throws {
+        let (fetcher, cache, sut) = makeSUT()
+        let mockRemoteWeather = makeWeatherInformationWithForecast()
+        fetcher.stub = (nil, mockRemoteWeather)
+        
+        let results = try await sut.getWeather(cacheHandler: { _ in })
+        
+        XCTAssertEqual(fetcher.fetchCount, 1)
+        XCTAssertEqual(results, [mockRemoteWeather])
+        XCTAssertEqual(cache.messages, [.load, .save([mockRemoteWeather])])
     }
     
     // MARK: - Helpers
