@@ -38,7 +38,7 @@ final class WeatherViewModel: NSObject, ObservableObject {
     // MARK: - Public methods
     
     func requestLocationPermission() {
-        guard locationManager.isAuthorized == false else { return }
+        guard !locationManager.isAuthorized else { return }
         locationManager.requestWhenInUseAuthorization()
     }
 }
@@ -48,5 +48,9 @@ final class WeatherViewModel: NSObject, ObservableObject {
 extension WeatherViewModel: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         isLocationPermissionGranted = manager.isAuthorized
+        
+        if manager.isAuthorized {
+            manager.startUpdatingLocation()
+        }
     }
 }

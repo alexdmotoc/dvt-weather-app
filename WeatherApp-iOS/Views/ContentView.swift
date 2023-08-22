@@ -9,16 +9,18 @@ import SwiftUI
 
 struct ContentView: View {
     
-    let viewModel: WeatherViewModel
+    @ObservedObject var viewModel: WeatherViewModel
     
     var body: some View {
-        
-        if viewModel.isLocationPermissionGranted {
-            Text("permission granted")
-        } else {
-            Text("NO PERMISSION")
+        Group {
+            if viewModel.isLocationPermissionGranted {
+                Text("permission granted")
+            } else {
+                Text("NO PERMISSION")
+            }
+        }.onAppear {
+            viewModel.requestLocationPermission()
         }
-        
     }
 }
 

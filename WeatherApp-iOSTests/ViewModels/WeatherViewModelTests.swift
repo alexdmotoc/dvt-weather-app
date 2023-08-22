@@ -44,7 +44,7 @@ final class WeatherApp_iOSTests: XCTestCase {
         XCTAssertEqual(sut.isLocationPermissionGranted, false)
         
         manager.stubbedIsAuthorized = true
-        manager.delegate?.locationManagerDidChangeAuthorization?(manager)
+        manager.delegate!.locationManagerDidChangeAuthorization?(manager)
         
         XCTAssertEqual(sut.isLocationPermissionGranted, true)
     }
@@ -63,6 +63,27 @@ final class WeatherApp_iOSTests: XCTestCase {
         sut.requestLocationPermission()
         
         XCTAssertEqual(manager.requestCallCount, 1)
+    }
+    
+    func test_startsUpdatingLocations_whenLocationPermissionIsGranted() {
+        let (manager, sut) = makeSUT()
+        XCTAssertEqual(manager.startCallCount, 0)
+        
+        manager.stubbedIsAuthorized = true
+        manager.delegate!.locationManagerDidChangeAuthorization?(manager)
+        
+        XCTAssertEqual(manager.startCallCount, 1)
+        XCTAssertEqual(sut.isLocationPermissionGranted, true)
+    }
+    
+    func test_doesNotStartUpdatingLocations_whenLocationPermissionIsDenied() {
+        let (manager, sut) = makeSUT()
+        XCTAssertEqual(manager.startCallCount, 0)
+        
+        manager.delegate!.locationManagerDidChangeAuthorization?(manager)
+        
+        XCTAssertEqual(manager.startCallCount, 0)
+        XCTAssertEqual(sut.isLocationPermissionGranted, false)
     }
     
     // MARK: - Helpers

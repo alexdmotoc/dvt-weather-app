@@ -396,7 +396,7 @@
 				877D49D82A9509A200AA41D3 /* Views */,
 				877D49D92A950A1000AA41D3 /* ViewModels */,
 				877D49DA2A950A2B00AA41D3 /* Helpers */,
-				874C646C2A94F63D00D0185F /* Assets.xcassets */,
+				877D49E32A951BB600AA41D3 /* Resources */,
 				874C646E2A94F63D00D0185F /* Preview Content */,
 			);
 			path = "WeatherApp-iOS";
@@ -473,6 +473,14 @@
 				874C64792A94F63D00D0185F /* WeatherViewModelTests.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		877D49E32A951BB600AA41D3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				874C646C2A94F63D00D0185F /* Assets.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1122,6 +1130,7 @@
 				FRAMEWORK_SEARCH_PATHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "DVT Weather";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your permission to show weather information for your current location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1155,6 +1164,7 @@
 				FRAMEWORK_SEARCH_PATHS = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "DVT Weather";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We need your permission to show weather information for your current location";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
