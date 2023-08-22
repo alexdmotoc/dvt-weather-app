@@ -49,6 +49,22 @@ final class WeatherApp_iOSTests: XCTestCase {
         XCTAssertEqual(sut.isLocationPermissionGranted, true)
     }
     
+    func test_requestLocationPermission_doesNothingIfPermissionAlreadyGranted() {
+        let (manager, sut) = makeSUT(isAuthorized: true)
+        
+        sut.requestLocationPermission()
+        
+        XCTAssertEqual(manager.requestCallCount, 0)
+    }
+    
+    func test_requestLocationPermission_requestsPermissionIfNotAlreadyGranted() {
+        let (manager, sut) = makeSUT(isAuthorized: false)
+        
+        sut.requestLocationPermission()
+        
+        XCTAssertEqual(manager.requestCallCount, 1)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(

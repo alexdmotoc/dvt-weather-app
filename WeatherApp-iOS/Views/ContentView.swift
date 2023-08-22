@@ -12,13 +12,13 @@ struct ContentView: View {
     let viewModel: WeatherViewModel
     
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        
+        if viewModel.isLocationPermissionGranted {
+            Text("permission granted")
+        } else {
+            Text("NO PERMISSION")
         }
-        .padding()
+        
     }
 }
 
@@ -26,7 +26,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView(
             viewModel: WeatherViewModel(
-                locationManager: MockLocationManager(isAuthorized: false)
+                locationManager: MockLocationManager(isAuthorized: true)
             )
         )
     }

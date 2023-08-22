@@ -34,6 +34,13 @@ final class WeatherViewModel: NSObject, ObservableObject {
             locationManager.startUpdatingLocation()
         }
     }
+    
+    // MARK: - Public methods
+    
+    func requestLocationPermission() {
+        guard locationManager.isAuthorized == false else { return }
+        locationManager.requestWhenInUseAuthorization()
+    }
 }
 
 // MARK: - CLLocationManagerDelegate
