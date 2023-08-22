@@ -39,6 +39,9 @@ final class WeatherRepositoryImpl: WeatherRepository {
     
     func addFavouriteLocation(coordinates: CLLocationCoordinate2D) async throws -> WeatherInformation {
         let weather = try await fetcher.fetch(coordinates: coordinates, isCurrentLocation: false)
+        var cached = try cache.load()
+        cached.append(weather)
+        try cache.save(cached)
         return weather
     }
 }
@@ -73,15 +76,18 @@ class WeatherRepositoryTests: XCTestCase {
     
     // MARK: - Add favourite location tests
     
-    func test_addLocation_callsRemoteToFetchLocation() async throws {
-        let (fetcher, _, sut) = makeSUT()
+    func test_addLocation_callsRemoteToFetchLocationAndAppendsFetchedLocationToCache() async throws {
+        let (fetcher, cache, sut) = makeSUT()
         let remoteMock = makeWeatherInformationWithForecast()
+        let cacheMock = makeWeatherInformationArray()
         fetcher.stub = (nil, remoteMock)
+        cache.stubbedWeather = cacheMock
         
         let added = try await sut.addFavouriteLocation(coordinates: makeLocation())
         
         XCTAssertEqual(fetcher.fetchCount, 1)
         XCTAssertEqual(added, remoteMock)
+        XCTAssertEqual(cache.messages, [.load, .save(cacheMock + [remoteMock])])
     }
     
     // MARK: - Helpers
