@@ -7,6 +7,7 @@
 
 import XCTest
 import CoreLocation
+import WeatherApp
 @testable import WeatherApp_iOS
 
 final class WeatherApp_iOSTests: XCTestCase {
@@ -96,10 +97,36 @@ final class WeatherApp_iOSTests: XCTestCase {
         
         let manager = MockLocationManager()
         manager.stubbedIsAuthorized = isAuthorized
-        let sut = WeatherViewModel(locationManager: manager)
+        let repo = WeatherRepositorySpy(getWeatherResult: makeWeatherInformationArray(), addFavouriteResult: makeWeatherInformationWithForecast())
+        let sut = WeatherViewModel(locationManager: manager, weatherRepository: repo)
         
         checkIsDeallocated(sut: manager, file: file, line: line)
+        checkIsDeallocated(sut: repo, file: file, line: line)
         checkIsDeallocated(sut: sut, file: file, line: line)
         return (manager, sut)
+    }
+    
+    private class WeatherRepositorySpy: WeatherRepository {
+        
+        var getWeatherResult: [WeatherInformation]
+        var addFavouriteResult: WeatherInformation
+        
+        init(getWeatherResult: [WeatherInformation], addFavouriteResult: WeatherInformation) {
+            self.getWeatherResult = getWeatherResult
+            self.addFavouriteResult = addFavouriteResult
+        }
+        
+        var getWeatherCallCount = 0
+        var addFavouriteCallCount = 0
+        
+        func getWeather(cacheHandler: ([WeatherInformation]) -> Void) async throws -> [WeatherInformation] {
+            getWeatherCallCount += 1
+            return getWeatherResult
+        }
+        
+        func addFavouriteLocation(coordinates: Coordinates) async throws -> WeatherInformation {
+            addFavouriteCallCount += 1
+            return addFavouriteResult
+        }
     }
 }

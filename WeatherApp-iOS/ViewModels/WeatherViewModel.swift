@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import WeatherApp
 
 final class WeatherViewModel: NSObject, ObservableObject {
     
@@ -14,6 +15,7 @@ final class WeatherViewModel: NSObject, ObservableObject {
     
     private static let locationDistanceFilter: CLLocationDistance = 10_000 // 10 km
     private let locationManager: CLLocationManager
+    private let weatherRepository: WeatherRepository
     
     // MARK: - Public properties
     
@@ -21,9 +23,10 @@ final class WeatherViewModel: NSObject, ObservableObject {
     
     // MARK: - Lifecycle
     
-    init(locationManager: CLLocationManager) {
+    init(locationManager: CLLocationManager, weatherRepository: WeatherRepository) {
         self.locationManager = locationManager
         self.isLocationPermissionGranted = locationManager.isAuthorized
+        self.weatherRepository = weatherRepository
         super.init()
         
         locationManager.delegate = self
@@ -52,5 +55,9 @@ extension WeatherViewModel: CLLocationManagerDelegate {
         if manager.isAuthorized {
             manager.startUpdatingLocation()
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
     }
 }

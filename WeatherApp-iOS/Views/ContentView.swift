@@ -24,11 +24,29 @@ struct ContentView: View {
     }
 }
 
+// MARK: - Preview
+
 struct ContentView_Previews: PreviewProvider {
+    
+    static var weatherRepo: MockWeatherRepository {
+        let repo = MockWeatherRepository()
+        repo.stub = .init(
+            cache: [],
+            result: [
+                .makeMock(name: "Mock curr location", isCurrentLocation: true, weatherType: .sunny),
+                .makeMock(name: "Mock fav location 1", isCurrentLocation: false, weatherType: .cloudy),
+                .makeMock(name: "Mock fav location 2", isCurrentLocation: false, weatherType: .rainy)
+            ],
+            error: nil
+        )
+        return repo
+    }
+    
     static var previews: some View {
         ContentView(
             viewModel: WeatherViewModel(
-                locationManager: MockLocationManager(isAuthorized: true)
+                locationManager: MockLocationManager(isAuthorized: true),
+                weatherRepository: weatherRepo
             )
         )
     }
