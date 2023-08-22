@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WeatherApp
 
 @main
 struct WeatherApp_iOSApp: App {
