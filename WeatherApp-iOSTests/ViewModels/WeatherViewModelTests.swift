@@ -13,19 +13,19 @@ import WeatherApp
 final class WeatherApp_iOSTests: XCTestCase {
     
     func test_init_onNonAuthorizedDoesntCallStartUpdatingLocation() {
-        let (manager, _) = makeSUT()
+        let (manager, _, _) = makeSUT()
         
         XCTAssertEqual(manager.startCallCount, 0)
     }
     
     func test_init_onAuthorizedCallsStartUpdatingLocation() {
-        let (manager, _) = makeSUT(isAuthorized: true)
+        let (manager, _, _) = makeSUT(isAuthorized: true)
         
         XCTAssertEqual(manager.startCallCount, 1)
     }
     
     func test_init_setsUpLocationManagerCorrectly() {
-        let (manager, sut) = makeSUT()
+        let (manager, _, sut) = makeSUT()
         
         XCTAssertEqual(manager.desiredAccuracy, kCLLocationAccuracyBest)
         XCTAssertEqual(manager.distanceFilter, 10_000)
@@ -33,15 +33,15 @@ final class WeatherApp_iOSTests: XCTestCase {
     }
     
     func test_locationPermission_isInitializedWithCurrentManagerValue() {
-        let (_, sut) = makeSUT()
+        let (_, _, sut) = makeSUT()
         XCTAssertEqual(sut.isLocationPermissionGranted, false)
         
-        let (_, sut2) = makeSUT(isAuthorized: true)
+        let (_, _, sut2) = makeSUT(isAuthorized: true)
         XCTAssertEqual(sut2.isLocationPermissionGranted, true)
     }
     
     func test_locationPermission_isUpdatedWhenDelegateUpdatesPermissionStatus() {
-        let (manager, sut) = makeSUT()
+        let (manager, _, sut) = makeSUT()
         XCTAssertEqual(sut.isLocationPermissionGranted, false)
         
         manager.stubbedIsAuthorized = true
@@ -51,7 +51,7 @@ final class WeatherApp_iOSTests: XCTestCase {
     }
     
     func test_requestLocationPermission_doesNothingIfPermissionAlreadyGranted() {
-        let (manager, sut) = makeSUT(isAuthorized: true)
+        let (manager, _, sut) = makeSUT(isAuthorized: true)
         
         sut.requestLocationPermission()
         
@@ -59,7 +59,7 @@ final class WeatherApp_iOSTests: XCTestCase {
     }
     
     func test_requestLocationPermission_requestsPermissionIfNotAlreadyGranted() {
-        let (manager, sut) = makeSUT(isAuthorized: false)
+        let (manager, _, sut) = makeSUT(isAuthorized: false)
         
         sut.requestLocationPermission()
         
@@ -67,7 +67,7 @@ final class WeatherApp_iOSTests: XCTestCase {
     }
     
     func test_startsUpdatingLocations_whenLocationPermissionIsGranted() {
-        let (manager, sut) = makeSUT()
+        let (manager, _, sut) = makeSUT()
         XCTAssertEqual(manager.startCallCount, 0)
         
         manager.stubbedIsAuthorized = true
@@ -78,7 +78,7 @@ final class WeatherApp_iOSTests: XCTestCase {
     }
     
     func test_doesNotStartUpdatingLocations_whenLocationPermissionIsDenied() {
-        let (manager, sut) = makeSUT()
+        let (manager, _, sut) = makeSUT()
         XCTAssertEqual(manager.startCallCount, 0)
         
         manager.delegate!.locationManagerDidChangeAuthorization?(manager)
@@ -93,7 +93,7 @@ final class WeatherApp_iOSTests: XCTestCase {
         isAuthorized: Bool = false,
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (manager: MockLocationManager, sut: WeatherViewModel) {
+    ) -> (manager: MockLocationManager, repo: WeatherRepositorySpy, sut: WeatherViewModel) {
         
         let manager = MockLocationManager()
         manager.stubbedIsAuthorized = isAuthorized
@@ -103,7 +103,7 @@ final class WeatherApp_iOSTests: XCTestCase {
         checkIsDeallocated(sut: manager, file: file, line: line)
         checkIsDeallocated(sut: repo, file: file, line: line)
         checkIsDeallocated(sut: sut, file: file, line: line)
-        return (manager, sut)
+        return (manager, repo, sut)
     }
     
     private class WeatherRepositorySpy: WeatherRepository {
