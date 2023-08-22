@@ -14,7 +14,7 @@ final class WeatherViewModel: NSObject, ObservableObject {
     // MARK: - Private properties
     
     private static let locationDistanceFilter: CLLocationDistance = 10_000 // 10 km
-    private var locationManager: LocationManager
+    private let locationManager: CLLocationManager
     
     // MARK: - Public properties
     
@@ -22,14 +22,14 @@ final class WeatherViewModel: NSObject, ObservableObject {
     
     // MARK: - Lifecycle
     
-    init(locationManager: LocationManager) {
+    init(locationManager: CLLocationManager) {
         self.locationManager = locationManager
         self.isLocationPermissionGranted = locationManager.isAuthorized
         super.init()
         
-        self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        self.locationManager.distanceFilter = Self.locationDistanceFilter
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.distanceFilter = Self.locationDistanceFilter
         
         if locationManager.isAuthorized {
             locationManager.startUpdatingLocation()
@@ -38,7 +38,9 @@ final class WeatherViewModel: NSObject, ObservableObject {
 }
 
 extension WeatherViewModel: CLLocationManagerDelegate {
-    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        isLocationPermissionGranted = manager.isAuthorized
+    }
 }
 
 final class WeatherApp_iOSTests: XCTestCase {
@@ -71,6 +73,16 @@ final class WeatherApp_iOSTests: XCTestCase {
         XCTAssertEqual(sut2.isLocationPermissionGranted, true)
     }
     
+    func test_locationPermission_isUpdatedWhenDelegateUpdatesPermissionStatus() {
+        let (manager, sut) = makeSUT()
+        XCTAssertEqual(sut.isLocationPermissionGranted, false)
+        
+        manager.stubbedIsAuthorized = true
+        manager.delegate?.locationManagerDidChangeAuthorization?(manager)
+        
+        XCTAssertEqual(sut.isLocationPermissionGranted, true)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(
@@ -80,7 +92,7 @@ final class WeatherApp_iOSTests: XCTestCase {
     ) -> (manager: MockLocationManager, sut: WeatherViewModel) {
         
         let manager = MockLocationManager()
-        manager.isAuthorized = isAuthorized
+        manager.stubbedIsAuthorized = isAuthorized
         let sut = WeatherViewModel(locationManager: manager)
         
         checkIsDeallocated(sut: manager, file: file, line: line)
@@ -88,21 +100,21 @@ final class WeatherApp_iOSTests: XCTestCase {
         return (manager, sut)
     }
     
-    private class MockLocationManager: LocationManager {
-        var location: CLLocation?
-        weak var delegate: CLLocationManagerDelegate?
-        var distanceFilter: CLLocationDistance = kCLDistanceFilterNone
-        var desiredAccuracy: CLLocationAccuracy = kCLLocationAccuracyBest
-        var isAuthorized: Bool = false
+    private class MockLocationManager: CLLocationManager {
+        
+        var stubbedIsAuthorized: Bool = false
+        override var authorizationStatus: CLAuthorizationStatus {
+            stubbedIsAuthorized ? .authorizedWhenInUse : .denied
+        }
         
         var requestCallCount = 0
         var startCallCount = 0
         
-        func requestWhenInUseAuthorization() {
+        override func requestWhenInUseAuthorization() {
             requestCallCount += 1
         }
         
-        func startUpdatingLocation() {
+        override func startUpdatingLocation() {
             startCallCount += 1
         }
     }
