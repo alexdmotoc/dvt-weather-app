@@ -11,11 +11,20 @@ import CoreLocation
 
 final class WeatherViewModel: NSObject, ObservableObject {
     
+    // MARK: - Private properties
+    
     private static let locationDistanceFilter: CLLocationDistance = 10_000 // 10 km
     private var locationManager: LocationManager
     
+    // MARK: - Public properties
+    
+    @Published private(set) var isLocationPermissionGranted: Bool
+    
+    // MARK: - Lifecycle
+    
     init(locationManager: LocationManager) {
         self.locationManager = locationManager
+        self.isLocationPermissionGranted = locationManager.isAuthorized
         super.init()
         
         self.locationManager.delegate = self
@@ -52,6 +61,14 @@ final class WeatherApp_iOSTests: XCTestCase {
         XCTAssertEqual(manager.desiredAccuracy, kCLLocationAccuracyBest)
         XCTAssertEqual(manager.distanceFilter, 10_000)
         XCTAssertEqual(manager.delegate as? WeatherViewModel, sut)
+    }
+    
+    func test_locationPermission_isInitializedWithCurrentManagerValue() {
+        let (_, sut) = makeSUT()
+        XCTAssertEqual(sut.isLocationPermissionGranted, false)
+        
+        let (_, sut2) = makeSUT(isAuthorized: true)
+        XCTAssertEqual(sut2.isLocationPermissionGranted, true)
     }
     
     // MARK: - Helpers
