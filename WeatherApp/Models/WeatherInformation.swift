@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CoreLocation
 
 public struct WeatherInformation: Equatable {
     public let isCurrentLocation: Bool
@@ -29,9 +28,9 @@ public struct WeatherInformation: Equatable {
 extension WeatherInformation {
     public struct Location: Equatable {
         public let name: String
-        public let coordinates: CLLocationCoordinate2D
+        public let coordinates: Coordinates
         
-        public init(name: String, coordinates: CLLocationCoordinate2D) {
+        public init(name: String, coordinates: Coordinates) {
             self.name = name
             self.coordinates = coordinates
         }
@@ -81,11 +80,5 @@ extension WeatherInformation {
                 }
             }
         }
-    }
-}
-
-extension CLLocationCoordinate2D: Equatable {
-    public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
-        lhs.latitude == rhs.latitude && lhs.longitude == rhs.longitude
     }
 }

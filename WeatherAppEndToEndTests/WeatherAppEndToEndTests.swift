@@ -7,11 +7,10 @@
 
 import XCTest
 import WeatherApp
-import CoreLocation
 
 final class WeatherAppEndToEndTests: XCTestCase {
     func test_fetchWeatherFromAPI_worksCorrectly() async throws {
-        let clujNapocaCoordinates = CLLocationCoordinate2D(latitude: 46.770439, longitude: 23.591423)
+        let clujNapocaCoordinates = Coordinates(latitude: 46.770439, longitude: 23.591423)
         
         let weather = try await makeSUT().fetch(coordinates: clujNapocaCoordinates, isCurrentLocation: true)
         

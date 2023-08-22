@@ -6,11 +6,10 @@
 //
 
 import Foundation
-import CoreLocation
 
 public protocol WeatherRepository {
     func getWeather(cacheHandler: ([WeatherInformation]) -> Void) async throws -> [WeatherInformation]
-    func addFavouriteLocation(coordinates: CLLocationCoordinate2D) async throws -> WeatherInformation
+    func addFavouriteLocation(coordinates: Coordinates) async throws -> WeatherInformation
 }
 
 // MARK: - Implementation
@@ -19,9 +18,9 @@ public final class WeatherRepositoryImpl: WeatherRepository {
     
     private let fetcher: RemoteWeatherFetcher
     private let cache: WeatherCache
-    private let currentLocation: () -> CLLocationCoordinate2D
+    private let currentLocation: () -> Coordinates
     
-    public init(fetcher: RemoteWeatherFetcher, cache: WeatherCache, currentLocation: @escaping () -> CLLocationCoordinate2D) {
+    public init(fetcher: RemoteWeatherFetcher, cache: WeatherCache, currentLocation: @escaping () -> Coordinates) {
         self.fetcher = fetcher
         self.cache = cache
         self.currentLocation = currentLocation
@@ -43,7 +42,7 @@ public final class WeatherRepositoryImpl: WeatherRepository {
         return results
     }
     
-    public func addFavouriteLocation(coordinates: CLLocationCoordinate2D) async throws -> WeatherInformation {
+    public func addFavouriteLocation(coordinates: Coordinates) async throws -> WeatherInformation {
         let weather = try await fetcher.fetch(coordinates: coordinates, isCurrentLocation: false)
         var cached = try cache.load()
         cached.append(weather)

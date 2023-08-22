@@ -7,7 +7,6 @@
 
 import XCTest
 import WeatherApp
-import CoreLocation
 
 class WeatherRepositoryTests: XCTestCase {
     func test_init_doesntProduceSideEffects() {
@@ -78,7 +77,7 @@ class WeatherRepositoryTests: XCTestCase {
         return (fetcher, cache, sut)
     }
     
-    private func makeLocation() -> CLLocationCoordinate2D {
+    private func makeLocation() -> Coordinates {
         .init(latitude: 10, longitude: 10)
     }
     
@@ -91,7 +90,7 @@ class WeatherRepositoryTests: XCTestCase {
         var stub: (error: Error?, weather: WeatherInformation?) = (nil, nil)
         var fetchCount = 0
         
-        func fetch(coordinates: CLLocationCoordinate2D, isCurrentLocation: Bool) async throws -> WeatherInformation {
+        func fetch(coordinates: Coordinates, isCurrentLocation: Bool) async throws -> WeatherInformation {
             fetchCount += 1
             if let error = stub.error { throw error }
             if let weather = stub.weather { return weather }

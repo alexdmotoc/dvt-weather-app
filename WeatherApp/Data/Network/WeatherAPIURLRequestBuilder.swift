@@ -6,17 +6,16 @@
 //
 
 import Foundation
-import CoreLocation
 
 public struct WeatherAPIURLRequestBuilder {
     private var path: String
-    private var coordinates: CLLocationCoordinate2D
+    private var coordinates: Coordinates
     private let appId: String
     private let baseURL: String
     
     public init(
         path: String = "",
-        coordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(),
+        coordinates: Coordinates = .init(latitude: 0, longitude: 0),
         appId: String = "e7550ddf86286a184072ad3828a1de20",
         baseURL: String = "https://api.openweathermap.org/data/2.5"
     ) {
@@ -32,7 +31,7 @@ public struct WeatherAPIURLRequestBuilder {
         return builder
     }
     
-    public func coordinates(_ coord: CLLocationCoordinate2D) -> Self {
+    public func coordinates(_ coord: Coordinates) -> Self {
         var builder = self
         builder.coordinates = coord
         return builder

@@ -7,7 +7,6 @@
 
 import XCTest
 import WeatherApp
-import CoreLocation
 
 final class RemoteWeatherFetcherTests: XCTestCase {
     
@@ -134,7 +133,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         XCTAssertTrue(didThrow)
     }
     
-    private func makeCoordinates() -> CLLocationCoordinate2D {
+    private func makeCoordinates() -> Coordinates {
         .init(latitude: 12, longitude: 12)
     }
     

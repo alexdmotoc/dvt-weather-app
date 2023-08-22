@@ -44,7 +44,7 @@ extension WeatherInformationMO {
 
 extension WeatherInformationMO {
     var local: WeatherInformation {
-        let location = self.location?.local ?? .init(name: "", coordinates: .init())
+        let location = self.location?.local ?? .init(name: "", coordinates: Coordinates(latitude: 0, longitude: 0))
         let temperature = self.temperature?.local ?? .init(current: 0, min: 0, max: 0)
         let forecast = self.forecast?.compactMap { ($0 as? ForecastMO)?.local } ?? []
         return .init(
