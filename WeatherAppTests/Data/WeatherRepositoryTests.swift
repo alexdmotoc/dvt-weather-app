@@ -23,7 +23,7 @@ class WeatherRepositoryTests: XCTestCase {
         let mockWeather = makeWeatherInformationArray()
         cache.stubbedWeather = mockWeather
         
-        _ = try await sut.getWeather { cached in
+        _ = try await sut.getWeather(currentLocation: Self.makeLocation()) { cached in
             XCTAssertEqual(cached, mockWeather)
         }
     }
@@ -67,28 +67,29 @@ class WeatherRepositoryTests: XCTestCase {
         currentLocation: @escaping () -> Coordinates? = makeLocation,
         cachedWeather: [WeatherInformation],
         remoteStub: WeatherInformation,
-        resultsCount: Int
+        resultsCount: Int,
+        file: StaticString = #filePath,
+        line: UInt = #line
     ) async throws {
-        let (fetcher, cache, sut) = makeSUT(currentLocation: currentLocation)
+        let (fetcher, cache, sut) = makeSUT()
         cache.stubbedWeather = cachedWeather
         fetcher.stub = (nil, remoteStub)
         
-        let results = try await sut.getWeather(cacheHandler: { _ in })
+        let results = try await sut.getWeather(currentLocation: currentLocation(), cacheHandler: { _ in })
         
         let expectedResults = Array(repeating: remoteStub, count: resultsCount)
-        XCTAssertEqual(fetcher.fetchCount, resultsCount)
-        XCTAssertEqual(results, expectedResults)
-        XCTAssertEqual(cache.messages, [.load, .save(expectedResults)])
+        XCTAssertEqual(fetcher.fetchCount, resultsCount, file: file, line: line)
+        XCTAssertEqual(results, expectedResults, file: file, line: line)
+        XCTAssertEqual(cache.messages, [.load, .save(expectedResults)], file: file, line: line)
     }
     
     private func makeSUT(
-        currentLocation: @escaping () -> Coordinates? = makeLocation,
         file: StaticString = #filePath,
         line: UInt = #line
     ) -> (fetcher: RemoteWeatherFetcherSpy, cache: WeatherCacheSpy, sut: WeatherRepository) {
         let fetcher = RemoteWeatherFetcherSpy(weatherInformation: makeWeatherInformationWithForecast())
         let cache = WeatherCacheSpy()
-        let sut = WeatherRepositoryImpl(fetcher: fetcher, cache: cache, currentLocation: currentLocation)
+        let sut = WeatherRepositoryImpl(fetcher: fetcher, cache: cache)
         checkIsDeallocated(sut: fetcher, file: file, line: line)
         checkIsDeallocated(sut: cache, file: file, line: line)
         checkIsDeallocated(sut: sut, file: file, line: line)

@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol WeatherRepository {
-    func getWeather(cacheHandler: ([WeatherInformation]) -> Void) async throws -> [WeatherInformation]
+    func getWeather(currentLocation: Coordinates?, cacheHandler: ([WeatherInformation]) -> Void) async throws -> [WeatherInformation]
     func addFavouriteLocation(coordinates: Coordinates) async throws -> WeatherInformation
 }
 
@@ -18,22 +18,20 @@ public final class WeatherRepositoryImpl: WeatherRepository {
     
     private let fetcher: RemoteWeatherFetcher
     private let cache: WeatherCache
-    private let currentLocation: () -> Coordinates?
     
-    public init(fetcher: RemoteWeatherFetcher, cache: WeatherCache, currentLocation: @escaping () -> Coordinates?) {
+    public init(fetcher: RemoteWeatherFetcher, cache: WeatherCache) {
         self.fetcher = fetcher
         self.cache = cache
-        self.currentLocation = currentLocation
     }
     
-    public func getWeather(cacheHandler: ([WeatherInformation]) -> Void) async throws -> [WeatherInformation] {
+    public func getWeather(currentLocation: Coordinates?, cacheHandler: ([WeatherInformation]) -> Void) async throws -> [WeatherInformation] {
         let weatherCache = try cache.load()
         cacheHandler(weatherCache)
         
         var results: [WeatherInformation] = []
         
-        if let coordinates = currentLocation() {
-            let currentWeather = try await fetcher.fetch(coordinates: coordinates, isCurrentLocation: true)
+        if let currentLocation {
+            let currentWeather = try await fetcher.fetch(coordinates: currentLocation, isCurrentLocation: true)
             results.append(currentWeather)
         }
         
