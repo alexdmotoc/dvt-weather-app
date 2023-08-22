@@ -10,6 +10,8 @@ import CoreLocation
 @testable import WeatherApp_iOS
 
 final class WeatherViewModel: NSObject, ObservableObject {
+    
+    private static let locationDistanceFilter: CLLocationDistance = 10_000 // 10 km
     private var locationManager: LocationManager
     
     init(locationManager: LocationManager) {
@@ -17,6 +19,8 @@ final class WeatherViewModel: NSObject, ObservableObject {
         super.init()
         
         self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        self.locationManager.distanceFilter = Self.locationDistanceFilter
         
         if locationManager.isAuthorized {
             locationManager.startUpdatingLocation()
@@ -40,6 +44,14 @@ final class WeatherApp_iOSTests: XCTestCase {
         let (manager, _) = makeSUT(isAuthorized: true)
         
         XCTAssertEqual(manager.startCallCount, 1)
+    }
+    
+    func test_init_setsUpLocationManagerCorrectly() {
+        let (manager, sut) = makeSUT()
+        
+        XCTAssertEqual(manager.desiredAccuracy, kCLLocationAccuracyBest)
+        XCTAssertEqual(manager.distanceFilter, 10_000)
+        XCTAssertEqual(manager.delegate as? WeatherViewModel, sut)
     }
     
     // MARK: - Helpers
