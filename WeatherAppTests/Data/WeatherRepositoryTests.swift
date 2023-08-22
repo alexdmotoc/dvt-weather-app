@@ -38,7 +38,8 @@ final class WeatherRepositoryImpl: WeatherRepository {
     }
     
     func addFavouriteLocation(coordinates: CLLocationCoordinate2D) async throws -> WeatherInformation {
-        throw NSError(domain: "asd", code: 12)
+        let weather = try await fetcher.fetch(coordinates: coordinates, isCurrentLocation: false)
+        return weather
     }
 }
 
@@ -72,7 +73,16 @@ class WeatherRepositoryTests: XCTestCase {
     
     // MARK: - Add favourite location tests
     
-    
+    func test_addLocation_callsRemoteToFetchLocation() async throws {
+        let (fetcher, _, sut) = makeSUT()
+        let remoteMock = makeWeatherInformationWithForecast()
+        fetcher.stub = (nil, remoteMock)
+        
+        let added = try await sut.addFavouriteLocation(coordinates: makeLocation())
+        
+        XCTAssertEqual(fetcher.fetchCount, 1)
+        XCTAssertEqual(added, remoteMock)
+    }
     
     // MARK: - Helpers
     
@@ -92,14 +102,14 @@ class WeatherRepositoryTests: XCTestCase {
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (fetcher: RemoteWeatherFetcherSpy, cache: WeatherCacheSpy, sut: WeatherRepository) {
         let fetcher = RemoteWeatherFetcherSpy(weatherInformation: makeWeatherInformationWithForecast())
         let cache = WeatherCacheSpy()
-        let sut = WeatherRepositoryImpl(fetcher: fetcher, cache: cache, currentLocation: makeCurrentLocation)
+        let sut = WeatherRepositoryImpl(fetcher: fetcher, cache: cache, currentLocation: makeLocation)
         checkIsDeallocated(sut: fetcher, file: file, line: line)
         checkIsDeallocated(sut: cache, file: file, line: line)
         checkIsDeallocated(sut: sut, file: file, line: line)
         return (fetcher, cache, sut)
     }
     
-    private func makeCurrentLocation() -> CLLocationCoordinate2D {
+    private func makeLocation() -> CLLocationCoordinate2D {
         .init(latitude: 10, longitude: 10)
     }
     
