@@ -21,7 +21,6 @@
   },
   "testTargets" : [
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WeatherApp.xcodeproj",
         "identifier" : "8704C4F02A90CDCE0076BB69",
@@ -29,7 +28,6 @@
       }
     },
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:WeatherApp.xcodeproj",
         "identifier" : "870B6F932A9286C800BE5B87",

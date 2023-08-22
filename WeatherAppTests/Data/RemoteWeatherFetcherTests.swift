@@ -7,7 +7,6 @@
 
 import XCTest
 import WeatherApp
-import CoreLocation
 
 final class RemoteWeatherFetcherTests: XCTestCase {
     
@@ -19,7 +18,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     func test_fetch_invokesClientTwice() async throws {
         let (client, sut) = makeSUT()
         
-        _ = try await sut.fetch(coordinates: makeCoordinates())
+        _ = try await sut.fetch(coordinates: makeCoordinates(), isCurrentLocation: false)
         
         XCTAssertEqual(client.loadCalledCount, 2)
     }
@@ -27,8 +26,8 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     func test_fetchTwice_invokesClient4Times() async throws {
         let (client, sut) = makeSUT()
         
-        _ = try await sut.fetch(coordinates: makeCoordinates())
-        _ = try await sut.fetch(coordinates: makeCoordinates())
+        _ = try await sut.fetch(coordinates: makeCoordinates(), isCurrentLocation: false)
+        _ = try await sut.fetch(coordinates: makeCoordinates(), isCurrentLocation: false)
         
         XCTAssertEqual(client.loadCalledCount, 4)
     }
@@ -80,7 +79,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         client.stubs[weatherURLRequest()] = .init(data: makeWeatherJSONData(from: weatherInfo), response: makeResponse(statusCode: 200), error: nil)
         client.stubs[forecastURLRequest()] = .init(data: makeForecastJSONData(from: []), response: makeResponse(statusCode: 200), error: nil)
         
-        let result = try await sut.fetch(coordinates: makeCoordinates())
+        let result = try await sut.fetch(coordinates: makeCoordinates(), isCurrentLocation: false)
         
         XCTAssertEqual(result, weatherInfo)
     }
@@ -92,7 +91,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         client.stubs[weatherURLRequest()] = .init(data: makeWeatherJSONData(from: weatherInfo), response: makeResponse(statusCode: 200), error: nil)
         client.stubs[forecastURLRequest()] = .init(data: makeForecastJSONData(from: forecast), response: makeResponse(statusCode: 200), error: nil)
         
-        let result = try await sut.fetch(coordinates: makeCoordinates())
+        let result = try await sut.fetch(coordinates: makeCoordinates(), isCurrentLocation: false)
         
         XCTAssertEqual(result, weatherInfo)
     }
@@ -112,7 +111,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     }
     
     private func expect(
-        _ sut: RemoteWeatherFetcherImpl,
+        _ sut: RemoteWeatherFetcher,
         toCompleteWith expectedError: Error,
         file: StaticString = #filePath,
         line: UInt = #line
@@ -120,7 +119,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         var didThrow = false
         
         do {
-            _ = try await sut.fetch(coordinates: makeCoordinates())
+            _ = try await sut.fetch(coordinates: makeCoordinates(), isCurrentLocation: false)
         } catch {
             switch (error, expectedError) {
             case let (error as RemoteWeatherFetcherImpl.Error, expectedError as RemoteWeatherFetcherImpl.Error):
@@ -134,7 +133,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         XCTAssertTrue(didThrow)
     }
     
-    private func makeCoordinates() -> CLLocationCoordinate2D {
+    private func makeCoordinates() -> Coordinates {
         .init(latitude: 12, longitude: 12)
     }
     
@@ -179,7 +178,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     private func makeSUT(
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (client: HTTPClientSpy, sut: RemoteWeatherFetcherImpl) {
+    ) -> (client: HTTPClientSpy, sut: RemoteWeatherFetcher) {
         
         let weatherInfo = makeWeatherInformation()
         let client = HTTPClientSpy()

@@ -56,10 +56,6 @@ final class WeatherAppCacheIntegrationTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeWeatherInformationArray(name: String = "mock") -> [WeatherInformation] {
-        (0 ..< 5).map { _ in makeWeatherInformationWithForecast(name: name) }
-    }
-    
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> WeatherCacheImpl {
         let store = try! CoreDataWeatherStore(storeURL: testSpecificStoreURL())
         let sut = WeatherCacheImpl(store: store)
