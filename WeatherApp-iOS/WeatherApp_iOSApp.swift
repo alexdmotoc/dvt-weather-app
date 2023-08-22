@@ -7,12 +7,18 @@
 
 import SwiftUI
 import WeatherApp
+import CoreLocation
 
 @main
 struct WeatherApp_iOSApp: App {
+    
+    private let weatherViewModel: WeatherViewModel = {
+        WeatherViewModel(locationManager: CLLocationManager())
+    }()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: weatherViewModel)
         }
     }
 }

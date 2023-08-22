@@ -9,40 +9,6 @@ import XCTest
 import CoreLocation
 @testable import WeatherApp_iOS
 
-final class WeatherViewModel: NSObject, ObservableObject {
-    
-    // MARK: - Private properties
-    
-    private static let locationDistanceFilter: CLLocationDistance = 10_000 // 10 km
-    private let locationManager: CLLocationManager
-    
-    // MARK: - Public properties
-    
-    @Published private(set) var isLocationPermissionGranted: Bool
-    
-    // MARK: - Lifecycle
-    
-    init(locationManager: CLLocationManager) {
-        self.locationManager = locationManager
-        self.isLocationPermissionGranted = locationManager.isAuthorized
-        super.init()
-        
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.distanceFilter = Self.locationDistanceFilter
-        
-        if locationManager.isAuthorized {
-            locationManager.startUpdatingLocation()
-        }
-    }
-}
-
-extension WeatherViewModel: CLLocationManagerDelegate {
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        isLocationPermissionGranted = manager.isAuthorized
-    }
-}
-
 final class WeatherApp_iOSTests: XCTestCase {
     
     func test_init_onNonAuthorizedDoesntCallStartUpdatingLocation() {
@@ -98,24 +64,5 @@ final class WeatherApp_iOSTests: XCTestCase {
         checkIsDeallocated(sut: manager, file: file, line: line)
         checkIsDeallocated(sut: sut, file: file, line: line)
         return (manager, sut)
-    }
-    
-    private class MockLocationManager: CLLocationManager {
-        
-        var stubbedIsAuthorized: Bool = false
-        override var authorizationStatus: CLAuthorizationStatus {
-            stubbedIsAuthorized ? .authorizedWhenInUse : .denied
-        }
-        
-        var requestCallCount = 0
-        var startCallCount = 0
-        
-        override func requestWhenInUseAuthorization() {
-            requestCallCount += 1
-        }
-        
-        override func startUpdatingLocation() {
-            startCallCount += 1
-        }
     }
 }
