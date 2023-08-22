@@ -18,9 +18,9 @@ public final class WeatherRepositoryImpl: WeatherRepository {
     
     private let fetcher: RemoteWeatherFetcher
     private let cache: WeatherCache
-    private let currentLocation: () -> Coordinates
+    private let currentLocation: () -> Coordinates?
     
-    public init(fetcher: RemoteWeatherFetcher, cache: WeatherCache, currentLocation: @escaping () -> Coordinates) {
+    public init(fetcher: RemoteWeatherFetcher, cache: WeatherCache, currentLocation: @escaping () -> Coordinates?) {
         self.fetcher = fetcher
         self.cache = cache
         self.currentLocation = currentLocation
@@ -30,8 +30,13 @@ public final class WeatherRepositoryImpl: WeatherRepository {
         let weatherCache = try cache.load()
         cacheHandler(weatherCache)
         
-        let currentWeather = try await fetcher.fetch(coordinates: currentLocation(), isCurrentLocation: true)
-        var results = [currentWeather]
+        var results: [WeatherInformation] = []
+        
+        if let coordinates = currentLocation() {
+            let currentWeather = try await fetcher.fetch(coordinates: coordinates, isCurrentLocation: true)
+            results.append(currentWeather)
+        }
+        
         for favouriteWeather in weatherCache.filter({ !$0.isCurrentLocation }) {
             let updatedFavouriteWeather = try await fetcher.fetch(coordinates: favouriteWeather.location.coordinates, isCurrentLocation: false)
             results.append(updatedFavouriteWeather)

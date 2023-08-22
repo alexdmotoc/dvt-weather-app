@@ -29,11 +29,20 @@ class WeatherRepositoryTests: XCTestCase {
     }
     
     func test_getWeather_getsWeatherAtFavouriteLocationsReplacingCurrentWeather() async throws {
-        try await assertSUTResults(cachedWeather: makeWeatherInformationArray(name: "cached"), remoteStub: makeWeatherInformationWithForecast(name: "remote"))
+        let cacheMock = makeWeatherInformationArray(name: "cached")
+        let remoteMock = makeWeatherInformationWithForecast(name: "remote")
+        try await assertSUTResults(cachedWeather: cacheMock, remoteStub: remoteMock, resultsCount: cacheMock.count)
     }
     
     func test_getWeather_replacesOldCache() async throws {
-        try await assertSUTResults(cachedWeather: [], remoteStub: makeWeatherInformationWithForecast())
+        try await assertSUTResults(cachedWeather: [], remoteStub: makeWeatherInformationWithForecast(), resultsCount: 1)
+    }
+    
+    func test_getWeather_doesNotFetchCurrentLocationIfNotAvailable() async throws {
+        let remoteMock = makeWeatherInformationWithForecast()
+        let cacheMock = makeWeatherInformationArray()
+        // expected results is count - 1 because the current location is removed and not added back, since there is no location
+        try await assertSUTResults(currentLocation: { nil }, cachedWeather: cacheMock, remoteStub: remoteMock, resultsCount: cacheMock.count - 1)
     }
     
     // MARK: - Add favourite location tests
@@ -45,7 +54,7 @@ class WeatherRepositoryTests: XCTestCase {
         fetcher.stub = (nil, remoteMock)
         cache.stubbedWeather = cacheMock
         
-        let added = try await sut.addFavouriteLocation(coordinates: makeLocation())
+        let added = try await sut.addFavouriteLocation(coordinates: Self.makeLocation())
         
         XCTAssertEqual(fetcher.fetchCount, 1)
         XCTAssertEqual(added, remoteMock)
@@ -54,30 +63,39 @@ class WeatherRepositoryTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func assertSUTResults(cachedWeather: [WeatherInformation], remoteStub: WeatherInformation) async throws {
-        let (fetcher, cache, sut) = makeSUT()
+    private func assertSUTResults(
+        currentLocation: @escaping () -> Coordinates? = makeLocation,
+        cachedWeather: [WeatherInformation],
+        remoteStub: WeatherInformation,
+        resultsCount: Int
+    ) async throws {
+        let (fetcher, cache, sut) = makeSUT(currentLocation: currentLocation)
         cache.stubbedWeather = cachedWeather
         fetcher.stub = (nil, remoteStub)
         
         let results = try await sut.getWeather(cacheHandler: { _ in })
         
-        let expectedResults = Array(repeating: remoteStub, count: max(cachedWeather.count, 1))
-        XCTAssertEqual(fetcher.fetchCount, max(cachedWeather.count, 1))
+        let expectedResults = Array(repeating: remoteStub, count: resultsCount)
+        XCTAssertEqual(fetcher.fetchCount, resultsCount)
         XCTAssertEqual(results, expectedResults)
         XCTAssertEqual(cache.messages, [.load, .save(expectedResults)])
     }
     
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (fetcher: RemoteWeatherFetcherSpy, cache: WeatherCacheSpy, sut: WeatherRepository) {
+    private func makeSUT(
+        currentLocation: @escaping () -> Coordinates? = makeLocation,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> (fetcher: RemoteWeatherFetcherSpy, cache: WeatherCacheSpy, sut: WeatherRepository) {
         let fetcher = RemoteWeatherFetcherSpy(weatherInformation: makeWeatherInformationWithForecast())
         let cache = WeatherCacheSpy()
-        let sut = WeatherRepositoryImpl(fetcher: fetcher, cache: cache, currentLocation: makeLocation)
+        let sut = WeatherRepositoryImpl(fetcher: fetcher, cache: cache, currentLocation: currentLocation)
         checkIsDeallocated(sut: fetcher, file: file, line: line)
         checkIsDeallocated(sut: cache, file: file, line: line)
         checkIsDeallocated(sut: sut, file: file, line: line)
         return (fetcher, cache, sut)
     }
     
-    private func makeLocation() -> Coordinates {
+    private static func makeLocation() -> Coordinates {
         .init(latitude: 10, longitude: 10)
     }
     

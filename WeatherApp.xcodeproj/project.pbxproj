@@ -41,6 +41,7 @@
 		874E1B822A9405FB000AE0E4 /* WeatherRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874E1B812A9405FB000AE0E4 /* WeatherRepositoryTests.swift */; };
 		874E1B842A9482BE000AE0E4 /* Coordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874E1B832A9482BE000AE0E4 /* Coordinates.swift */; };
 		874E1B862A948455000AE0E4 /* CoordinatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874E1B852A948455000AE0E4 /* CoordinatesTests.swift */; };
+		874E1B892A948831000AE0E4 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874E1B882A948831000AE0E4 /* LocationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,7 @@
 		874E1B812A9405FB000AE0E4 /* WeatherRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRepositoryTests.swift; sourceTree = "<group>"; };
 		874E1B832A9482BE000AE0E4 /* Coordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinates.swift; sourceTree = "<group>"; };
 		874E1B852A948455000AE0E4 /* CoordinatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatesTests.swift; sourceTree = "<group>"; };
+		874E1B882A948831000AE0E4 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,6 +202,7 @@
 				8704C5152A9261AE0076BB69 /* DTO */,
 				870B6FA52A93920300BE5B87 /* Cache */,
 				8704C50D2A9127330076BB69 /* Network */,
+				874E1B872A948809000AE0E4 /* Location */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -305,6 +308,14 @@
 				874E1B762A93DF4E000AE0E4 /* WeatherAppCacheIntegrationTests.swift */,
 			);
 			path = WeatherAppCacheIntegrationTests;
+			sourceTree = "<group>";
+		};
+		874E1B872A948809000AE0E4 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				874E1B882A948831000AE0E4 /* LocationManager.swift */,
+			);
+			path = Location;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -476,6 +487,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				870B6FAA2A939FF700BE5B87 /* WeatherStore.swift in Sources */,
+				874E1B892A948831000AE0E4 /* LocationManager.swift in Sources */,
 				8704C5172A9261C80076BB69 /* CurrentWeatherAPIDTO.swift in Sources */,
 				870B6FA72A939EB300BE5B87 /* WeatherCache.swift in Sources */,
 				870B6FAC2A93A04700BE5B87 /* CoreDataWeatherStore.swift in Sources */,
