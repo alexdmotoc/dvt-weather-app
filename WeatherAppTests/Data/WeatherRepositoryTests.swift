@@ -50,6 +50,8 @@ class WeatherRepositoryTests: XCTestCase {
         XCTAssertEqual(cache.messages, [])
     }
     
+    // MARK: - Get weather tests
+    
     func test_getWeather_callsCacheCompletion() async throws {
         let (_, cache, sut) = makeSUT()
         let mockWeather = makeWeatherInformationArray()
@@ -60,43 +62,32 @@ class WeatherRepositoryTests: XCTestCase {
         }
     }
     
-    func test_getWeather_getsWeatherAtCurrentLocation() async throws {
-        let (fetcher, _, sut) = makeSUT()
-        let mockRemoteWeather = makeWeatherInformationWithForecast()
-        fetcher.stub = (nil, mockRemoteWeather)
-        
-        let results = try await sut.getWeather(cacheHandler: { _ in })
-        
-        XCTAssertEqual(fetcher.fetchCount, 1)
-        XCTAssertEqual(results, [mockRemoteWeather])
-    }
-    
     func test_getWeather_getsWeatherAtFavouriteLocationsReplacingCurrentWeather() async throws {
-        let (fetcher, cache, sut) = makeSUT()
-        let mockCachedWeather = makeWeatherInformationArray()
-        let mockRemoteWeather = makeWeatherInformationWithForecast()
-        cache.stubbedWeather = mockCachedWeather
-        fetcher.stub = (nil, mockRemoteWeather)
-        
-        let results = try await sut.getWeather(cacheHandler: { _ in })
-        
-        XCTAssertEqual(fetcher.fetchCount, mockCachedWeather.count)
-        XCTAssertEqual(results, Array(repeating: mockRemoteWeather, count: mockCachedWeather.count))
+        try await assertSUTResults(cachedWeather: makeWeatherInformationArray(name: "cached"), remoteStub: makeWeatherInformationWithForecast(name: "remote"))
     }
     
     func test_getWeather_replacesOldCache() async throws {
+        try await assertSUTResults(cachedWeather: [], remoteStub: makeWeatherInformationWithForecast())
+    }
+    
+    // MARK: - Add favourite location tests
+    
+    
+    
+    // MARK: - Helpers
+    
+    private func assertSUTResults(cachedWeather: [WeatherInformation], remoteStub: WeatherInformation) async throws {
         let (fetcher, cache, sut) = makeSUT()
-        let mockRemoteWeather = makeWeatherInformationWithForecast()
-        fetcher.stub = (nil, mockRemoteWeather)
+        cache.stubbedWeather = cachedWeather
+        fetcher.stub = (nil, remoteStub)
         
         let results = try await sut.getWeather(cacheHandler: { _ in })
         
-        XCTAssertEqual(fetcher.fetchCount, 1)
-        XCTAssertEqual(results, [mockRemoteWeather])
-        XCTAssertEqual(cache.messages, [.load, .save([mockRemoteWeather])])
+        let expectedResults = Array(repeating: remoteStub, count: max(cachedWeather.count, 1))
+        XCTAssertEqual(fetcher.fetchCount, max(cachedWeather.count, 1))
+        XCTAssertEqual(results, expectedResults)
+        XCTAssertEqual(cache.messages, [.load, .save(expectedResults)])
     }
-    
-    // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (fetcher: RemoteWeatherFetcherSpy, cache: WeatherCacheSpy, sut: WeatherRepository) {
         let fetcher = RemoteWeatherFetcherSpy(weatherInformation: makeWeatherInformationWithForecast())
