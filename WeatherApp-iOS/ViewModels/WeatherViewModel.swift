@@ -9,14 +9,14 @@ import Foundation
 import CoreLocation
 import WeatherApp
 
+@MainActor
 final class WeatherViewModel: NSObject, ObservableObject {
     
     // MARK: - Private properties
     
-    private static let locationDistanceFilter: CLLocationDistance = 10_000 // 10 km
-    private let locationManager: CLLocationManager
-    private let weatherRepository: WeatherRepository
-    private var currentLocation: CLLocation?
+    private let locationManager: LocationManager
+    private let useCase: GetWeatherUseCase
+    
     
     // MARK: - Public properties
     
@@ -25,57 +25,44 @@ final class WeatherViewModel: NSObject, ObservableObject {
     
     // MARK: - Lifecycle
     
-    init(locationManager: CLLocationManager, weatherRepository: WeatherRepository) {
+    init(locationManager: LocationManager, useCase: GetWeatherUseCase) {
         self.locationManager = locationManager
         self.isLocationPermissionGranted = locationManager.isAuthorized
-        self.currentLocation = locationManager.location
-        self.weatherRepository = weatherRepository
+        self.useCase = useCase
         super.init()
-        
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.distanceFilter = Self.locationDistanceFilter
-        
-        if locationManager.isAuthorized {
-            locationManager.startUpdatingLocation()
-        }
+        setupLocationManager()
     }
     
     // MARK: - Public methods
     
     func requestLocationPermission() {
-        guard !locationManager.isAuthorized else { return }
         locationManager.requestWhenInUseAuthorization()
     }
     
     @MainActor
     func getWeather() async {
         do {
-            let results = try await weatherRepository.getWeather(currentLocation: currentLocation?.weatherAppCoordinates) { cachedWeather in
+            let results = try await useCase.getWeather(currentLocation: locationManager.currentLocation?.weatherAppCoordinates) { cachedWeather in
 
             }
         } catch {
 //            errorMessage = error.localizedDescription
         }
     }
-}
-
-// MARK: - CLLocationManagerDelegate
-
-extension WeatherViewModel: CLLocationManagerDelegate {
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        isLocationPermissionGranted = manager.isAuthorized
-        
-        if manager.isAuthorized {
-            manager.startUpdatingLocation()
+    
+    // MARK: - Private methods
+    
+    private func setupLocationManager() {
+        locationManager.didChangeAuthorizationStatus = { [weak self] isAuthorized in
+            self?.isLocationPermissionGranted = isAuthorized
+        }
+        locationManager.didChangeLocation = { [weak self] _ in
+            Task {
+                await self?.getWeather()
+            }
         }
     }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-    }
 }
-
 
 // MARK: - CLLocation + util
 

@@ -28,9 +28,9 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     
-    static var weatherRepo: MockWeatherRepository {
-        let repo = MockWeatherRepository()
-        repo.stub = .init(
+    static var useCase: MockGetWeatherUseCase {
+        let useCase = MockGetWeatherUseCase()
+        useCase.stub = .init(
             cache: [],
             result: [
                 .makeMock(name: "Mock curr location", isCurrentLocation: true, weatherType: .sunny),
@@ -39,14 +39,14 @@ struct ContentView_Previews: PreviewProvider {
             ],
             error: nil
         )
-        return repo
+        return useCase
     }
     
     static var previews: some View {
         ContentView(
             viewModel: WeatherViewModel(
-                locationManager: MockLocationManager(isAuthorized: true),
-                weatherRepository: weatherRepo
+                locationManager: LocationManager(manager: MockCLLocationManager(isAuthorized: true)),
+                useCase: useCase
             )
         )
     }
