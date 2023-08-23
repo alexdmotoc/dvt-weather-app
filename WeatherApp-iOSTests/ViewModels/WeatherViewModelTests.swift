@@ -87,46 +87,39 @@ final class WeatherApp_iOSTests: XCTestCase {
         XCTAssertEqual(sut.isLocationPermissionGranted, false)
     }
     
+    func test_getWeather_callsRepository() async {
+        let (_, repo, sut) = makeSUT()
+        
+        await sut.getWeather()
+        
+        XCTAssertEqual(repo.getWeatherCallCount, 1)
+    }
+    
+    func test_getWeatherTwice_callsRepositoryTwice() async {
+        let (_, repo, sut) = makeSUT()
+        
+        await sut.getWeather()
+        await sut.getWeather()
+        
+        XCTAssertEqual(repo.getWeatherCallCount, 2)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(
         isAuthorized: Bool = false,
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (manager: MockLocationManager, repo: WeatherRepositorySpy, sut: WeatherViewModel) {
+    ) -> (manager: MockLocationManager, repo: MockWeatherRepository, sut: WeatherViewModel) {
         
         let manager = MockLocationManager()
         manager.stubbedIsAuthorized = isAuthorized
-        let repo = WeatherRepositorySpy(getWeatherResult: makeWeatherInformationArray(), addFavouriteResult: makeWeatherInformationWithForecast())
+        let repo = MockWeatherRepository()
         let sut = WeatherViewModel(locationManager: manager, weatherRepository: repo)
         
         checkIsDeallocated(sut: manager, file: file, line: line)
         checkIsDeallocated(sut: repo, file: file, line: line)
         checkIsDeallocated(sut: sut, file: file, line: line)
         return (manager, repo, sut)
-    }
-    
-    private class WeatherRepositorySpy: WeatherRepository {
-        
-        var getWeatherResult: [WeatherInformation]
-        var addFavouriteResult: WeatherInformation
-        
-        init(getWeatherResult: [WeatherInformation], addFavouriteResult: WeatherInformation) {
-            self.getWeatherResult = getWeatherResult
-            self.addFavouriteResult = addFavouriteResult
-        }
-        
-        var getWeatherCallCount = 0
-        var addFavouriteCallCount = 0
-        
-        func getWeather(cacheHandler: ([WeatherInformation]) -> Void) async throws -> [WeatherInformation] {
-            getWeatherCallCount += 1
-            return getWeatherResult
-        }
-        
-        func addFavouriteLocation(coordinates: Coordinates) async throws -> WeatherInformation {
-            addFavouriteCallCount += 1
-            return addFavouriteResult
-        }
     }
 }

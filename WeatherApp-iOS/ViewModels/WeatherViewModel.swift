@@ -16,16 +16,19 @@ final class WeatherViewModel: NSObject, ObservableObject {
     private static let locationDistanceFilter: CLLocationDistance = 10_000 // 10 km
     private let locationManager: CLLocationManager
     private let weatherRepository: WeatherRepository
+    private var currentLocation: CLLocation?
     
     // MARK: - Public properties
     
     @Published private(set) var isLocationPermissionGranted: Bool
+    @Published private(set) var errorMessage: String?
     
     // MARK: - Lifecycle
     
     init(locationManager: CLLocationManager, weatherRepository: WeatherRepository) {
         self.locationManager = locationManager
         self.isLocationPermissionGranted = locationManager.isAuthorized
+        self.currentLocation = locationManager.location
         self.weatherRepository = weatherRepository
         super.init()
         
@@ -44,6 +47,17 @@ final class WeatherViewModel: NSObject, ObservableObject {
         guard !locationManager.isAuthorized else { return }
         locationManager.requestWhenInUseAuthorization()
     }
+    
+    @MainActor
+    func getWeather() async {
+        do {
+            let results = try await weatherRepository.getWeather(currentLocation: currentLocation?.weatherAppCoordinates) { cachedWeather in
+
+            }
+        } catch {
+//            errorMessage = error.localizedDescription
+        }
+    }
 }
 
 // MARK: - CLLocationManagerDelegate
@@ -59,5 +73,14 @@ extension WeatherViewModel: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
+    }
+}
+
+
+// MARK: - CLLocation + util
+
+private extension CLLocation {
+    var weatherAppCoordinates: Coordinates {
+        .init(latitude: coordinate.latitude, longitude: coordinate.longitude)
     }
 }

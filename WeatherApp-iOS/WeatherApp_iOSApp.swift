@@ -30,16 +30,11 @@ private let weatherCache: WeatherCache = {
 }()
 
 private let weatherViewModel: WeatherViewModel = {
-    let locationManager = CLLocationManager()
-    return WeatherViewModel(
-        locationManager: locationManager,
+    WeatherViewModel(
+        locationManager: CLLocationManager(),
         weatherRepository: WeatherRepositoryImpl(
             fetcher: remoteWeatherFetcher,
-            cache: weatherCache,
-            currentLocation: { [weak locationManager] in
-                guard let location = locationManager?.location else { return nil }
-                return Coordinates(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-            }
+            cache: weatherCache
         )
     )
 }()
