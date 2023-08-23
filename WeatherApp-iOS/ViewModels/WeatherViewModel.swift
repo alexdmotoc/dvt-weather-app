@@ -17,13 +17,12 @@ final class WeatherViewModel: NSObject, ObservableObject {
     private let locationManager: LocationManager
     private let useCase: GetWeatherUseCase
     
-    
     // MARK: - Public properties
     
-    @Published private(set) var isLocationPermissionGranted: Bool
-    @Published private(set) var isErrorShown: Bool = false
-    private(set) var errorMessage: String?
     let weatherStore: WeatherInformationStore
+    @Published private(set) var isLocationPermissionGranted: Bool
+    @Published var isErrorShown: Bool = false
+    private(set) var errorMessage: String?
     
     // MARK: - Lifecycle
     
@@ -45,8 +44,10 @@ final class WeatherViewModel: NSObject, ObservableObject {
     @MainActor
     func getWeather() async {
         do {
-            let results = try await useCase.getWeather(currentLocation: locationManager.currentLocation?.weatherAppCoordinates) { cachedWeather in
-                weatherStore.weatherInformation = cachedWeather
+            let results = try await useCase.getWeather(currentLocation: locationManager.currentLocation?.weatherAppCoordinates) { [weak self] cachedWeather in
+                DispatchQueue.main.async {
+                    self?.weatherStore.weatherInformation = cachedWeather
+                }
             }
             weatherStore.weatherInformation = results
         } catch {

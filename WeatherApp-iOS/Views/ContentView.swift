@@ -10,17 +10,46 @@ import SwiftUI
 struct ContentView: View {
     
     @ObservedObject var viewModel: WeatherViewModel
+    @ObservedObject var store: WeatherInformationStore
+    @ObservedObject var appSettings: AppSettings
+    
+    init(viewModel: WeatherViewModel, appSettings: AppSettings) {
+        self.viewModel = viewModel
+        self.appSettings = appSettings
+        self.store = viewModel.weatherStore
+    }
     
     var body: some View {
-        Group {
-            if viewModel.isLocationPermissionGranted {
-                Text("permission granted")
-            } else {
-                Text("NO PERMISSION")
+        TabView {
+            WeatherTab(
+                viewModel: viewModel,
+                store: store,
+                appSettings: appSettings
+            )
+            .tabItem {
+                Label("weather.title", systemImage: "cloud.sun")
             }
-        }.onAppear {
+            
+            SettingsTab(appSettings: appSettings)
+                .tabItem {
+                    Label("settings.title", systemImage: "gear")
+                }
+        }
+        .onAppear {
             viewModel.requestLocationPermission()
         }
+        .task {
+            await viewModel.getWeather()
+        }
+        .alert(
+            "error.title",
+            isPresented: $viewModel.isErrorShown,
+            actions: {
+                Button("dismiss.title", role: .cancel, action: {})
+            }, message: {
+                Text(viewModel.errorMessage ?? "")
+            }
+        )
     }
 }
 
@@ -28,10 +57,10 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     
-    static var useCase: MockGetWeatherUseCase {
+    static let useCase: MockGetWeatherUseCase = {
         let useCase = MockGetWeatherUseCase()
         useCase.stub = .init(
-            cache: [],
+            cache: [.makeMock(name: "Mock curr location", isCurrentLocation: true, weatherType: .sunny)],
             result: [
                 .makeMock(name: "Mock curr location", isCurrentLocation: true, weatherType: .sunny),
                 .makeMock(name: "Mock fav location 1", isCurrentLocation: false, weatherType: .cloudy),
@@ -40,7 +69,7 @@ struct ContentView_Previews: PreviewProvider {
             error: nil
         )
         return useCase
-    }
+    }()
     
     static var previews: some View {
         ContentView(
@@ -48,7 +77,8 @@ struct ContentView_Previews: PreviewProvider {
                 locationManager: LocationManager(manager: MockCLLocationManager(isAuthorized: true)),
                 useCase: useCase,
                 weatherStore: WeatherInformationStore()
-            )
+            ),
+            appSettings: AppSettings()
         )
     }
 }
