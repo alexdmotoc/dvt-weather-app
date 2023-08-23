@@ -131,14 +131,4 @@ final class LocationManagerTests: XCTestCase {
         checkIsDeallocated(sut: sut)
         return (manager, sut)
     }
-    
-    private func makeLocation(timeStamp: Date = .init()) -> CLLocation {
-        .init(
-            coordinate: Self.makeLocation().toCLCoordinates,
-            altitude: 100,
-            horizontalAccuracy: 10,
-            verticalAccuracy: 10,
-            timestamp: timeStamp
-        )
-    }
 }

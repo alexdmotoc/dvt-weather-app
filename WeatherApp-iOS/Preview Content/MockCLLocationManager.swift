@@ -22,7 +22,7 @@ class MockCLLocationManager: CLLocationManager {
     
     var stubbedCurrentLocation: CLLocation?
     override var location: CLLocation? {
-        stubbedCurrentLocation ?? super.location
+        stubbedCurrentLocation
     }
     
     var requestCallCount = 0

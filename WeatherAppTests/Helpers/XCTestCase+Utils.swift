@@ -7,6 +7,7 @@
 
 import XCTest
 import WeatherApp
+import CoreLocation
 
 extension XCTestCase {
     func checkIsDeallocated(
@@ -55,5 +56,15 @@ extension XCTestCase {
     
     static func makeLocation() -> Coordinates {
         .init(latitude: 10, longitude: 10)
+    }
+    
+    func makeLocation(timeStamp: Date = .init()) -> CLLocation {
+        .init(
+            coordinate: Self.makeLocation().toCLCoordinates,
+            altitude: 100,
+            horizontalAccuracy: 10,
+            verticalAccuracy: 10,
+            timestamp: timeStamp
+        )
     }
 }

@@ -48,6 +48,23 @@ final class WeatherViewModelTests: XCTestCase {
         XCTAssertEqual(useCase.getWeatherCallCount, 2)
     }
     
+    func test_onLocationChange_callsGetWeather() {
+        let (manager, useCase, sut) = makeSUT()
+        XCTAssertFalse(sut.isLocationPermissionGranted) // silence unused warning; keeps reference to sut
+        XCTAssertEqual(useCase.getWeatherCallCount, 0)
+        
+        let exp = expectation(description: "call get weather")
+        useCase.didCallGetWeather = {
+            // need to fulfill on main thread because in this case the work is dispatched
+            // to a background thread which didn't finish so our SUT is not deallocated
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { exp.fulfill() }
+        }
+        
+        manager.delegate!.locationManager?(manager, didUpdateLocations: [makeLocation()])
+        
+        wait(for: [exp], timeout: 1)
+    }
+    
     // MARK: - Helpers
     
     @MainActor

@@ -19,11 +19,13 @@ class MockGetWeatherUseCase: GetWeatherUseCase {
     var stub: Stub?
     
     var getWeatherCallCount = 0
+    var didCallGetWeather: (() -> Void)?
     
     private let noStubError = NSError(domain: "no stub", code: 0)
     
     func getWeather(currentLocation: Coordinates?, cacheHandler: ([WeatherInformation]) -> Void) async throws -> [WeatherInformation] {
         getWeatherCallCount += 1
+        didCallGetWeather?()
         guard let stub else { throw noStubError }
         if let error = stub.error { throw error }
         cacheHandler(stub.cache)
