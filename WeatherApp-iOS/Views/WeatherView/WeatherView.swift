@@ -19,15 +19,44 @@ struct WeatherView: View {
             GeometryReader { geom in
                 VStack {
                     makeTopWeatherInfo(geometry: geom)
-                    HStack {
-                        makeTemperatureView(type: .min)
+                    currentMinMaxView
+                    forecast
+                        .padding(.top, 20)
+                }
+            }
+        }
+    }
+    
+    // MARK: - Helpers
+    
+    @ViewBuilder
+    var currentMinMaxView: some View {
+        HStack {
+            makeTemperatureView(type: .min)
+            Spacer()
+            makeTemperatureView(type: .current)
+            Spacer()
+            makeTemperatureView(type: .max)
+        }
+        .padding(.horizontal)
+        Color.white.frame(height: 1)
+    }
+    
+    var forecast: some View {
+        ScrollView {
+            VStack {
+                ForEach(weatherInfo.forecast) { forecast in
+                    HStack(alignment: .center) {
+                        Text(forecast.day)
+                            .frame(maxWidth: 90, alignment: .leading)
                         Spacer()
-                        makeTemperatureView(type: .current)
+                        Image(forecast.indicatorIconName)
+                            .resizable().frame(width: 30, height: 30)
                         Spacer()
-                        makeTemperatureView(type: .max)
+                        Text(forecast.temperature)
                     }
                     .padding(.horizontal)
-                    Color.white.frame(height: 1)
+                    .foregroundColor(.white)
                 }
             }
         }
@@ -42,7 +71,7 @@ struct WeatherView: View {
                 .frame(height: geom.size.height * 0.4)
             VStack {
                 Text(weatherInfo.info.location.name).font(.system(size: 24, weight: .light))
-                Text(weatherInfo.formattedTemperature(type: .current)).font(.system(size: 80))
+                Text(weatherInfo.formattedTemperature(type: .current)).font(.system(size: 70))
                 Text(LocalizedStringKey(weatherInfo.formattedWeatherTitle)).font(.system(size: 30)).bold()
             }
             .foregroundColor(.white)

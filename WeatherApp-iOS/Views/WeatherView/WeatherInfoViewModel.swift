@@ -41,6 +41,12 @@ struct WeatherInfoViewModel {
         return NSLocalizedString(info.weatherType.titleLocalizedKey, comment: "")
     }
     
+    var forecast: [ForecastViewModel] {
+        info.forecast.enumerated().map { index, forecast in
+            ForecastViewModel(forecast: forecast, temperatureType: temperatureType, index: index + 1)
+        }
+    }
+    
     func formattedTemperature(type: TemperatureValue) -> String {
         if isEmpty { return "--" }
         let temp: Double
@@ -49,13 +55,7 @@ struct WeatherInfoViewModel {
         case .min: temp = info.temperature.min
         case .max: temp = info.temperature.max
         }
-        return "\(Int(convertTemperature(temp)))º"
-    }
-    
-    private func convertTemperature(_ temp: Double) -> Int {
-        let measurement = Measurement<UnitTemperature>(value: temp, unit: .kelvin)
-            .converted(to: temperatureType.unitTemperature)
-        return Int(measurement.value)
+        return "\(Int(convertTemperature(temp, to: temperatureType.unitTemperature)))º"
     }
 }
 
@@ -73,14 +73,6 @@ private extension WeatherInformation.WeatherType {
         case .sunny: return "forest_sunny"
         case .cloudy: return "forest_cloudy"
         case .rainy: return "forest_rainy"
-        }
-    }
-    
-    var indicatorIconName: String {
-        switch self {
-        case .sunny: return "clear"
-        case .cloudy: return "partlysunny"
-        case .rainy: return "rain"
         }
     }
     
