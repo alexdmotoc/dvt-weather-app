@@ -31,7 +31,7 @@ final class WeatherViewModelTests: XCTestCase {
         XCTAssertEqual(sut.isLocationPermissionGranted, true)
     }
     
-    func test_getWeather_callsRepository() async {
+    func test_getWeather_callsUseCase() async {
         let (_, useCase, sut) = makeSUT()
         
         await sut.getWeather()
@@ -39,7 +39,7 @@ final class WeatherViewModelTests: XCTestCase {
         XCTAssertEqual(useCase.getWeatherCallCount, 1)
     }
     
-    func test_getWeatherTwice_callsRepositoryTwice() async {
+    func test_getWeatherTwice_callsUseCaseTwice() async {
         let (_, useCase, sut) = makeSUT()
         
         await sut.getWeather()
