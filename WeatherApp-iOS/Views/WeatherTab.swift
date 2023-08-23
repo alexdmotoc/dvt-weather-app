@@ -14,22 +14,28 @@ struct WeatherTab: View {
     @ObservedObject var appSettings: AppSettings
     
     var body: some View {
-        Group {
-            if viewModel.isLocationPermissionGranted {
-                if let currentWeather = store
-                    .weatherInformation
-                    .first(where: { $0.isCurrentLocation })
-                {
-                    WeatherView(weatherInfo: .init(
-                        info: currentWeather,
-                        temperatureType: appSettings.temperatureType
-                    ))
-                } else {
-                    Text("noWeather.message")
-                }
-            } else {
-                Text("NO PERMISSION")
-            }
+        if viewModel.isLocationPermissionGranted {
+            weatherContent
+        } else {
+            noLocationPermissionView
+        }
+    }
+    
+    @ViewBuilder
+    var weatherContent: some View {
+        let weather = store.weatherInformation.first(where: { $0.isCurrentLocation })
+        WeatherView(weatherInfo: .init(
+            info: weather ?? viewModel.emptyWeather,
+            temperatureType: appSettings.temperatureType
+        ))
+    }
+    
+    @ViewBuilder
+    var noLocationPermissionView: some View {
+        VStack {
+            Text("locationPermission.title").bold()
+            Text("locationPermission.message")
+            Link("locationPermission.openSettings", destination: URL(string: UIApplication.openSettingsURLString)!)
         }
     }
 }

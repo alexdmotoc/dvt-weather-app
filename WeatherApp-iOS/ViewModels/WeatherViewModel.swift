@@ -77,3 +77,17 @@ private extension CLLocation {
         .init(latitude: coordinate.latitude, longitude: coordinate.longitude)
     }
 }
+
+extension WeatherViewModel {
+    /// This is used when first launching the app to have a pleasant UI while the weather for current location is loading
+    /// 
+    var emptyWeather: WeatherInformation {
+        WeatherInformation(
+            isCurrentLocation: false,
+            location: .init(name: "--", coordinates: .init(latitude: 0, longitude: 0)),
+            temperature: .init(current: 0, min: 0, max: 0),
+            weatherType: .sunny,
+            forecast: []
+        )
+    }
+}

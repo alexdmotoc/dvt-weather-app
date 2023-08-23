@@ -14,3 +14,6 @@
 "fahrenheit.title" = "Fahrenheit";
 "weather.title" = "Weather";
 "settings.title" = "Settings";
+"locationPermission.title" = "You didn't enable location permission.";
+"locationPermission.message" = "We can't fetch the current location weather information for you. Please enable location permissions in the Settings app.";
+"locationPermission.openSettings" = "Open Settings app";
