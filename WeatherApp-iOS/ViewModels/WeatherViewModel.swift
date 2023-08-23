@@ -23,13 +23,15 @@ final class WeatherViewModel: NSObject, ObservableObject {
     @Published private(set) var isLocationPermissionGranted: Bool
     @Published private(set) var isErrorShown: Bool = false
     private(set) var errorMessage: String?
+    let weatherStore: WeatherInformationStore
     
     // MARK: - Lifecycle
     
-    init(locationManager: LocationManager, useCase: GetWeatherUseCase) {
+    init(locationManager: LocationManager, useCase: GetWeatherUseCase, weatherStore: WeatherInformationStore) {
         self.locationManager = locationManager
         self.isLocationPermissionGranted = locationManager.isAuthorized
         self.useCase = useCase
+        self.weatherStore = weatherStore
         super.init()
         setupLocationManager()
     }
@@ -44,8 +46,9 @@ final class WeatherViewModel: NSObject, ObservableObject {
     func getWeather() async {
         do {
             let results = try await useCase.getWeather(currentLocation: locationManager.currentLocation?.weatherAppCoordinates) { cachedWeather in
-
+                weatherStore.weatherInformation = cachedWeather
             }
+            weatherStore.weatherInformation = results
         } catch {
             errorMessage = error.localizedDescription
             isErrorShown = true

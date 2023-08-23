@@ -46,7 +46,8 @@ struct ContentView_Previews: PreviewProvider {
         ContentView(
             viewModel: WeatherViewModel(
                 locationManager: LocationManager(manager: MockCLLocationManager(isAuthorized: true)),
-                useCase: useCase
+                useCase: useCase,
+                weatherStore: WeatherInformationStore()
             )
         )
     }

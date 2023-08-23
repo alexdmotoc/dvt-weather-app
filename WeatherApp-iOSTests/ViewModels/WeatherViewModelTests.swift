@@ -61,6 +61,16 @@ final class WeatherViewModelTests: XCTestCase {
         XCTAssertEqual(sut.errorMessage, mockError.localizedDescription)
     }
     
+    func test_getWeather_onSuccessUpdatesWeatherStore() async {
+        let (_, useCase, sut) = makeSUT()
+        let mockResults = makeWeatherInformationArray()
+        
+        useCase.stub = .init(cache: [], result: mockResults, error: nil)
+        await sut.getWeather()
+        
+        XCTAssertEqual(sut.weatherStore.weatherInformation, mockResults)
+    }
+    
     func test_onLocationChange_callsGetWeather() {
         let (manager, useCase, sut) = makeSUT()
         XCTAssertFalse(sut.isLocationPermissionGranted) // silence unused warning; keeps reference to sut
@@ -91,11 +101,12 @@ final class WeatherViewModelTests: XCTestCase {
         manager.stubbedIsAuthorized = isAuthorized
         let useCase = MockGetWeatherUseCase()
         let locationManager = LocationManager(manager: manager)
-        let sut = WeatherViewModel(locationManager: locationManager, useCase: useCase)
-        
+        let store = WeatherInformationStore()
+        let sut = WeatherViewModel(locationManager: locationManager, useCase: useCase, weatherStore: store)
         checkIsDeallocated(sut: manager, file: file, line: line)
         checkIsDeallocated(sut: locationManager, file: file, line: line)
         checkIsDeallocated(sut: useCase, file: file, line: line)
+        checkIsDeallocated(sut: store, file: file, line: line)
         checkIsDeallocated(sut: sut, file: file, line: line)
         return (manager, useCase, sut)
     }

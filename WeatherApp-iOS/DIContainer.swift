@@ -34,6 +34,12 @@ enum DIContainer {
 
     private static let getWeatherUseCase: GetWeatherUseCase = GetWeatherUseCaseImpl(fetcher: remoteWeatherFetcher, cache: weatherCache)
     
+    private static let weatherStore = WeatherInformationStore()
+    
     @MainActor
-    private(set) static var weatherViewModel = WeatherViewModel(locationManager: locationManager, useCase: getWeatherUseCase)
+    private(set) static var weatherViewModel = WeatherViewModel(
+        locationManager: locationManager,
+        useCase: getWeatherUseCase,
+        weatherStore: weatherStore
+    )
 }
