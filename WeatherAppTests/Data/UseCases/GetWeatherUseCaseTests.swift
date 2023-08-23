@@ -1,22 +1,20 @@
 //
-//  WeatherRepositoryTests.swift
+//  GetWeatherUseCaseTests.swift
 //  WeatherAppTests
 //
-//  Created by Alex Motoc on 21.08.2023.
+//  Created by Alex Motoc on 23.08.2023.
 //
 
 import XCTest
 import WeatherApp
 
-class WeatherRepositoryTests: XCTestCase {
+class GetWeatherUseCaseTests: XCTestCase {
     func test_init_doesntProduceSideEffects() {
         let (fetcher, cache, _) = makeSUT()
         
         XCTAssertEqual(fetcher.fetchCount, 0)
         XCTAssertEqual(cache.messages, [])
     }
-    
-    // MARK: - Get weather tests
     
     func test_getWeather_callsCacheCompletion() async throws {
         let (_, cache, sut) = makeSUT()
@@ -45,22 +43,6 @@ class WeatherRepositoryTests: XCTestCase {
         try await assertSUTResults(currentLocation: { nil }, cachedWeather: cacheMock, remoteStub: remoteMock, resultsCount: cacheMock.count - 1)
     }
     
-    // MARK: - Add favourite location tests
-    
-    func test_addLocation_callsRemoteToFetchLocationAndAppendsFetchedLocationToCache() async throws {
-        let (fetcher, cache, sut) = makeSUT()
-        let remoteMock = makeWeatherInformationWithForecast()
-        let cacheMock = makeWeatherInformationArray()
-        fetcher.stub = (nil, remoteMock)
-        cache.stubbedWeather = cacheMock
-        
-        let added = try await sut.addFavouriteLocation(coordinates: Self.makeLocation())
-        
-        XCTAssertEqual(fetcher.fetchCount, 1)
-        XCTAssertEqual(added, remoteMock)
-        XCTAssertEqual(cache.messages, [.load, .save(cacheMock + [remoteMock])])
-    }
-    
     // MARK: - Helpers
     
     private func assertSUTResults(
@@ -86,54 +68,13 @@ class WeatherRepositoryTests: XCTestCase {
     private func makeSUT(
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (fetcher: RemoteWeatherFetcherSpy, cache: WeatherCacheSpy, sut: WeatherRepository) {
+    ) -> (fetcher: RemoteWeatherFetcherSpy, cache: WeatherCacheSpy, sut: GetWeatherUseCase) {
         let fetcher = RemoteWeatherFetcherSpy(weatherInformation: makeWeatherInformationWithForecast())
         let cache = WeatherCacheSpy()
-        let sut = WeatherRepositoryImpl(fetcher: fetcher, cache: cache)
+        let sut = GetWeatherUseCaseImpl(fetcher: fetcher, cache: cache)
         checkIsDeallocated(sut: fetcher, file: file, line: line)
         checkIsDeallocated(sut: cache, file: file, line: line)
         checkIsDeallocated(sut: sut, file: file, line: line)
         return (fetcher, cache, sut)
-    }
-    
-    private static func makeLocation() -> Coordinates {
-        .init(latitude: 10, longitude: 10)
-    }
-    
-    private class RemoteWeatherFetcherSpy: RemoteWeatherFetcher {
-        
-        init(error: Error? = nil, weatherInformation: WeatherInformation? = nil) {
-            stub = (error, weatherInformation)
-        }
-        
-        var stub: (error: Error?, weather: WeatherInformation?) = (nil, nil)
-        var fetchCount = 0
-        
-        func fetch(coordinates: Coordinates, isCurrentLocation: Bool) async throws -> WeatherInformation {
-            fetchCount += 1
-            if let error = stub.error { throw error }
-            if let weather = stub.weather { return weather }
-            throw NSError(domain: "spy", code: 0)
-        }
-    }
-    
-    private class WeatherCacheSpy: WeatherCache {
-        enum Message: Equatable {
-            case save([WeatherInformation])
-            case load
-        }
-        
-        var messages: [Message] = []
-        var stubbedWeather: [WeatherInformation] = []
-        
-        func save(_ weather: [WeatherInformation]) throws {
-            messages.append(.save(weather))
-            stubbedWeather = weather
-        }
-        
-        func load() throws -> [WeatherInformation] {
-            messages.append(.load)
-            return stubbedWeather
-        }
-    }
+    }   
 }

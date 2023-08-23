@@ -52,4 +52,8 @@ extension XCTestCase {
     func makeWeatherInformationArray(name: String = "mock") -> [WeatherInformation] {
         (0 ..< 5).map { index in makeWeatherInformationWithForecast(name: name, isCurrentLocation: index == 0) }
     }
+    
+    static func makeLocation() -> Coordinates {
+        .init(latitude: 10, longitude: 10)
+    }
 }

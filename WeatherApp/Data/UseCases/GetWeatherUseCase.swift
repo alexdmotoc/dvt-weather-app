@@ -1,20 +1,19 @@
 //
-//  WeatherRepository.swift
+//  GetWeatherUseCase.swift
 //  WeatherApp
 //
-//  Created by Alex Motoc on 21.08.2023.
+//  Created by Alex Motoc on 23.08.2023.
 //
 
 import Foundation
 
-public protocol WeatherRepository {
+public protocol GetWeatherUseCase {
     func getWeather(currentLocation: Coordinates?, cacheHandler: ([WeatherInformation]) -> Void) async throws -> [WeatherInformation]
-    func addFavouriteLocation(coordinates: Coordinates) async throws -> WeatherInformation
 }
 
 // MARK: - Implementation
 
-public final class WeatherRepositoryImpl: WeatherRepository {
+public final class GetWeatherUseCaseImpl: GetWeatherUseCase {
     
     private let fetcher: RemoteWeatherFetcher
     private let cache: WeatherCache
@@ -43,13 +42,5 @@ public final class WeatherRepositoryImpl: WeatherRepository {
         try cache.save(results)
         
         return results
-    }
-    
-    public func addFavouriteLocation(coordinates: Coordinates) async throws -> WeatherInformation {
-        let weather = try await fetcher.fetch(coordinates: coordinates, isCurrentLocation: false)
-        var cached = try cache.load()
-        cached.append(weather)
-        try cache.save(cached)
-        return weather
     }
 }
