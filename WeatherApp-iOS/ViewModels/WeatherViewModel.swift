@@ -21,7 +21,8 @@ final class WeatherViewModel: NSObject, ObservableObject {
     // MARK: - Public properties
     
     @Published private(set) var isLocationPermissionGranted: Bool
-    @Published private(set) var errorMessage: String?
+    @Published private(set) var isErrorShown: Bool = false
+    private(set) var errorMessage: String?
     
     // MARK: - Lifecycle
     
@@ -46,7 +47,8 @@ final class WeatherViewModel: NSObject, ObservableObject {
 
             }
         } catch {
-//            errorMessage = error.localizedDescription
+            errorMessage = error.localizedDescription
+            isErrorShown = true
         }
     }
     

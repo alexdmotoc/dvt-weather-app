@@ -48,6 +48,19 @@ final class WeatherViewModelTests: XCTestCase {
         XCTAssertEqual(useCase.getWeatherCallCount, 2)
     }
     
+    func test_getWeather_onErrorUpdatesEncounteredErrorMessage() async {
+        let (_, useCase, sut) = makeSUT()
+        let mockError = makeNSError()
+        XCTAssertFalse(sut.isErrorShown)
+        XCTAssertNil(sut.errorMessage)
+        
+        useCase.stub = .init(cache: [], result: [], error: mockError)
+        await sut.getWeather()
+        
+        XCTAssertTrue(sut.isErrorShown)
+        XCTAssertEqual(sut.errorMessage, mockError.localizedDescription)
+    }
+    
     func test_onLocationChange_callsGetWeather() {
         let (manager, useCase, sut) = makeSUT()
         XCTAssertFalse(sut.isLocationPermissionGranted) // silence unused warning; keeps reference to sut
