@@ -32,10 +32,11 @@ struct WeatherTab: View {
     
     @ViewBuilder
     var noLocationPermissionView: some View {
-        VStack {
+        VStack(spacing: 20) {
             Text("locationPermission.title").bold()
             Text("locationPermission.message")
             Link("locationPermission.openSettings", destination: URL(string: UIApplication.openSettingsURLString)!)
         }
+        .padding()
     }
 }

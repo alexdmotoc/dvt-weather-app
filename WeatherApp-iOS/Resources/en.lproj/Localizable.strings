@@ -17,3 +17,9 @@
 "locationPermission.title" = "You didn't enable location permission.";
 "locationPermission.message" = "We can't fetch the current location weather information for you. Please enable location permissions in the Settings app.";
 "locationPermission.openSettings" = "Open Settings app";
+"sunny.title" = "SUNNY";
+"cloudy.title" = "CLOUDY";
+"rainy.title" = "RAINY";
+"weatherValue.current.title" = "Current";
+"weatherValue.min.title" = "min";
+"weatherValue.max.title" = "max";

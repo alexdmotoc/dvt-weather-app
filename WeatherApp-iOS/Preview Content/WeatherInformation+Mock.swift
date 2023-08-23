@@ -17,6 +17,16 @@ extension WeatherInformation {
             forecast: (0 ..< 5).map { _ in WeatherInformation.Forecast.makeMock() }
         )
     }
+    
+    static var emptyWeather: WeatherInformation {
+        WeatherInformation(
+            isCurrentLocation: false,
+            location: .init(name: "--", coordinates: .init(latitude: 0, longitude: 0)),
+            temperature: .init(current: 0, min: 0, max: 0),
+            weatherType: .sunny,
+            forecast: []
+        )
+    }
 }
 
 extension WeatherInformation.Forecast {
