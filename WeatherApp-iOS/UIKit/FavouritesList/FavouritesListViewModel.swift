@@ -7,6 +7,7 @@
 
 import Foundation
 import WeatherApp
+import CoreLocation
 
 final class FavouritesListViewModel {
     private let store: WeatherInformationStore
@@ -15,5 +16,11 @@ final class FavouritesListViewModel {
     init(store: WeatherInformationStore, useCase: FavouriteLocationUseCase) {
         self.store = store
         self.useCase = useCase
+    }
+    
+    @MainActor
+    func addFavouriteLocation(coordinate: CLLocationCoordinate2D) async throws {
+        let location = try await useCase.addFavouriteLocation(coordinates: Coordinates(latitude: coordinate.latitude, longitude: coordinate.longitude))
+        store.weatherInformation.append(location)
     }
 }

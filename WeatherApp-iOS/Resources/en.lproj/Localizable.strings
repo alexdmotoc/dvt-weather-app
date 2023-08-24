@@ -26,3 +26,5 @@
 "weatherValue.min.title" = "min";
 "weatherValue.max.title" = "max";
 "lastUpdated.format" = "Last updated: %@";
+"searchBar.placeholder" = "Search for a location";
+"error.searchLocationFailed.message" = "Didn't find any locations for your search term";

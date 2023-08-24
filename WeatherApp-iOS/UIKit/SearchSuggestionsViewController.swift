@@ -22,10 +22,12 @@ class SearchSuggestionsViewController: UIViewController {
     
     // MARK: - Private properties
     
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Row>! = nil
-    private var collectionView: UICollectionView!
-    private let searchRegion = MKCoordinateRegion(MKMapRect.world)
     private var searchCompleter: MKLocalSearchCompleter?
+    
+    // MARK: - Public properties
+    
+    private(set) var collectionView: UICollectionView!
+    private(set) var dataSource: UICollectionViewDiffableDataSource<Section, Row>! = nil
     
     // MARK: - Lifecycle
     
@@ -63,7 +65,7 @@ class SearchSuggestionsViewController: UIViewController {
     
     private func createLayout() -> UICollectionViewLayout {
         UICollectionViewCompositionalLayout { section, layoutEnvironment in
-            var config = UICollectionLayoutListConfiguration(appearance: .grouped)
+            let config = UICollectionLayoutListConfiguration(appearance: .grouped)
             return NSCollectionLayoutSection.list(using: config, layoutEnvironment: layoutEnvironment)
         }
     }
@@ -75,6 +77,11 @@ class SearchSuggestionsViewController: UIViewController {
             content.attributedText = self?.createHighlightedString(text: suggestion.title, rangeValues: suggestion.titleHighlightRanges)
             content.secondaryAttributedText = self?.createHighlightedString(text: suggestion.subtitle, rangeValues: suggestion.subtitleHighlightRanges)
             cell.contentConfiguration = content
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, Row>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, item: Row) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
         }
     }
     
@@ -93,7 +100,7 @@ class SearchSuggestionsViewController: UIViewController {
     private func startProvidingCompletions() {
         searchCompleter = MKLocalSearchCompleter()
         searchCompleter?.delegate = self
-        searchCompleter?.region = searchRegion
+        searchCompleter?.region = MKCoordinateRegion(MKMapRect.world)
         searchCompleter?.resultTypes = .address
     }
     

@@ -9,6 +9,7 @@ import Foundation
 import WeatherApp
 import Combine
 
+@MainActor
 final class MapTabViewModel: ObservableObject {
     struct IdentifiableWeatherInformation: Identifiable {
         let id = UUID()

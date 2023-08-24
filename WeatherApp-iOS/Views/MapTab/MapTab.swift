@@ -11,7 +11,7 @@ import MapKit
 struct MapTab: View {
     
     @ObservedObject private var viewModel: MapTabViewModel
-    @State private var mapRegion: MKCoordinateRegion
+    private let mapRegion: MKCoordinateRegion
     
     init(viewModel: MapTabViewModel) {
         self.viewModel = viewModel
@@ -25,17 +25,11 @@ struct MapTab: View {
     
     var body: some View {
         Map(
-            coordinateRegion: $mapRegion,
+            coordinateRegion: .constant(mapRegion),
             showsUserLocation: true,
             annotationItems: viewModel.weather.filter({ !$0.weather.isCurrentLocation })
         ) { weather in
-            MapAnnotation(coordinate: weather.weather.location.coordinates.toCLCoordinates) {
-                Text(weather.weather.location.name)
-                    .bold()
-                    .padding()
-                    .background(Ellipse().fill(Color.red))
-                    .foregroundColor(.white)
-            }
+            MapMarker(coordinate: weather.weather.location.coordinates.toCLCoordinates)
         }
         .edgesIgnoringSafeArea(.all)
     }

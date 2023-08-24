@@ -14,8 +14,6 @@ struct ContentView: View {
     @ObservedObject private var appSettings: AppSettings
     private let favouritesViewModel: FavouritesListViewModel
     
-    @State private var tabSelection: Int = 1
-    
     init(viewModel: WeatherViewModel, favouritesViewModel: FavouritesListViewModel, appSettings: AppSettings) {
         self.viewModel = viewModel
         self.favouritesViewModel = favouritesViewModel
@@ -24,13 +22,7 @@ struct ContentView: View {
     }
     
     var body: some View {
-        TabView(selection: $tabSelection) {
-            
-            MapTab(viewModel: MapTabViewModel(store: viewModel.weatherStore))
-                .tabItem {
-                    Label("map.title", systemImage: "map")
-                }
-                .tag(0)
+        TabView {
             
             WeatherTab(
                 viewModel: viewModel,
@@ -40,7 +32,6 @@ struct ContentView: View {
             .tabItem {
                 Label("weather.title", systemImage: "cloud.sun")
             }
-            .tag(1)
             
             FavouritesTab(viewModel: favouritesViewModel)
                 .edgesIgnoringSafeArea(.top)
@@ -48,11 +39,15 @@ struct ContentView: View {
                     Label("favourites.title", systemImage: "heart")
                 }
             
+            MapTab(viewModel: MapTabViewModel(store: viewModel.weatherStore))
+                .tabItem {
+                    Label("map.title", systemImage: "map")
+                }
+            
             SettingsTab(appSettings: appSettings)
                 .tabItem {
                     Label("settings.title", systemImage: "gear")
                 }
-                .tag(3)
         }
         .onAppear {
             // add tabbar background

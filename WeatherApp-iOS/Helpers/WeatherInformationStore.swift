@@ -8,6 +8,7 @@
 import Foundation
 import WeatherApp
 
+@MainActor
 class WeatherInformationStore: ObservableObject {
     @Published var weatherInformation: [WeatherInformation]
     
