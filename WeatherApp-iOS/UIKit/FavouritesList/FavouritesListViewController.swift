@@ -31,6 +31,7 @@ class FavouritesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = NSLocalizedString("favourites.title", comment: "")
+        view.backgroundColor = .systemGroupedBackground
         configureSearchController()
         configureViewHierarchy()
         configureDataSource()
@@ -56,6 +57,7 @@ class FavouritesListViewController: UIViewController {
     private func configureViewHierarchy() {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeCollectionViewLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
         
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
@@ -70,11 +72,12 @@ class FavouritesListViewController: UIViewController {
     
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<FavouritesListCell, FavouriteItemsListData.Item> { cell, indexPath, item in
-            cell.titleLabel.text = item.locationName
-            cell.subtitleLabel.text = "SUNNY"
+            cell.titleLabel.text = item.isCurrentLocation ? NSLocalizedString("currentLocation.title", comment: "") : item.locationName
+            cell.subtitleLabel.text = item.isCurrentLocation ? item.locationName : NSLocalizedString(item.weatherTypeTitleKey, comment: "").localizedCapitalized
             cell.currentTemperatureLabel.text = "\(item.currentTemperature)º"
-            cell.minTemperatureLabel.text = "\(item.minTemperature)º"
-            cell.maxTemperatureLabel.text = "\(item.maxTemperature)º"
+            cell.minTemperatureLabel.text = String(format: NSLocalizedString("temperature.cell.min.format", comment: ""), "\(item.minTemperature)º")
+            cell.maxTemperatureLabel.text = String(format: NSLocalizedString("temperature.cell.max.format", comment: ""), "\(item.maxTemperature)º")
+            cell.contentView.backgroundColor = UIColor(named: item.backgroundColorName)
         }
         
         dataSource = UICollectionViewDiffableDataSource<FavouriteItemsListData.Section, FavouriteItemsListData.Item>(collectionView: collectionView) {

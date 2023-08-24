@@ -48,11 +48,11 @@ final class FavouritesListViewModel {
                 self?.didReloadItems?(self?.items ?? [])
             })
         
-        let tempType = appSettings.temperatureType
         itemsObservation = store.$weatherInformation
             .receive(on: DispatchQueue.main)
-            .sink(receiveValue: { [weak self] items in
-                self?.items = items.map { $0.toListData(unitTemperature: tempType.unitTemperature) }
+            .sink(receiveValue: { [weak self, weak appSettings] items in
+                guard let appSettings else { return }
+                self?.items = items.map { $0.toListData(unitTemperature: appSettings.temperatureType.unitTemperature) }
                 self?.didReloadItems?(self?.items ?? [])
             })
     }
@@ -103,8 +103,6 @@ final class FavouritesListViewModel {
     private func addFavouriteLocation(coordinate: CLLocationCoordinate2D) async throws {
         let location = try await useCase.addFavouriteLocation(coordinates: Coordinates(latitude: coordinate.latitude, longitude: coordinate.longitude))
         store.weatherInformation.append(location)
-        let item = location.toListData(unitTemperature: appSettings.temperatureType.unitTemperature)
-        items.append(item)
     }
 }
 
@@ -130,6 +128,8 @@ private extension WeatherInformation {
         .init(
             locationName: location.name,
             isCurrentLocation: isCurrentLocation,
+            weatherTypeTitleKey: weatherType.titleLocalizedKey,
+            backgroundColorName: weatherType.backgroundColorName,
             currentTemperature: convertTemperature(temperature.current, to: unitTemperature),
             minTemperature: convertTemperature(temperature.min, to: unitTemperature),
             maxTemperature: convertTemperature(temperature.max, to: unitTemperature)

@@ -62,27 +62,11 @@ struct WeatherInfoViewModel {
 }
 
 private extension WeatherInformation.WeatherType {
-    var backgroundColorName: String {
-        switch self {
-        case .sunny: return "sunny"
-        case .cloudy: return "cloudy"
-        case .rainy: return "rainy"
-        }
-    }
-    
     var backgroundImageName: String {
         switch self {
         case .sunny: return "forest_sunny"
         case .cloudy: return "forest_cloudy"
         case .rainy: return "forest_rainy"
-        }
-    }
-    
-    var titleLocalizedKey: String {
-        switch self {
-        case .sunny: return "sunny.title"
-        case .cloudy: return "cloudy.title"
-        case .rainy: return "rainy.title"
         }
     }
 }

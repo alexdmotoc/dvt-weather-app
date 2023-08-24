@@ -32,6 +32,7 @@ class SearchSuggestionsViewController: UIViewController {
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
+        view.backgroundColor = .systemGroupedBackground
         configureViewHierarchy()
         configureDataSource()
     }
@@ -57,6 +58,7 @@ class SearchSuggestionsViewController: UIViewController {
     private func configureViewHierarchy() {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
         
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([

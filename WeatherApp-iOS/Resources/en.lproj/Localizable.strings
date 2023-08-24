@@ -28,3 +28,6 @@
 "lastUpdated.format" = "Last updated: %@";
 "searchBar.placeholder" = "Search for a location";
 "error.searchLocationFailed.message" = "Didn't find any locations for your search term";
+"currentLocation.title" = "My location";
+"temperature.cell.min.format" = "L:%@";
+"temperature.cell.max.format" = "H:%@";

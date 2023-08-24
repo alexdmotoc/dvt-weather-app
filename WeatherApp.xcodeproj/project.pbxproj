@@ -66,6 +66,7 @@
 		87768C4D2A97D0EA0050B4AC /* FavouriteItemsListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C4C2A97D0EA0050B4AC /* FavouriteItemsListData.swift */; };
 		87768C4F2A97D5EF0050B4AC /* FavouritesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C4E2A97D5EF0050B4AC /* FavouritesListCell.swift */; };
 		87768C532A97E6FE0050B4AC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87768C552A97E6FE0050B4AC /* Localizable.strings */; };
+		87768C572A97EC3B0050B4AC /* WeatherInformation+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C562A97EC3B0050B4AC /* WeatherInformation+Utils.swift */; };
 		877D49D52A95034800AA41D3 /* WeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8704C4E92A90CDCE0076BB69 /* WeatherApp.framework */; };
 		877D49D62A95034800AA41D3 /* WeatherApp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8704C4E92A90CDCE0076BB69 /* WeatherApp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		877D49DC2A950A4E00AA41D3 /* CLLocationManager+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877D49DB2A950A4E00AA41D3 /* CLLocationManager+Utils.swift */; };
@@ -210,6 +211,7 @@
 		87768C4C2A97D0EA0050B4AC /* FavouriteItemsListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteItemsListData.swift; sourceTree = "<group>"; };
 		87768C4E2A97D5EF0050B4AC /* FavouritesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesListCell.swift; sourceTree = "<group>"; };
 		87768C542A97E6FE0050B4AC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		87768C562A97EC3B0050B4AC /* WeatherInformation+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherInformation+Utils.swift"; sourceTree = "<group>"; };
 		877D49DB2A950A4E00AA41D3 /* CLLocationManager+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+Utils.swift"; sourceTree = "<group>"; };
 		877D49DF2A9517CC00AA41D3 /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		877D49E12A95188000AA41D3 /* MockCLLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCLLocationManager.swift; sourceTree = "<group>"; };
@@ -602,6 +604,7 @@
 				87ACFBBD2A9609B600068877 /* WeatherInformationStore.swift */,
 				87768C342A96A4CB0050B4AC /* WeatherViewHelpers.swift */,
 				87768C2B2A965F350050B4AC /* AppSettings.swift */,
+				87768C562A97EC3B0050B4AC /* WeatherInformation+Utils.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -968,6 +971,7 @@
 			files = (
 				877D49E22A95188000AA41D3 /* MockCLLocationManager.swift in Sources */,
 				87768C3F2A976E460050B4AC /* MapTabViewModel.swift in Sources */,
+				87768C572A97EC3B0050B4AC /* WeatherInformation+Utils.swift in Sources */,
 				874C646B2A94F63C00D0185F /* ContentView.swift in Sources */,
 				87768C302A966D670050B4AC /* SettingsTab.swift in Sources */,
 				87768C2E2A9669340050B4AC /* WeatherTab.swift in Sources */,

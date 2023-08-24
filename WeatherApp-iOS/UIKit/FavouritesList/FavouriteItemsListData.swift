@@ -15,6 +15,8 @@ enum FavouriteItemsListData {
     struct Item: Hashable {
         let locationName: String
         let isCurrentLocation: Bool
+        let weatherTypeTitleKey: String
+        let backgroundColorName: String
         let currentTemperature: Int
         let minTemperature: Int
         let maxTemperature: Int
