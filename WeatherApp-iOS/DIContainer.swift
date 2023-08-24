@@ -34,6 +34,8 @@ enum DIContainer {
 
     private static let getWeatherUseCase: GetWeatherUseCase = GetWeatherUseCaseImpl(fetcher: remoteWeatherFetcher, cache: weatherCache)
     
+    private static let favouritesUseCase: FavouriteLocationUseCase = FavouriteLocationUseCaseImpl(fetcher: remoteWeatherFetcher, cache: weatherCache)
+    
     private static let weatherStore = WeatherInformationStore()
     
     @MainActor
@@ -42,4 +44,6 @@ enum DIContainer {
         useCase: getWeatherUseCase,
         weatherStore: weatherStore
     )
+    
+    static let favouritesViewModel = FavouritesListViewModel(store: weatherStore, useCase: favouritesUseCase)
 }

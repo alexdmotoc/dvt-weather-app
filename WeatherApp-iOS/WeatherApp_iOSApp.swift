@@ -11,7 +11,11 @@ import SwiftUI
 struct WeatherApp_iOSApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: DIContainer.weatherViewModel, appSettings: AppSettings())
+            ContentView(
+                viewModel: DIContainer.weatherViewModel,
+                favouritesViewModel: DIContainer.favouritesViewModel,
+                appSettings: AppSettings()
+            )
         }
     }
 }

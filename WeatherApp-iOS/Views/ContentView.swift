@@ -9,14 +9,16 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @ObservedObject var viewModel: WeatherViewModel
-    @ObservedObject var store: WeatherInformationStore
-    @ObservedObject var appSettings: AppSettings
+    @ObservedObject private var viewModel: WeatherViewModel
+    @ObservedObject private var store: WeatherInformationStore
+    @ObservedObject private var appSettings: AppSettings
+    private let favouritesViewModel: FavouritesListViewModel
     
     @State private var tabSelection: Int = 1
     
-    init(viewModel: WeatherViewModel, appSettings: AppSettings) {
+    init(viewModel: WeatherViewModel, favouritesViewModel: FavouritesListViewModel, appSettings: AppSettings) {
         self.viewModel = viewModel
+        self.favouritesViewModel = favouritesViewModel
         self.appSettings = appSettings
         self.store = viewModel.weatherStore
     }
@@ -40,7 +42,8 @@ struct ContentView: View {
             }
             .tag(1)
             
-            FavouritesTab()
+            FavouritesTab(viewModel: favouritesViewModel)
+                .edgesIgnoringSafeArea(.top)
                 .tabItem {
                     Label("favourites.title", systemImage: "heart")
                 }
@@ -99,6 +102,7 @@ struct ContentView_Previews: PreviewProvider {
                 useCase: useCase,
                 weatherStore: WeatherInformationStore()
             ),
+            favouritesViewModel: FavouritesListViewModel(store: WeatherInformationStore(), useCase: MockFavouriteLocationUseCase()),
             appSettings: AppSettings()
         )
     }

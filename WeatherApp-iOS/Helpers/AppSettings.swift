@@ -20,18 +20,18 @@ enum TemperatureType: Int, CaseIterable {
 
 final class AppSettings: ObservableObject {
     
+    private let defaults: UserDefaults
+    private static let tempTypeKey = "com.AppSettings.tempType"
+    
     @Published var temperatureType: TemperatureType {
         didSet {
-            UserDefaults.standard.set(temperatureType.rawValue, forKey: "com.AppSettings.tempType")
+            defaults.set(temperatureType.rawValue, forKey: Self.tempTypeKey)
         }
     }
     
-    init() {
-        temperatureType = Self.currentTempType
-    }
-    
-    private static var currentTempType: TemperatureType {
-        let raw = UserDefaults.standard.integer(forKey: "com.AppSettings.tempType")
-        return .init(rawValue: raw) ?? .celsius
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
+        let raw = defaults.integer(forKey: Self.tempTypeKey)
+        temperatureType = .init(rawValue: raw) ?? .celsius
     }
 }

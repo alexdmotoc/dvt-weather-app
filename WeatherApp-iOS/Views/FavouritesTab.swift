@@ -7,14 +7,24 @@
 
 import SwiftUI
 
-struct FavouritesTab: View {
-    var body: some View {
-        Text("Hello, World!")
+struct FavouritesTab: UIViewControllerRepresentable {
+    
+    let viewModel: FavouritesListViewModel
+    
+    func makeUIViewController(context: Context) -> UINavigationController {
+        let vc = FavouritesListViewController(viewModel: viewModel)
+        let nav = UINavigationController(rootViewController: vc)
+        nav.navigationBar.prefersLargeTitles = true
+        return nav
+    }
+    
+    func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
+        
     }
 }
 
 struct FavouritesTab_Previews: PreviewProvider {
     static var previews: some View {
-        FavouritesTab()
+        FavouritesTab(viewModel: .init(store: WeatherInformationStore(), useCase: MockFavouriteLocationUseCase()))
     }
 }

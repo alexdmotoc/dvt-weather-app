@@ -8,7 +8,6 @@
 import Foundation
 
 func convertTemperature(_ temp: Double, to unit: UnitTemperature) -> Int {
-    let measurement = Measurement<UnitTemperature>(value: temp, unit: .kelvin)
-        .converted(to: unit)
+    let measurement = Measurement<UnitTemperature>(value: temp, unit: .kelvin).converted(to: unit)
     return Int(measurement.value)
 }
