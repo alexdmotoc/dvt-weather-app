@@ -11,7 +11,7 @@ extension WeatherInformation {
     static func makeMock(name: String, isCurrentLocation: Bool, weatherType: WeatherInformation.WeatherType) -> WeatherInformation {
         WeatherInformation(
             isCurrentLocation: isCurrentLocation,
-            location: Location(name: name, coordinates: Coordinates(latitude: 19, longitude: 29)),
+            location: Location(name: name, coordinates: Coordinates(latitude: 46.770439, longitude: 23.591423)),
             temperature: Temperature(current: 200, min: 180, max: 220),
             weatherType: weatherType,
             forecast: (0 ..< 5).map { _ in WeatherInformation.Forecast.makeMock() }

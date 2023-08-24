@@ -24,7 +24,7 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $tabSelection) {
             
-            MapTab()
+            MapTab(store: viewModel.weatherStore)
                 .tabItem {
                     Label("map.title", systemImage: "map")
                 }
@@ -52,6 +52,11 @@ struct ContentView: View {
                 .tag(3)
         }
         .onAppear {
+            // add tabbar background
+            let tabBarAppearance = UITabBarAppearance()
+            tabBarAppearance.configureWithDefaultBackground()
+            UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+            
             viewModel.requestLocationPermission()
         }
         .task {
