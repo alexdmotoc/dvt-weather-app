@@ -9,6 +9,7 @@ import XCTest
 import WeatherApp
 @testable import WeatherApp_iOS
 
+@MainActor
 class MapTabViewModelTests: XCTestCase {
     func test_init_populatesWeatherArrayWithDataFromStore() {
         let items = makeWeatherInformationArray()
