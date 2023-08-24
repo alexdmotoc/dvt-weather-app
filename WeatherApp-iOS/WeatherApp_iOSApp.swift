@@ -14,7 +14,7 @@ struct WeatherApp_iOSApp: App {
             ContentView(
                 viewModel: DIContainer.weatherViewModel,
                 favouritesViewModel: DIContainer.favouritesViewModel,
-                appSettings: AppSettings()
+                appSettings: DIContainer.appSettings
             )
         }
     }

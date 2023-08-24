@@ -62,6 +62,9 @@
 		87768C442A9797C30050B4AC /* FavouritesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C432A9797C30050B4AC /* FavouritesListViewController.swift */; };
 		87768C462A9797F00050B4AC /* FavouritesListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C452A9797F00050B4AC /* FavouritesListViewModel.swift */; };
 		87768C492A97A0D90050B4AC /* SearchSuggestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C482A97A0D90050B4AC /* SearchSuggestionsViewController.swift */; };
+		87768C4B2A97D0030050B4AC /* FavouritesListViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C4A2A97D0030050B4AC /* FavouritesListViewController+Utils.swift */; };
+		87768C4D2A97D0EA0050B4AC /* FavouriteItemsListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C4C2A97D0EA0050B4AC /* FavouriteItemsListData.swift */; };
+		87768C4F2A97D5EF0050B4AC /* FavouritesListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C4E2A97D5EF0050B4AC /* FavouritesListCell.swift */; };
 		877D49D52A95034800AA41D3 /* WeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8704C4E92A90CDCE0076BB69 /* WeatherApp.framework */; };
 		877D49D62A95034800AA41D3 /* WeatherApp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8704C4E92A90CDCE0076BB69 /* WeatherApp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		877D49DC2A950A4E00AA41D3 /* CLLocationManager+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877D49DB2A950A4E00AA41D3 /* CLLocationManager+Utils.swift */; };
@@ -202,6 +205,9 @@
 		87768C432A9797C30050B4AC /* FavouritesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesListViewController.swift; sourceTree = "<group>"; };
 		87768C452A9797F00050B4AC /* FavouritesListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesListViewModel.swift; sourceTree = "<group>"; };
 		87768C482A97A0D90050B4AC /* SearchSuggestionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsViewController.swift; sourceTree = "<group>"; };
+		87768C4A2A97D0030050B4AC /* FavouritesListViewController+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FavouritesListViewController+Utils.swift"; sourceTree = "<group>"; };
+		87768C4C2A97D0EA0050B4AC /* FavouriteItemsListData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouriteItemsListData.swift; sourceTree = "<group>"; };
+		87768C4E2A97D5EF0050B4AC /* FavouritesListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesListCell.swift; sourceTree = "<group>"; };
 		877D49DB2A950A4E00AA41D3 /* CLLocationManager+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+Utils.swift"; sourceTree = "<group>"; };
 		877D49DF2A9517CC00AA41D3 /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		877D49E12A95188000AA41D3 /* MockCLLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCLLocationManager.swift; sourceTree = "<group>"; };
@@ -547,8 +553,11 @@
 		87768C472A979FA50050B4AC /* FavouritesList */ = {
 			isa = PBXGroup;
 			children = (
+				87768C4E2A97D5EF0050B4AC /* FavouritesListCell.swift */,
 				87768C432A9797C30050B4AC /* FavouritesListViewController.swift */,
 				87768C452A9797F00050B4AC /* FavouritesListViewModel.swift */,
+				87768C4A2A97D0030050B4AC /* FavouritesListViewController+Utils.swift */,
+				87768C4C2A97D0EA0050B4AC /* FavouriteItemsListData.swift */,
 			);
 			path = FavouritesList;
 			sourceTree = "<group>";
@@ -961,10 +970,13 @@
 				87768C332A96A4AC0050B4AC /* ForecastViewModel.swift in Sources */,
 				87768C442A9797C30050B4AC /* FavouritesListViewController.swift in Sources */,
 				877D49E72A953D4800AA41D3 /* WeatherInformation+Mock.swift in Sources */,
+				87768C4B2A97D0030050B4AC /* FavouritesListViewController+Utils.swift in Sources */,
 				87768C2C2A965F350050B4AC /* AppSettings.swift in Sources */,
 				87768C462A9797F00050B4AC /* FavouritesListViewModel.swift in Sources */,
+				87768C4F2A97D5EF0050B4AC /* FavouritesListCell.swift in Sources */,
 				874C64692A94F63C00D0185F /* WeatherApp_iOSApp.swift in Sources */,
 				87768C252A9654CB0050B4AC /* WeatherInfoViewModel.swift in Sources */,
+				87768C4D2A97D0EA0050B4AC /* FavouriteItemsListData.swift in Sources */,
 				877D49E52A953A4C00AA41D3 /* MockGetWeatherUseCase.swift in Sources */,
 				87768C392A9741CF0050B4AC /* FavouritesTab.swift in Sources */,
 				877D49DC2A950A4E00AA41D3 /* CLLocationManager+Utils.swift in Sources */,
@@ -1185,11 +1197,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
@@ -1222,11 +1236,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++20";
@@ -1323,7 +1339,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1357,7 +1373,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

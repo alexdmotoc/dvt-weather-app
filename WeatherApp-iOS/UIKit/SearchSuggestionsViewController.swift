@@ -133,7 +133,6 @@ extension SearchSuggestionsViewController: MKLocalSearchCompleterDelegate {
     }
     
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-        // Handle any errors that `MKLocalSearchCompleter` returns.
         if let error = error as NSError? {
             print("MKLocalSearchCompleter encountered an error: \(error.localizedDescription). The query fragment is: \"\(completer.queryFragment)\"")
         }

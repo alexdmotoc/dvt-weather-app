@@ -38,6 +38,8 @@ enum DIContainer {
     
     private static let weatherStore = WeatherInformationStore()
     
+    static let appSettings = AppSettings()
+    
     @MainActor
     private(set) static var weatherViewModel = WeatherViewModel(
         locationManager: locationManager,
@@ -45,5 +47,9 @@ enum DIContainer {
         weatherStore: weatherStore
     )
     
-    static let favouritesViewModel = FavouritesListViewModel(store: weatherStore, useCase: favouritesUseCase)
+    static let favouritesViewModel = FavouritesListViewModel(
+        store: weatherStore,
+        useCase: favouritesUseCase,
+        appSettings: appSettings
+    )
 }

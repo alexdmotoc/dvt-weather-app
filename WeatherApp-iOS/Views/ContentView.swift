@@ -97,7 +97,7 @@ struct ContentView_Previews: PreviewProvider {
                 useCase: useCase,
                 weatherStore: WeatherInformationStore()
             ),
-            favouritesViewModel: FavouritesListViewModel(store: WeatherInformationStore(), useCase: MockFavouriteLocationUseCase()),
+            favouritesViewModel: FavouritesListViewModel(store: WeatherInformationStore(), useCase: MockFavouriteLocationUseCase(), appSettings: AppSettings()),
             appSettings: AppSettings()
         )
     }

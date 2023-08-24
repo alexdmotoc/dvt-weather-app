@@ -14,6 +14,8 @@ class FavouritesListViewController: UIViewController {
     private let viewModel: FavouritesListViewModel
     private var suggestionController: SearchSuggestionsViewController!
     private var searchController: UISearchController!
+    private var dataSource: UICollectionViewDiffableDataSource<FavouriteItemsListData.Section, FavouriteItemsListData.Item>! = nil
+    private var collectionView: UICollectionView!
     
     // MARK: - Lifecycle
     
@@ -30,6 +32,9 @@ class FavouritesListViewController: UIViewController {
         super.viewDidLoad()
         title = NSLocalizedString("favourites.title", comment: "")
         configureSearchController()
+        configureViewHierarchy()
+        configureDataSource()
+        bindViewModel()
     }
     
     // MARK: - Private methods
@@ -41,11 +46,48 @@ class FavouritesListViewController: UIViewController {
         
         searchController.delegate = self
         searchController.searchBar.delegate = self
-        searchController.searchBar.placeholder = NSLocalizedString("searchBar.placeholder", comment: "Search bar placeholder text")
+        searchController.searchBar.placeholder = NSLocalizedString("searchBar.placeholder", comment: "")
         
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
+    }
+    
+    private func configureViewHierarchy() {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeCollectionViewLayout())
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(collectionView)
+        NSLayoutConstraint.activate([
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            view.trailingAnchor.constraint(equalTo: collectionView.trailingAnchor),
+            view.bottomAnchor.constraint(equalTo: collectionView.bottomAnchor)
+        ])
+        
+        self.collectionView = collectionView
+    }
+    
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<FavouritesListCell, FavouriteItemsListData.Item> { cell, indexPath, item in
+            cell.titleLabel.text = item.locationName
+            cell.subtitleLabel.text = "SUNNY"
+            cell.currentTemperatureLabel.text = "\(item.currentTemperature)º"
+            cell.minTemperatureLabel.text = "\(item.minTemperature)º"
+            cell.maxTemperatureLabel.text = "\(item.maxTemperature)º"
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<FavouriteItemsListData.Section, FavouriteItemsListData.Item>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, item: FavouriteItemsListData.Item) -> UICollectionViewCell? in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+        }
+        
+        didReloadItems(viewModel.items)
+    }
+    
+    private func bindViewModel() {
+        viewModel.displayError = displayError
+        viewModel.didReloadItems = didReloadItems
     }
     
     private func displayError(_ error: Swift.Error) {
@@ -54,6 +96,12 @@ class FavouritesListViewController: UIViewController {
         let okAction = UIAlertAction(title: NSLocalizedString("dismiss.title", comment: ""), style: .cancel)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
+    }
+    
+    private func didReloadItems(_ items: [FavouriteItemsListData.Item]) {
+        var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<FavouriteItemsListData.Item>()
+        sectionSnapshot.append(items)
+        dataSource.apply(sectionSnapshot, to: .main, animatingDifferences: true)
     }
 }
 
