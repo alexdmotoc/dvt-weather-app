@@ -24,6 +24,7 @@ final class WeatherViewModel: NSObject, ObservableObject {
         return formatter
     }()
     private static let lastUpdatedKey = "com.weatherViewModel.lastUpdated"
+    private var isGettingWeather: Bool = false
     
     // MARK: - Public properties
     
@@ -59,6 +60,8 @@ final class WeatherViewModel: NSObject, ObservableObject {
     
     @MainActor
     func getWeather() async {
+        guard !isGettingWeather else { return }
+        isGettingWeather = true
         do {
             let results = try await useCase.getWeather(currentLocation: locationManager.currentLocation?.weatherAppCoordinates) { [weak self] cachedWeather in
                 DispatchQueue.main.async {
@@ -72,6 +75,7 @@ final class WeatherViewModel: NSObject, ObservableObject {
             errorMessage = error.localizedDescription
             isErrorShown = true
         }
+        isGettingWeather = false
     }
     
     // MARK: - Private methods

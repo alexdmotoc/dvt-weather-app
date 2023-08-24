@@ -17,22 +17,6 @@ public final class GetWeatherUseCaseImpl: GetWeatherUseCase {
     
     private let fetcher: RemoteWeatherFetcher
     private let cache: WeatherCache
-    private let accessQueue = DispatchQueue(label: "com.GetWeatherUseCaseImpl.accessQueue")
-    private var unsafeIsGettingWeather = false
-    private var isGettingWeather: Bool {
-        get {
-            var isGettingWeather = false
-            accessQueue.sync {
-                isGettingWeather = unsafeIsGettingWeather
-            }
-            return isGettingWeather
-        }
-        set {
-            accessQueue.sync {
-                unsafeIsGettingWeather = newValue
-            }
-        }
-    }
     
     public init(fetcher: RemoteWeatherFetcher, cache: WeatherCache) {
         self.fetcher = fetcher
@@ -43,10 +27,6 @@ public final class GetWeatherUseCaseImpl: GetWeatherUseCase {
         
         let weatherCache = try cache.load()
         cacheHandler(weatherCache)
-        
-        guard !isGettingWeather else { return weatherCache }
-        
-        isGettingWeather = true
         
         var results: [WeatherInformation] = []
         
@@ -61,8 +41,6 @@ public final class GetWeatherUseCaseImpl: GetWeatherUseCase {
         }
         
         try cache.save(results)
-        
-        isGettingWeather = false
         
         return results
     }
