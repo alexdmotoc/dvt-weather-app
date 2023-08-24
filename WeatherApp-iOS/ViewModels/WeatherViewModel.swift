@@ -16,21 +16,37 @@ final class WeatherViewModel: NSObject, ObservableObject {
     
     private let locationManager: LocationManager
     private let useCase: GetWeatherUseCase
+    private let defaults: UserDefaults
+    private let formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter
+    }()
+    private static let lastUpdatedKey = "com.weatherViewModel.lastUpdated"
     
     // MARK: - Public properties
     
     let weatherStore: WeatherInformationStore
     @Published private(set) var isLocationPermissionGranted: Bool
+    @Published private(set) var lastUpdated: String
     @Published var isErrorShown: Bool = false
     private(set) var errorMessage: String?
     
     // MARK: - Lifecycle
     
-    init(locationManager: LocationManager, useCase: GetWeatherUseCase, weatherStore: WeatherInformationStore) {
+    init(
+        locationManager: LocationManager,
+        useCase: GetWeatherUseCase,
+        weatherStore: WeatherInformationStore,
+        defaults: UserDefaults = .standard
+    ) {
         self.locationManager = locationManager
         self.isLocationPermissionGranted = locationManager.isAuthorized
         self.useCase = useCase
         self.weatherStore = weatherStore
+        self.defaults = defaults
+        self.lastUpdated = Self.makeLastUpdatedString(date: defaults.object(forKey: Self.lastUpdatedKey) as? Date, formatter: formatter)
         super.init()
         setupLocationManager()
     }
@@ -50,6 +66,8 @@ final class WeatherViewModel: NSObject, ObservableObject {
                 }
             }
             weatherStore.weatherInformation = results
+            defaults.set(Date(), forKey: Self.lastUpdatedKey)
+            lastUpdated = Self.makeLastUpdatedString(date: Date(), formatter: formatter)
         } catch {
             errorMessage = error.localizedDescription
             isErrorShown = true
@@ -67,6 +85,16 @@ final class WeatherViewModel: NSObject, ObservableObject {
                 await self?.getWeather()
             }
         }
+    }
+    
+    private static func makeLastUpdatedString(date: Date?, formatter: DateFormatter) -> String {
+        func lastUpdated(value: String) -> String {
+            String(format: NSLocalizedString("lastUpdated.format", comment: ""), value)
+        }
+        guard let date else {
+            return lastUpdated(value: "--")
+        }
+        return lastUpdated(value: formatter.string(from: date))
     }
 }
 

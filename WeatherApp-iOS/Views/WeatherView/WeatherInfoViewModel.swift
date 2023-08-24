@@ -23,6 +23,8 @@ struct WeatherInfoViewModel {
     
     let info: WeatherInformation
     let temperatureType: TemperatureType
+    let lastUpdated: String
+    let onRefresh: () -> Void
     
     var backgroundColorName: String {
         info.weatherType.backgroundColorName

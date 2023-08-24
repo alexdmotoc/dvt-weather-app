@@ -25,3 +25,4 @@
 "weatherValue.current.title" = "Current";
 "weatherValue.min.title" = "min";
 "weatherValue.max.title" = "max";
+"lastUpdated.format" = "Last updated: %@";

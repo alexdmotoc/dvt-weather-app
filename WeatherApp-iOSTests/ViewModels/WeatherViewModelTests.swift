@@ -88,7 +88,52 @@ final class WeatherViewModelTests: XCTestCase {
         wait(for: [exp], timeout: 1)
     }
     
+    func test_lastUpdated_isInitiallyEmpty() {
+        let (_, _, _, sut) = makeSUT()
+        
+        XCTAssertTrue(sut.lastUpdated.contains("--"))
+    }
+    
+    func test_lastUpdated_isUpdatedOnSuccessfulFetch() async {
+        let (_, useCase, defaults, sut) = makeSUT()
+        XCTAssertEqual(defaults.getValueCount, 1) // on init
+        XCTAssertEqual(defaults.setValueCount, 0)
+        
+        let now = Date()
+        defaults.stubbedDate = now
+        
+        useCase.stub = .init(cache: [], result: makeWeatherInformationArray(), error: nil)
+        await sut.getWeather()
+        
+        XCTAssertEqual(defaults.setValueCount, 1)
+        XCTAssertFalse(sut.lastUpdated.contains("--"))
+    }
+    
+    func test_lastUpdated_onInitLoadsExistingDefaultsValue() {
+        let defaults = UserDefaultsSpy()
+        defaults.stubbedDate = Date()
+        let (_, _, _, sut) = makeSUT(defaults: defaults)
+        
+        XCTAssertFalse(sut.lastUpdated.contains("--"))
+    }
+    
     // MARK: - Helpers
+    
+    private class UserDefaultsSpy: UserDefaults {
+        
+        var setValueCount = 0
+        var getValueCount = 0
+        var stubbedDate: Date?
+        
+        override func set(_ value: Any?, forKey defaultName: String) {
+            setValueCount += 1
+        }
+        
+        override func object(forKey defaultName: String) -> Any? {
+            getValueCount += 1
+            return stubbedDate
+        }
+    }
     
     @MainActor
     private func makeSUT(
@@ -102,12 +147,35 @@ final class WeatherViewModelTests: XCTestCase {
         let useCase = MockGetWeatherUseCase()
         let locationManager = LocationManager(manager: manager)
         let store = WeatherInformationStore()
-        let sut = WeatherViewModel(locationManager: locationManager, useCase: useCase, weatherStore: store)
+        let sut = WeatherViewModel(locationManager: locationManager, useCase: useCase, weatherStore: store, defaults: UserDefaultsSpy())
         checkIsDeallocated(sut: manager, file: file, line: line)
         checkIsDeallocated(sut: locationManager, file: file, line: line)
         checkIsDeallocated(sut: useCase, file: file, line: line)
         checkIsDeallocated(sut: store, file: file, line: line)
         checkIsDeallocated(sut: sut, file: file, line: line)
         return (manager, useCase, sut)
+    }
+    
+    @MainActor
+    private func makeSUT(
+        isAuthorized: Bool = false,
+        defaults: UserDefaultsSpy = .init(),
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) -> (manager: MockCLLocationManager, useCase: MockGetWeatherUseCase, defaults: UserDefaultsSpy, sut: WeatherViewModel) {
+        
+        let manager = MockCLLocationManager()
+        manager.stubbedIsAuthorized = isAuthorized
+        let useCase = MockGetWeatherUseCase()
+        let locationManager = LocationManager(manager: manager)
+        let store = WeatherInformationStore()
+        let sut = WeatherViewModel(locationManager: locationManager, useCase: useCase, weatherStore: store, defaults: defaults)
+        checkIsDeallocated(sut: manager, file: file, line: line)
+        checkIsDeallocated(sut: locationManager, file: file, line: line)
+        checkIsDeallocated(sut: useCase, file: file, line: line)
+        checkIsDeallocated(sut: store, file: file, line: line)
+        checkIsDeallocated(sut: defaults, file: file, line: line)
+        checkIsDeallocated(sut: sut, file: file, line: line)
+        return (manager, useCase, defaults, sut)
     }
 }

@@ -26,7 +26,11 @@ struct WeatherTab: View {
         let weather = store.weatherInformation.first(where: { $0.isCurrentLocation })
         WeatherView(weatherInfo: .init(
             info: weather ?? viewModel.emptyWeather,
-            temperatureType: appSettings.temperatureType
+            temperatureType: appSettings.temperatureType,
+            lastUpdated: viewModel.lastUpdated,
+            onRefresh: {
+                Task { await viewModel.getWeather() }
+            }
         ))
     }
     

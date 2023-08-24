@@ -55,9 +55,15 @@ struct WeatherView: View {
                         Text(forecast.temperature)
                     }
                     .padding(.horizontal)
-                    .foregroundColor(.white)
                 }
+                Text(weatherInfo.lastUpdated).font(.system(size: 16))
+                    .padding(.top, 20)
+                    .padding(.bottom, 20)
+                Button(action: weatherInfo.onRefresh, label: {
+                    Image(systemName: "arrow.clockwise")
+                })
             }
+            .foregroundColor(.white)
         }
         .padding(.top, 20)
     }
@@ -94,8 +100,8 @@ struct WeatherView: View {
 struct WeatherView_Previews: PreviewProvider {
     
     static var previews: some View {
-        WeatherView(weatherInfo: .init(info: .makeMock(name: "some weather", isCurrentLocation: true, weatherType: .sunny), temperatureType: .celsius))
-        WeatherView(weatherInfo: .init(info: .emptyWeather, temperatureType: .celsius))
+        WeatherView(weatherInfo: .init(info: .makeMock(name: "some weather", isCurrentLocation: true, weatherType: .sunny), temperatureType: .celsius, lastUpdated: "Last updated: 12/23 10:30 PM", onRefresh: {}))
+        WeatherView(weatherInfo: .init(info: .emptyWeather, temperatureType: .celsius, lastUpdated: "Last updated: --", onRefresh: {}))
     }
     
 }

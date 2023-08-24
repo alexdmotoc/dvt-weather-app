@@ -87,7 +87,9 @@ class WeatherInfoViewModelTests: XCTestCase {
     ) -> WeatherInfoViewModel {
         let viewModel = WeatherInfoViewModel(
             info: isEmpty ? .emptyWeather : .makeMock(name: "Mock", isCurrentLocation: false, weatherType: weatherType),
-            temperatureType: temperatureType
+            temperatureType: temperatureType,
+            lastUpdated: "mock last updated",
+            onRefresh: {}
         )
         return viewModel
     }
