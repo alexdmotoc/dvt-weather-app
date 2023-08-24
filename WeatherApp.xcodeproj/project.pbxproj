@@ -502,9 +502,17 @@
 				87768C212A9652040050B4AC /* WeatherView.swift */,
 				87768C242A9654CB0050B4AC /* WeatherInfoViewModel.swift */,
 				87768C322A96A4AC0050B4AC /* ForecastViewModel.swift */,
-				87768C342A96A4CB0050B4AC /* WeatherViewHelpers.swift */,
 			);
 			path = WeatherView;
+			sourceTree = "<group>";
+		};
+		87768C3C2A976B9C0050B4AC /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				877D49DB2A950A4E00AA41D3 /* CLLocationManager+Utils.swift */,
+				87ACFBAD2A9552B500068877 /* LocationManager.swift */,
+			);
+			path = Location;
 			sourceTree = "<group>";
 		};
 		877D49D82A9509A200AA41D3 /* Views */ = {
@@ -531,10 +539,10 @@
 		877D49DA2A950A2B00AA41D3 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				877D49DB2A950A4E00AA41D3 /* CLLocationManager+Utils.swift */,
+				87768C3C2A976B9C0050B4AC /* Location */,
 				877D49E82A9540FA00AA41D3 /* NullWeatherStore.swift */,
-				87ACFBAD2A9552B500068877 /* LocationManager.swift */,
 				87ACFBBD2A9609B600068877 /* WeatherInformationStore.swift */,
+				87768C342A96A4CB0050B4AC /* WeatherViewHelpers.swift */,
 				87768C2B2A965F350050B4AC /* AppSettings.swift */,
 			);
 			path = Helpers;

@@ -20,7 +20,7 @@ class WeatherInformationStore: ObservableObject {
         }
     }
     
-    @Published private(set) var identifiableWeatherInformation: [IdentifiableWeatherInformation] = []
+    @Published private(set) var identifiableWeatherInformation: [IdentifiableWeatherInformation]
     
     init(weatherInformation: [WeatherInformation] = []) {
         self.weatherInformation = weatherInformation
