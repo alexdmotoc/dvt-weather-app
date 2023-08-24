@@ -40,7 +40,7 @@ public final class FavouriteLocationUseCaseImpl: FavouriteLocationUseCase {
 private extension FavouriteLocationUseCaseImpl {
     struct ItemAlreadyExistsError: LocalizedError {
         var errorDescription: String? {
-            NSLocalizedString("locationAlreadyExists.error.message", comment: "")
+            NSLocalizedString("locationAlreadyExists.error.message", bundle: Bundle(for: FavouriteLocationUseCaseImpl.self), comment: "")
         }
     }
 }
