@@ -104,7 +104,7 @@ extension FavouritesListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if
             collectionView == suggestionController.collectionView,
-            let row = suggestionController.dataSource.itemIdentifier(for: indexPath)
+            let row = suggestionController.item(at: indexPath)
         {
             searchController.isActive = false
             searchController.searchBar.text = ""

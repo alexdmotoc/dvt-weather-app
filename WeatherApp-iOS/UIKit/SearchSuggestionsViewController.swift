@@ -23,11 +23,11 @@ class SearchSuggestionsViewController: UIViewController {
     // MARK: - Private properties
     
     private var searchCompleter: MKLocalSearchCompleter?
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Row>! = nil
     
     // MARK: - Public properties
     
     private(set) var collectionView: UICollectionView!
-    private(set) var dataSource: UICollectionViewDiffableDataSource<Section, Row>! = nil
     
     // MARK: - Lifecycle
     
@@ -44,6 +44,12 @@ class SearchSuggestionsViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         stopProvidingCompletions()
+    }
+    
+    // MARK: - Public methods
+    
+    func item(at indexPath: IndexPath) -> Row? {
+        dataSource.itemIdentifier(for: indexPath)
     }
     
     // MARK: - Private methods
