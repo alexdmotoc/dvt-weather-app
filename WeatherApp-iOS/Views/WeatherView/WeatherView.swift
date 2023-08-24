@@ -18,9 +18,9 @@ struct WeatherView: View {
             
             GeometryReader { geom in
                 VStack {
-                    makeTopWeatherInfo(geometry: geom)
+                    makeTopWeatherInfoView(geometry: geom)
                     currentMinMaxView
-                    forecast
+                    forecastView
                 }
             }
         }
@@ -41,7 +41,7 @@ struct WeatherView: View {
         Color.white.frame(height: 1)
     }
     
-    var forecast: some View {
+    var forecastView: some View {
         ScrollView {
             VStack {
                 ForEach(weatherInfo.forecast) { forecast in
@@ -63,7 +63,7 @@ struct WeatherView: View {
     }
     
     @ViewBuilder
-    func makeTopWeatherInfo(geometry geom: GeometryProxy) -> some View {
+    func makeTopWeatherInfoView(geometry geom: GeometryProxy) -> some View {
         ZStack {
             Image(weatherInfo.backgroundImageName)
                 .resizable()
