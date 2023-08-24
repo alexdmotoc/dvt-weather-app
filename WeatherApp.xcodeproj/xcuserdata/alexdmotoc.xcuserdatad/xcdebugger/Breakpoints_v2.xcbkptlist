@@ -3,4 +3,245 @@
    uuid = "8030CA98-1FD5-45CD-A287-C4560DCAFCF0"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AF425A67-ECA4-4BC6-A7C2-DF32B1931EEC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherApp-iOS/UIKit/FavouritesList/FavouritesListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "configureDataSource()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DA3B19C6-FA6A-484A-8D66-BAC9656C671E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherApp-iOS/UIKit/FavouritesList/FavouritesListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
+            landmarkName = "didReloadItems(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "DA3B19C6-FA6A-484A-8D66-BAC9656C671E - 3d7f960021bdf80f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherApp_iOS.FavouritesListViewController.didAppendItem(WeatherApp_iOS.FavouriteItemsListData.Item) -&gt; ()"
+                  moduleName = "WeatherApp-iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexdmotoc/personal/DVT/WeatherApp/WeatherApp-iOS/UIKit/FavouritesList/FavouritesListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "104"
+                  endingLineNumber = "104"
+                  offsetFromSymbolStart = "20">
+               </Location>
+               <Location
+                  uuid = "DA3B19C6-FA6A-484A-8D66-BAC9656C671E - c879904af3e1ab05"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherApp_iOS.FavouritesListViewController.didReloadItems(Swift.Array&lt;WeatherApp_iOS.FavouriteItemsListData.Item&gt;) -&gt; ()"
+                  moduleName = "WeatherApp-iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexdmotoc/personal/DVT/WeatherApp/WeatherApp-iOS/UIKit/FavouritesList/FavouritesListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103"
+                  offsetFromSymbolStart = "220">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "32048CFD-CB04-476D-B224-7E4078168DAA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherApp-iOS/ViewModels/WeatherViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "getWeather()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "909D9EC9-7706-4972-AE32-FA0B2F66A789"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherApp-iOS/UIKit/FavouritesList/FavouritesListViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "init(store:useCase:appSettings:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "909D9EC9-7706-4972-AE32-FA0B2F66A789 - c1aaaa28729a10ed"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherApp_iOS.FavouritesListViewModel.init(store: WeatherApp_iOS.WeatherInformationStore, useCase: WeatherApp.FavouriteLocationUseCase, appSettings: WeatherApp_iOS.AppSettings) -&gt; WeatherApp_iOS.FavouritesListViewModel"
+                  moduleName = "WeatherApp-iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexdmotoc/personal/DVT/WeatherApp/WeatherApp-iOS/UIKit/FavouritesList/FavouritesListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52"
+                  offsetFromSymbolStart = "1580">
+               </Location>
+               <Location
+                  uuid = "909D9EC9-7706-4972-AE32-FA0B2F66A789 - c1aaaa28729a10ed"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherApp_iOS.FavouritesListViewModel.init(store: WeatherApp_iOS.WeatherInformationStore, useCase: WeatherApp.FavouriteLocationUseCase, appSettings: WeatherApp_iOS.AppSettings) -&gt; WeatherApp_iOS.FavouritesListViewModel"
+                  moduleName = "WeatherApp-iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexdmotoc/personal/DVT/WeatherApp/WeatherApp-iOS/UIKit/FavouritesList/FavouritesListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52"
+                  offsetFromSymbolStart = "1624">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E5D5B4DA-E103-427D-A564-6078FD8E394F"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherApp-iOS/UIKit/FavouritesList/FavouritesListViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "init(store:useCase:appSettings:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E5D5B4DA-E103-427D-A564-6078FD8E394F - 5e7ea98b67c87fa8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #3 (Swift.Array&lt;WeatherApp.WeatherInformation&gt;) -&gt; () in WeatherApp_iOS.FavouritesListViewModel.init(store: WeatherApp_iOS.WeatherInformationStore, useCase: WeatherApp.FavouriteLocationUseCase, appSettings: WeatherApp_iOS.AppSettings) -&gt; WeatherApp_iOS.FavouritesListViewModel"
+                  moduleName = "WeatherApp-iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexdmotoc/personal/DVT/WeatherApp/WeatherApp-iOS/UIKit/FavouritesList/FavouritesListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56"
+                  offsetFromSymbolStart = "112">
+               </Location>
+               <Location
+                  uuid = "E5D5B4DA-E103-427D-A564-6078FD8E394F - 92e1c0d0fea5efa2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (WeatherApp.WeatherInformation) -&gt; WeatherApp_iOS.FavouriteItemsListData.Item in closure #3 (Swift.Array&lt;WeatherApp.WeatherInformation&gt;) -&gt; () in WeatherApp_iOS.FavouritesListViewModel.init(store: WeatherApp_iOS.WeatherInformationStore, useCase: WeatherApp.FavouriteLocationUseCase, appSettings: WeatherApp_iOS.AppSettings) -&gt; WeatherApp_iOS.FavouritesListViewModel"
+                  moduleName = "WeatherApp-iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexdmotoc/personal/DVT/WeatherApp/WeatherApp-iOS/UIKit/FavouritesList/FavouritesListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56"
+                  offsetFromSymbolStart = "80">
+               </Location>
+               <Location
+                  uuid = "E5D5B4DA-E103-427D-A564-6078FD8E394F - 5e7ea98b67c87fa8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #3 (Swift.Array&lt;WeatherApp.WeatherInformation&gt;) -&gt; () in WeatherApp_iOS.FavouritesListViewModel.init(store: WeatherApp_iOS.WeatherInformationStore, useCase: WeatherApp.FavouriteLocationUseCase, appSettings: WeatherApp_iOS.AppSettings) -&gt; WeatherApp_iOS.FavouritesListViewModel"
+                  moduleName = "WeatherApp-iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexdmotoc/personal/DVT/WeatherApp/WeatherApp-iOS/UIKit/FavouritesList/FavouritesListViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "56"
+                  endingLineNumber = "56"
+                  offsetFromSymbolStart = "524">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B38CE8BE-E957-403B-9155-C0C89B213D8C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WeatherApp-iOS/UIKit/FavouritesList/FavouritesListViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "configureDataSource()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "B38CE8BE-E957-403B-9155-C0C89B213D8C - 38a295ac614e533d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherApp_iOS.FavouritesListViewController.bindViewModel() -&gt; ()"
+                  moduleName = "WeatherApp-iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexdmotoc/personal/DVT/WeatherApp/WeatherApp-iOS/UIKit/FavouritesList/FavouritesListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "36">
+               </Location>
+               <Location
+                  uuid = "B38CE8BE-E957-403B-9155-C0C89B213D8C - 81c72b84e682915b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WeatherApp_iOS.FavouritesListViewController.configureDataSource() -&gt; ()"
+                  moduleName = "WeatherApp-iOS"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/alexdmotoc/personal/DVT/WeatherApp/WeatherApp-iOS/UIKit/FavouritesList/FavouritesListViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "85"
+                  endingLineNumber = "85"
+                  offsetFromSymbolStart = "516">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

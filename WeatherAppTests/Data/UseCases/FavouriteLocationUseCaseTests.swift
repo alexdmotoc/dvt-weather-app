@@ -19,8 +19,8 @@ class FavouriteLocationUseCaseTests: XCTestCase {
     
     func test_addLocation_callsRemoteToFetchLocationAndAppendsFetchedLocationToCache() async throws {
         let (fetcher, cache, sut) = makeSUT()
-        let remoteMock = makeWeatherInformationWithForecast()
-        let cacheMock = makeWeatherInformationArray()
+        let remoteMock = makeWeatherInformationWithForecast(name: "new item")
+        let cacheMock = makeWeatherInformationArray(name: "cached items")
         fetcher.stub = (nil, remoteMock)
         cache.stubbedWeather = cacheMock
         
@@ -29,6 +29,23 @@ class FavouriteLocationUseCaseTests: XCTestCase {
         XCTAssertEqual(fetcher.fetchCount, 1)
         XCTAssertEqual(added, remoteMock)
         XCTAssertEqual(cache.messages, [.load, .save(cacheMock + [remoteMock])])
+    }
+    
+    func test_addLocation_doesNotAddALocationThatAlreadyExistsWithTheSameName() async throws {
+        let (fetcher, cache, sut) = makeSUT()
+        let remoteMock = makeWeatherInformationWithForecast()
+        let cacheMock = [remoteMock]
+        fetcher.stub = (nil, remoteMock)
+        cache.stubbedWeather = cacheMock
+        var didThrow = false
+        
+        do {
+            _ = try await sut.addFavouriteLocation(coordinates: Self.makeLocation())
+        } catch {
+            didThrow = true
+        }
+        
+        XCTAssertTrue(didThrow)
     }
     
     // MARK: - Helpers

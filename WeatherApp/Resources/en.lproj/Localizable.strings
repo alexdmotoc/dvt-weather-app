@@ -1,0 +1,9 @@
+/* 
+  Localizable.strings
+  WeatherApp
+
+  Created by Alex Motoc on 24.08.2023.
+  
+*/
+
+"locationAlreadyExists.error.message" = "This location already exists";
