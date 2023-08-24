@@ -10,14 +10,14 @@ import MapKit
 
 struct MapTab: View {
     
-    @ObservedObject var store: WeatherInformationStore
+    @ObservedObject private var viewModel: MapTabViewModel
     @State private var mapRegion: MKCoordinateRegion
     
-    init(store: WeatherInformationStore) {
-        self.store = store
+    init(viewModel: MapTabViewModel) {
+        self.viewModel = viewModel
         let delta: CLLocationDegrees = 0.2
-        if let weather = store.weatherInformation.first {
-            mapRegion = MKCoordinateRegion(center: weather.location.coordinates.toCLCoordinates, span: MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta))
+        if let weather = viewModel.weather.first {
+            mapRegion = MKCoordinateRegion(center: weather.weather.location.coordinates.toCLCoordinates, span: MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta))
         } else {
             mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 46.770439, longitude: 23.591423), span: MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta))
         }
@@ -27,12 +27,13 @@ struct MapTab: View {
         Map(
             coordinateRegion: $mapRegion,
             showsUserLocation: true,
-            annotationItems: store.identifiableWeatherInformation.filter({ !$0.weather.isCurrentLocation })
+            annotationItems: viewModel.weather.filter({ !$0.weather.isCurrentLocation })
         ) { weather in
             MapAnnotation(coordinate: weather.weather.location.coordinates.toCLCoordinates) {
                 Text(weather.weather.location.name)
+                    .bold()
                     .padding()
-                    .background(Circle().fill(Color.red))
+                    .background(Ellipse().fill(Color.red))
                     .foregroundColor(.white)
             }
         }
@@ -41,9 +42,11 @@ struct MapTab: View {
 }
 
 struct MapTab_Previews: PreviewProvider {
+    static let store = WeatherInformationStore(weatherInformation: [
+        .makeMock(name: "mock", isCurrentLocation: false, weatherType: .sunny)
+    ])
+    
     static var previews: some View {
-        MapTab(store: WeatherInformationStore(weatherInformation: [
-            .makeMock(name: "mock", isCurrentLocation: false, weatherType: .sunny)
-        ]))
+        MapTab(viewModel: MapTabViewModel(store: store))
     }
 }

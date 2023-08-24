@@ -24,7 +24,7 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $tabSelection) {
             
-            MapTab(store: viewModel.weatherStore)
+            MapTab(viewModel: MapTabViewModel(store: viewModel.weatherStore))
                 .tabItem {
                     Label("map.title", systemImage: "map")
                 }
