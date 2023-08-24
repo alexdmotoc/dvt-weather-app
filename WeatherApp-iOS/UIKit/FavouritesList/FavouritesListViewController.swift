@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import MapKit
 
 class FavouritesListViewController: UIViewController {
     
@@ -15,12 +14,6 @@ class FavouritesListViewController: UIViewController {
     private let viewModel: FavouritesListViewModel
     private var suggestionController: SearchSuggestionsViewController!
     private var searchController: UISearchController!
-    
-    private var localSearch: MKLocalSearch? {
-        willSet {
-            localSearch?.cancel()
-        }
-    }
     
     // MARK: - Lifecycle
     
@@ -55,42 +48,6 @@ class FavouritesListViewController: UIViewController {
         definesPresentationContext = true
     }
     
-    /// - Parameter suggestedCompletion: A search completion that `MKLocalSearchCompleter` provides.
-    ///     This view controller performs  a search with `MKLocalSearch.Request` using this suggested completion.
-    private func search(for suggestedCompletion: MKLocalSearchCompletion) {
-        let searchRequest = MKLocalSearch.Request(completion: suggestedCompletion)
-        search(using: searchRequest)
-    }
-    
-    /// - Parameter queryString: A search string from the text the user enters into `UISearchBar`.
-    private func search(for queryString: String?) {
-        let searchRequest = MKLocalSearch.Request()
-        searchRequest.naturalLanguageQuery = queryString
-        search(using: searchRequest)
-    }
-    
-    private func search(using searchRequest: MKLocalSearch.Request) {
-        searchRequest.region = MKCoordinateRegion(MKMapRect.world)
-        searchRequest.resultTypes = .address
-        
-        localSearch = MKLocalSearch(request: searchRequest)
-        localSearch?.start { [unowned self] (response, error) in
-            guard error == nil, let location = response?.mapItems.first else {
-                self.displayError(Error.searchLocationFailed)
-                return
-            }
-            Task {
-                do {
-                    try await viewModel.addFavouriteLocation(coordinate: location.placemark.coordinate)
-                } catch {
-                    DispatchQueue.main.async { [weak self] in
-                        self?.displayError(error)
-                    }
-                }
-            }
-        }
-    }
-    
     private func displayError(_ error: Swift.Error) {
         let alertTitle = NSLocalizedString("error.title", comment: "")
         let alertController = UIAlertController(title: alertTitle, message: error.localizedDescription, preferredStyle: .alert)
@@ -108,7 +65,7 @@ extension FavouritesListViewController: UICollectionViewDelegate {
         {
             searchController.isActive = false
             searchController.searchBar.text = ""
-            search(for: row.searchCompletion)
+            viewModel.search(for: row.searchCompletion)
         }
         
         collectionView.deselectItem(at: indexPath, animated: true)
@@ -137,7 +94,7 @@ extension FavouritesListViewController: UISearchBarDelegate {
         // This system calls this method when the user taps Search on the `UISearchBar` or on the keyboard.
         // Because the user didn't select a row with a suggested completion, run the search with the query text in
         // the search field.
-        search(for: searchBar.text)
+        viewModel.search(for: searchBar.text)
         searchBar.text = ""
     }
 }
@@ -147,20 +104,5 @@ extension FavouritesListViewController: UISearchBarDelegate {
 extension FavouritesListViewController: UISearchControllerDelegate {
     func willPresentSearchController(_ searchController: UISearchController) {
         suggestionController.collectionView.delegate = self
-    }
-}
-
-// MARK: - Errors
-
-private extension FavouritesListViewController {
-    enum Error: Swift.Error, LocalizedError {
-        case searchLocationFailed
-        
-        var errorDescription: String? {
-            switch self {
-            case .searchLocationFailed:
-                return NSLocalizedString("error.searchLocationFailed.message", comment: "")
-            }
-        }
     }
 }
