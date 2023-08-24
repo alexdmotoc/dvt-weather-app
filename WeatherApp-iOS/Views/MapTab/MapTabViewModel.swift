@@ -21,6 +21,7 @@ final class MapTabViewModel: ObservableObject {
     init(store: WeatherInformationStore) {
         weather = store.weatherInformation.map(IdentifiableWeatherInformation.init)
         cancellable = store.$weatherInformation
+            .receive(on: DispatchQueue.main)
             .sink { [weak self] weatherInfo in
                 self?.weather = weatherInfo.map(IdentifiableWeatherInformation.init)
             }
