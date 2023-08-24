@@ -27,13 +27,12 @@ struct MapTab: View {
         Map(
             coordinateRegion: $mapRegion,
             showsUserLocation: true,
-            userTrackingMode: .constant(.follow),
             annotationItems: store.identifiableWeatherInformation.filter({ !$0.weather.isCurrentLocation })
         ) { weather in
             MapAnnotation(coordinate: weather.weather.location.coordinates.toCLCoordinates) {
                 Text(weather.weather.location.name)
                     .padding()
-                    .background(Ellipse().fill(Color.red))
+                    .background(Circle().fill(Color.red))
                     .foregroundColor(.white)
             }
         }
