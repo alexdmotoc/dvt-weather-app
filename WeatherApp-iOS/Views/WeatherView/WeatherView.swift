@@ -21,7 +21,6 @@ struct WeatherView: View {
                     makeTopWeatherInfo(geometry: geom)
                     currentMinMaxView
                     forecast
-                        .padding(.top, 20)
                 }
             }
         }
@@ -60,6 +59,7 @@ struct WeatherView: View {
                 }
             }
         }
+        .padding(.top, 20)
     }
     
     @ViewBuilder

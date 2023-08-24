@@ -13,6 +13,8 @@ struct ContentView: View {
     @ObservedObject var store: WeatherInformationStore
     @ObservedObject var appSettings: AppSettings
     
+    @State private var tabSelection: Int = 1
+    
     init(viewModel: WeatherViewModel, appSettings: AppSettings) {
         self.viewModel = viewModel
         self.appSettings = appSettings
@@ -20,7 +22,14 @@ struct ContentView: View {
     }
     
     var body: some View {
-        TabView {
+        TabView(selection: $tabSelection) {
+            
+            MapTab()
+                .tabItem {
+                    Label("map.title", systemImage: "map")
+                }
+                .tag(0)
+            
             WeatherTab(
                 viewModel: viewModel,
                 store: store,
@@ -29,11 +38,18 @@ struct ContentView: View {
             .tabItem {
                 Label("weather.title", systemImage: "cloud.sun")
             }
+            .tag(1)
+            
+            FavouritesTab()
+                .tabItem {
+                    Label("favourites.title", systemImage: "heart")
+                }
             
             SettingsTab(appSettings: appSettings)
                 .tabItem {
                     Label("settings.title", systemImage: "gear")
                 }
+                .tag(3)
         }
         .onAppear {
             viewModel.requestLocationPermission()

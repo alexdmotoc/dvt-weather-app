@@ -54,6 +54,8 @@
 		87768C302A966D670050B4AC /* SettingsTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C2F2A966D670050B4AC /* SettingsTab.swift */; };
 		87768C332A96A4AC0050B4AC /* ForecastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C322A96A4AC0050B4AC /* ForecastViewModel.swift */; };
 		87768C352A96A4CB0050B4AC /* WeatherViewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C342A96A4CB0050B4AC /* WeatherViewHelpers.swift */; };
+		87768C372A9740CF0050B4AC /* MapTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C362A9740CF0050B4AC /* MapTab.swift */; };
+		87768C392A9741CF0050B4AC /* FavouritesTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C382A9741CF0050B4AC /* FavouritesTab.swift */; };
 		877D49D52A95034800AA41D3 /* WeatherApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8704C4E92A90CDCE0076BB69 /* WeatherApp.framework */; };
 		877D49D62A95034800AA41D3 /* WeatherApp.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8704C4E92A90CDCE0076BB69 /* WeatherApp.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		877D49DC2A950A4E00AA41D3 /* CLLocationManager+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877D49DB2A950A4E00AA41D3 /* CLLocationManager+Utils.swift */; };
@@ -186,6 +188,8 @@
 		87768C2F2A966D670050B4AC /* SettingsTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTab.swift; sourceTree = "<group>"; };
 		87768C322A96A4AC0050B4AC /* ForecastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastViewModel.swift; sourceTree = "<group>"; };
 		87768C342A96A4CB0050B4AC /* WeatherViewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewHelpers.swift; sourceTree = "<group>"; };
+		87768C362A9740CF0050B4AC /* MapTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTab.swift; sourceTree = "<group>"; };
+		87768C382A9741CF0050B4AC /* FavouritesTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesTab.swift; sourceTree = "<group>"; };
 		877D49DB2A950A4E00AA41D3 /* CLLocationManager+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocationManager+Utils.swift"; sourceTree = "<group>"; };
 		877D49DF2A9517CC00AA41D3 /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		877D49E12A95188000AA41D3 /* MockCLLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockCLLocationManager.swift; sourceTree = "<group>"; };
@@ -505,7 +509,9 @@
 			isa = PBXGroup;
 			children = (
 				874C646A2A94F63C00D0185F /* ContentView.swift */,
+				87768C362A9740CF0050B4AC /* MapTab.swift */,
 				87768C2D2A9669340050B4AC /* WeatherTab.swift */,
+				87768C382A9741CF0050B4AC /* FavouritesTab.swift */,
 				87768C2F2A966D670050B4AC /* SettingsTab.swift */,
 				87768C232A9654BF0050B4AC /* WeatherView */,
 			);
@@ -893,6 +899,7 @@
 				874C646B2A94F63C00D0185F /* ContentView.swift in Sources */,
 				87768C302A966D670050B4AC /* SettingsTab.swift in Sources */,
 				87768C2E2A9669340050B4AC /* WeatherTab.swift in Sources */,
+				87768C372A9740CF0050B4AC /* MapTab.swift in Sources */,
 				87ACFBC02A9612FB00068877 /* MockFavouriteLocationUseCase.swift in Sources */,
 				877D49E92A9540FA00AA41D3 /* NullWeatherStore.swift in Sources */,
 				87ACFBC22A9615B200068877 /* DIContainer.swift in Sources */,
@@ -905,6 +912,7 @@
 				874C64692A94F63C00D0185F /* WeatherApp_iOSApp.swift in Sources */,
 				87768C252A9654CB0050B4AC /* WeatherInfoViewModel.swift in Sources */,
 				877D49E52A953A4C00AA41D3 /* MockGetWeatherUseCase.swift in Sources */,
+				87768C392A9741CF0050B4AC /* FavouritesTab.swift in Sources */,
 				877D49DC2A950A4E00AA41D3 /* CLLocationManager+Utils.swift in Sources */,
 				87ACFBAE2A9552B500068877 /* LocationManager.swift in Sources */,
 				87ACFBBE2A9609B600068877 /* WeatherInformationStore.swift in Sources */,
