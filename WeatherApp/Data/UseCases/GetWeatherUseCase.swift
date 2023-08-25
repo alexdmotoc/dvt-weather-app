@@ -84,7 +84,10 @@ public final class GetWeatherUseCaseImpl: GetWeatherUseCase {
         
         for index in 0 ..< faveResults.count {
             guard let match = favourites.first(
-                where: { $0.location.coordinates == faveResults[index].location.coordinates }
+                where: {
+                    $0.location.coordinates == faveResults[index].location.coordinates ||
+                    $0.location.name == faveResults[index].location.name
+                }
             ) else { continue }
             faveResults[index].sortOrder = match.sortOrder
         }
