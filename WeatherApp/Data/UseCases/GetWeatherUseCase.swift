@@ -34,23 +34,65 @@ public final class GetWeatherUseCaseImpl: GetWeatherUseCase {
         let weatherCache = try cache.load()
         cacheHandler(weatherCache)
         
-        var results: [WeatherInformation] = []
-        
-        if let currentLocation {
-            let currentWeather = try await fetcher.fetch(coordinates: currentLocation, isCurrentLocation: true)
-            results.append(currentWeather)
+        let results = try await withThrowingTaskGroup(of: WeatherInformation.self) { [weak self] group in
+            guard let self else { return [] as [WeatherInformation] }
+            if let currentLocation {
+                group.addTask { try await self.fetcher.fetch(coordinates: currentLocation, isCurrentLocation: true) }
+            }
+            for favouriteWeather in weatherCache.filter({ !$0.isCurrentLocation }) {
+                group.addTask {
+                    try await self.fetcher.fetch(
+                        coordinates: favouriteWeather.location.coordinates,
+                        isCurrentLocation: false
+                    )
+                }
+            }
+            var results: [WeatherInformation] = []
+            
+            for try await result in group {
+                results.append(result)
+            }
+            
+            return results
         }
         
-        for favouriteWeather in weatherCache.filter({ !$0.isCurrentLocation }) {
-            let updatedFavouriteWeather = try await fetcher.fetch(
-                coordinates: favouriteWeather.location.coordinates,
-                isCurrentLocation: false
-            )
-            results.append(updatedFavouriteWeather)
+        let finalResults = Self.getSortedResults(weatherCache: weatherCache, results: results)
+        
+        try cache.save(finalResults)
+        
+        return finalResults
+    }
+    
+    /// This algorithm is needed to preserve the order after a concurrent fetch.
+    /// - Parameters:
+    ///   - weatherCache: the local items in their original order
+    ///   - results: the fetched items in a scrambled order
+    /// - Returns: the fetched items in the original order
+    /// 
+    static func getSortedResults(
+        weatherCache: [WeatherInformation],
+        results: [WeatherInformation]
+    ) -> [WeatherInformation] {
+        
+        var favourites = weatherCache.filter { !$0.isCurrentLocation }
+        for index in 0 ..< favourites.count {
+            favourites[index].sortOrder = index
         }
         
-        try cache.save(results)
+        let currLocation = results.first(where: { $0.isCurrentLocation })
+        var faveResults = results.filter { !$0.isCurrentLocation }
         
-        return results
+        for index in 0 ..< faveResults.count {
+            guard let match = favourites.first(
+                where: { $0.location.coordinates == faveResults[index].location.coordinates }
+            ) else { continue }
+            faveResults[index].sortOrder = match.sortOrder
+        }
+        
+        var finalResults: [WeatherInformation] = []
+        if let currLocation { finalResults.append(currLocation) }
+        finalResults += faveResults.sorted { $0.sortOrder < $1.sortOrder }
+        
+        return finalResults
     }
 }

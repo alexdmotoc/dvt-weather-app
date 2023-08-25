@@ -13,6 +13,7 @@ public struct WeatherInformation: Equatable {
     public let temperature: Temperature
     public let weatherType: WeatherType
     public let forecast: [Forecast]
+    var sortOrder = 0
     
     public init(
         isCurrentLocation: Bool,

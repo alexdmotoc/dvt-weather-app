@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import WeatherApp
+@testable import WeatherApp
 import CoreLocation
 
 extension XCTestCase {
@@ -28,18 +28,22 @@ extension XCTestCase {
         locationName: String = "mock",
         isCurrentLocation: Bool = false,
         isRandomCoordinates: Bool = true,
-        forecast: [WeatherInformation.Forecast] = []
+        coordinates: Coordinates? = nil,
+        forecast: [WeatherInformation.Forecast] = [],
+        sortOrder: Int = 0
     ) -> WeatherInformation {
-        .init(
+        var weather = WeatherInformation(
             isCurrentLocation: isCurrentLocation,
             location: .init(
                 name: locationName,
-                coordinates: isRandomCoordinates ? .init(latitude: Double.random(in: -100 ... 100), longitude: Double.random(in: -100 ... 100)) : .init(latitude: 10, longitude: 10) 
+                coordinates: coordinates ?? (isRandomCoordinates ? .init(latitude: Double.random(in: -100 ... 100), longitude: Double.random(in: -100 ... 100)) : .init(latitude: 10, longitude: 10))
             ),
             temperature: .init(current: 123, min: 100, max: 200),
             weatherType: .sunny,
             forecast: forecast
         )
+        weather.sortOrder = sortOrder
+        return weather
     }
     
     func makeIndividualForecast() -> WeatherInformation.Forecast {

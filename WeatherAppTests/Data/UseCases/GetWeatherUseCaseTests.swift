@@ -6,7 +6,7 @@
 //
 
 import XCTest
-import WeatherApp
+@testable import WeatherApp
 
 class GetWeatherUseCaseTests: XCTestCase {
     func test_init_doesntProduceSideEffects() {
@@ -43,6 +43,29 @@ class GetWeatherUseCaseTests: XCTestCase {
         try await assertSUTResults(currentLocation: { nil }, cachedWeather: cacheMock, remoteStub: remoteMock, resultsCount: cacheMock.count - 1)
     }
     
+    func test_getSortedResults_sortsTheReceivedResultsToPreserveOrderOfInitial() {
+        let cache = [
+            makeWeatherInformation(locationName: "curr loc", isCurrentLocation: true, coordinates: .init(latitude: -1, longitude: -1), sortOrder: 0),
+            makeWeatherInformation(locationName: "loc 1", coordinates: .init(latitude: 1, longitude: 1), sortOrder: 0),
+            makeWeatherInformation(locationName: "loc 2", coordinates: .init(latitude: 2, longitude: 2), sortOrder: 1),
+            makeWeatherInformation(locationName: "loc 3", coordinates: .init(latitude: 3, longitude: 3), sortOrder: 2),
+            makeWeatherInformation(locationName: "loc 4", coordinates: .init(latitude: 4, longitude: 4), sortOrder: 3)
+        ]
+        
+        let fetched = [
+            makeWeatherInformation(locationName: "loc 3", coordinates: .init(latitude: 3, longitude: 3)),
+            makeWeatherInformation(locationName: "loc 1", coordinates: .init(latitude: 1, longitude: 1)),
+            makeWeatherInformation(locationName: "curr loc", isCurrentLocation: true, coordinates: .init(latitude: -1, longitude: -1)),
+            makeWeatherInformation(locationName: "loc 4", coordinates: .init(latitude: 4, longitude: 4)),
+            makeWeatherInformation(locationName: "loc 2", coordinates: .init(latitude: 2, longitude: 2))
+        ]
+        
+        let sorted = GetWeatherUseCaseImpl.getSortedResults(weatherCache: cache, results: fetched)
+        
+        // in the end they have to be sorted the same
+        XCTAssertEqual(sorted, cache)
+    }
+    
     // MARK: - Helpers
     
     private func assertSUTResults(
@@ -68,7 +91,7 @@ class GetWeatherUseCaseTests: XCTestCase {
     private func makeSUT(
         file: StaticString = #filePath,
         line: UInt = #line
-    ) -> (fetcher: RemoteWeatherFetcherSpy, cache: WeatherCacheSpy, sut: GetWeatherUseCase) {
+    ) -> (fetcher: RemoteWeatherFetcherSpy, cache: WeatherCacheSpy, sut: GetWeatherUseCaseImpl) {
         let fetcher = RemoteWeatherFetcherSpy(weatherInformation: makeWeatherInformationWithForecast())
         let cache = WeatherCacheSpy()
         let sut = GetWeatherUseCaseImpl(fetcher: fetcher, cache: cache)
