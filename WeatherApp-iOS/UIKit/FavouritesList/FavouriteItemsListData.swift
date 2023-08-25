@@ -13,6 +13,7 @@ enum FavouriteItemsListData {
     }
     
     struct Item: Hashable {
+        let id = UUID()
         let locationName: String
         let isCurrentLocation: Bool
         let weatherTypeTitleKey: String
