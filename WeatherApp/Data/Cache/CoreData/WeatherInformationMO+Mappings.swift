@@ -74,4 +74,3 @@ extension ForecastMO {
         .init(currentTemp: currentTemp, weatherType: .init(rawValue: Int(weatherType)) ?? .sunny)
     }
 }
-

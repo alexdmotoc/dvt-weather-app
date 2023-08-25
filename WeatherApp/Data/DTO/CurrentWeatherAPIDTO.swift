@@ -24,13 +24,18 @@ struct CurrentWeatherAPIDTO: Codable {
     
     struct Main: Codable {
         let temp: Double
+        // swiftlint:disable identifier_name
         let temp_min: Double
         let temp_max: Double
+        // swiftlint:enable identifier_name
     }
 }
 
 extension CurrentWeatherAPIDTO {
-    func weatherInformation(with forecast: [WeatherInformation.Forecast], isCurrentLocation: Bool) -> WeatherInformation {
+    func weatherInformation(
+        with forecast: [WeatherInformation.Forecast],
+        isCurrentLocation: Bool
+    ) -> WeatherInformation {
         let weatherType = WeatherInformation.WeatherType(weatherId: weather.first?.id)
         return WeatherInformation(
             isCurrentLocation: isCurrentLocation,

@@ -12,8 +12,8 @@ struct FavouritesTab: UIViewControllerRepresentable {
     let viewModel: FavouritesListViewModel
     
     func makeUIViewController(context: Context) -> UINavigationController {
-        let vc = FavouritesListViewController(viewModel: viewModel)
-        let nav = UINavigationController(rootViewController: vc)
+        let viewController = FavouritesListViewController(viewModel: viewModel)
+        let nav = UINavigationController(rootViewController: viewController)
         nav.navigationBar.prefersLargeTitles = true
         return nav
     }
