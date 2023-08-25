@@ -17,8 +17,19 @@ public final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
     private let client: HTTPClient
     private let builder: WeatherAPIURLRequestBuilder
     
-    public enum Error: Swift.Error {
+    public enum Error: Swift.Error, LocalizedError {
         case invalidData
+        
+        public var errorDescription: String? {
+            switch self {
+            case.invalidData:
+                return NSLocalizedString(
+                    "api.error.message",
+                    bundle: Bundle(for: RemoteWeatherFetcherImpl.self),
+                    comment: ""
+                )
+            }
+        }
     }
     
     public init(client: HTTPClient, builder: WeatherAPIURLRequestBuilder = .init()) {
@@ -29,7 +40,10 @@ public final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
     public func fetch(coordinates: Coordinates, isCurrentLocation: Bool) async throws -> WeatherInformation {
         let currentWeather = try await fetchCurrentWeather(coordinates: coordinates)
         let forecast = try await fetchForecastWeather(coordinates: coordinates)
-        return currentWeather.weatherInformation(with: ForecastReducer.reduceHourlyForecastToDaily(forecast.forecast), isCurrentLocation: isCurrentLocation)
+        return currentWeather.weatherInformation(
+            with: ForecastReducer.reduceHourlyForecastToDaily(forecast.forecast),
+            isCurrentLocation: isCurrentLocation
+        )
     }
     
     private func fetchCurrentWeather(coordinates: Coordinates) async throws -> CurrentWeatherAPIDTO {

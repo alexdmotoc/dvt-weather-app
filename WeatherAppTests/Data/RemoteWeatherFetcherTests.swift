@@ -124,6 +124,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
             switch (error, expectedError) {
             case let (error as RemoteWeatherFetcherImpl.Error, expectedError as RemoteWeatherFetcherImpl.Error):
                 XCTAssertEqual(error, expectedError, file: file, line: line)
+                XCTAssertEqual(error.localizedDescription, NSLocalizedString("api.error.message", bundle: Bundle(for: RemoteWeatherFetcherImpl.self), comment: ""))
             case let (error as NSError, expectedError as NSError):
                 XCTAssertEqual(error, expectedError, file: file, line: line)
             }

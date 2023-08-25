@@ -1,0 +1,35 @@
+/* 
+  Localizable.strings
+  WeatherApp
+
+  Created by Alex Motoc on 23.08.2023.
+  
+*/
+
+"error.title" = "Error";
+"dismiss.title" = "Dismiss";
+"noWeather.message" = "No current weather information to show";
+"selectTemperature.title" = "Select the temperature format";
+"celsius.title" = "Celsius";
+"fahrenheit.title" = "Fahrenheit";
+"weather.title" = "Weather";
+"settings.title" = "Settings";
+"map.title" = "Map";
+"favourites.title" = "Favourites";
+"locationPermission.title" = "You didn't enable location permission.";
+"locationPermission.message" = "We can't fetch the current location weather information for you. Please enable location permissions in the Settings app.";
+"locationPermission.openSettings" = "Open Settings app";
+"sunny.title" = "SUNNY";
+"cloudy.title" = "CLOUDY";
+"rainy.title" = "RAINY";
+"weatherValue.current.title" = "Current";
+"weatherValue.min.title" = "min";
+"weatherValue.max.title" = "max";
+"lastUpdated.format" = "Last updated: %@";
+"searchBar.placeholder" = "Search for a location";
+"error.searchLocationFailed.message" = "Didn't find any locations for your search term";
+"currentLocation.title" = "My location";
+"temperature.cell.min.format" = "L:%@";
+"temperature.cell.max.format" = "H:%@";
+"delete.title" = "Delete";
+"longPressToDelete.title" = "Long press to delete";
