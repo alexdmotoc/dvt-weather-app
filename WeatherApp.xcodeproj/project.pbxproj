@@ -37,8 +37,6 @@
 		874C646D2A94F63D00D0185F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 874C646C2A94F63D00D0185F /* Assets.xcassets */; };
 		874C64702A94F63D00D0185F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 874C646F2A94F63D00D0185F /* Preview Assets.xcassets */; };
 		874C647A2A94F63D00D0185F /* WeatherViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874C64792A94F63D00D0185F /* WeatherViewModelTests.swift */; };
-		874C64842A94F63D00D0185F /* WeatherApp_iOSUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874C64832A94F63D00D0185F /* WeatherApp_iOSUITests.swift */; };
-		874C64862A94F63D00D0185F /* WeatherApp_iOSUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874C64852A94F63D00D0185F /* WeatherApp_iOSUITestsLaunchTests.swift */; };
 		874E1B5F2A93D0F4000AE0E4 /* WeatherInformationMO+Mappings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874E1B5E2A93D0F4000AE0E4 /* WeatherInformationMO+Mappings.swift */; };
 		874E1B612A93D659000AE0E4 /* CoreDataWeatherStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874E1B602A93D659000AE0E4 /* CoreDataWeatherStoreTests.swift */; };
 		874E1B772A93DF4E000AE0E4 /* WeatherAppCacheIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874E1B762A93DF4E000AE0E4 /* WeatherAppCacheIntegrationTests.swift */; };
@@ -184,8 +182,6 @@
 		874C64752A94F63D00D0185F /* WeatherApp-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WeatherApp-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		874C64792A94F63D00D0185F /* WeatherViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModelTests.swift; sourceTree = "<group>"; };
 		874C647F2A94F63D00D0185F /* WeatherApp-iOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "WeatherApp-iOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		874C64832A94F63D00D0185F /* WeatherApp_iOSUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApp_iOSUITests.swift; sourceTree = "<group>"; };
-		874C64852A94F63D00D0185F /* WeatherApp_iOSUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherApp_iOSUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		874E1B5E2A93D0F4000AE0E4 /* WeatherInformationMO+Mappings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherInformationMO+Mappings.swift"; sourceTree = "<group>"; };
 		874E1B602A93D659000AE0E4 /* CoreDataWeatherStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataWeatherStoreTests.swift; sourceTree = "<group>"; };
 		874E1B742A93DF4E000AE0E4 /* WeatherAppCacheIntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppCacheIntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -300,7 +296,6 @@
 				874E1B752A93DF4E000AE0E4 /* WeatherAppCacheIntegrationTests */,
 				874C64672A94F63C00D0185F /* WeatherApp-iOS */,
 				874C64782A94F63D00D0185F /* WeatherApp-iOSTests */,
-				874C64822A94F63D00D0185F /* WeatherApp-iOSUITests */,
 				8704C4EA2A90CDCE0076BB69 /* Products */,
 				874C64902A94FBA000D0185F /* Frameworks */,
 			);
@@ -494,15 +489,6 @@
 				87ACFBC32A96182A00068877 /* Helpers */,
 			);
 			path = "WeatherApp-iOSTests";
-			sourceTree = "<group>";
-		};
-		874C64822A94F63D00D0185F /* WeatherApp-iOSUITests */ = {
-			isa = PBXGroup;
-			children = (
-				874C64832A94F63D00D0185F /* WeatherApp_iOSUITests.swift */,
-				874C64852A94F63D00D0185F /* WeatherApp_iOSUITestsLaunchTests.swift */,
-			);
-			path = "WeatherApp-iOSUITests";
 			sourceTree = "<group>";
 		};
 		874C64902A94FBA000D0185F /* Frameworks */ = {
@@ -1021,8 +1007,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				874C64842A94F63D00D0185F /* WeatherApp_iOSUITests.swift in Sources */,
-				874C64862A94F63D00D0185F /* WeatherApp_iOSUITestsLaunchTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
