@@ -32,3 +32,4 @@
 "temperature.cell.min.format" = "L:%@";
 "temperature.cell.max.format" = "H:%@";
 "delete.title" = "Delete";
+"longPressToDelete.title" = "Long press to delete";

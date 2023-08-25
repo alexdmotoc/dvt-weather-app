@@ -81,9 +81,15 @@ class FavouritesListViewController: UIViewController {
             cell.contentView.backgroundColor = UIColor(named: item.backgroundColorName)
         }
         
+        let headerRegistration = UICollectionView.SupplementaryRegistration<FavouritesListHeader>(elementKind: UICollectionView.elementKindSectionHeader) { _, _, _ in }
+        
         dataSource = UICollectionViewDiffableDataSource<FavouriteItemsListData.Section, FavouriteItemsListData.Item>(collectionView: collectionView) {
             (collectionView: UICollectionView, indexPath: IndexPath, item: FavouriteItemsListData.Item) -> UICollectionViewCell? in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
+        }
+        
+        dataSource.supplementaryViewProvider = { [weak self] in
+            self?.collectionView.dequeueConfiguredReusableSupplementary(using: headerRegistration, for: $2)
         }
         
         didReloadItems(viewModel.items)

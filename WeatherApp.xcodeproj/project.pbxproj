@@ -87,6 +87,7 @@
 		87ACFBC02A9612FB00068877 /* MockFavouriteLocationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ACFBBF2A9612FB00068877 /* MockFavouriteLocationUseCase.swift */; };
 		87ACFBC22A9615B200068877 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ACFBC12A9615B200068877 /* DIContainer.swift */; };
 		87ACFBC52A96184200068877 /* LocationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ACFBC42A96184200068877 /* LocationManagerTests.swift */; };
+		87DC20262A98D06B0061A604 /* FavouritesListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DC20252A98D06B0061A604 /* FavouritesListHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -229,6 +230,7 @@
 		87ACFBBF2A9612FB00068877 /* MockFavouriteLocationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockFavouriteLocationUseCase.swift; sourceTree = "<group>"; };
 		87ACFBC12A9615B200068877 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
 		87ACFBC42A96184200068877 /* LocationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerTests.swift; sourceTree = "<group>"; };
+		87DC20252A98D06B0061A604 /* FavouritesListHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesListHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -559,6 +561,7 @@
 			isa = PBXGroup;
 			children = (
 				87768C4E2A97D5EF0050B4AC /* FavouritesListCell.swift */,
+				87DC20252A98D06B0061A604 /* FavouritesListHeader.swift */,
 				87768C432A9797C30050B4AC /* FavouritesListViewController.swift */,
 				87768C452A9797F00050B4AC /* FavouritesListViewModel.swift */,
 				87768C4A2A97D0030050B4AC /* FavouritesListViewController+Utils.swift */,
@@ -975,6 +978,7 @@
 				874C646B2A94F63C00D0185F /* ContentView.swift in Sources */,
 				87768C302A966D670050B4AC /* SettingsTab.swift in Sources */,
 				87768C2E2A9669340050B4AC /* WeatherTab.swift in Sources */,
+				87DC20262A98D06B0061A604 /* FavouritesListHeader.swift in Sources */,
 				87768C372A9740CF0050B4AC /* MapTab.swift in Sources */,
 				87ACFBC02A9612FB00068877 /* MockFavouriteLocationUseCase.swift in Sources */,
 				877D49E92A9540FA00AA41D3 /* NullWeatherStore.swift in Sources */,
