@@ -14,6 +14,7 @@ class FavouritesListCell: UICollectionViewCell {
         label.textColor = .white
         label.font = .systemFont(ofSize: 20, weight: .heavy)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
         return label
     }()
     
@@ -31,6 +32,7 @@ class FavouritesListCell: UICollectionViewCell {
         label.font = .systemFont(ofSize: 40)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
     
@@ -39,6 +41,7 @@ class FavouritesListCell: UICollectionViewCell {
         label.textColor = .white
         label.font = .systemFont(ofSize: 14)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         return label
     }()
     
@@ -47,6 +50,7 @@ class FavouritesListCell: UICollectionViewCell {
         label.textColor = .white
         label.font = .systemFont(ofSize: 14)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         return label
     }()
     
