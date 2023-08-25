@@ -68,7 +68,7 @@ public final class GetWeatherUseCaseImpl: GetWeatherUseCase {
     ///   - weatherCache: the local items in their original order
     ///   - results: the fetched items in a scrambled order
     /// - Returns: the fetched items in the original order
-    /// 
+    ///
     static func getSortedResults(
         weatherCache: [WeatherInformation],
         results: [WeatherInformation]
