@@ -16,11 +16,16 @@ struct MapTab: View {
     init(viewModel: MapTabViewModel) {
         self.viewModel = viewModel
         let delta: CLLocationDegrees = 0.2
+        let coordinates: CLLocationCoordinate2D
         if let weather = viewModel.weather.first {
-            mapRegion = MKCoordinateRegion(center: weather.weather.location.coordinates.toCLCoordinates, span: MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta))
+            coordinates = weather.weather.location.coordinates.toCLCoordinates
         } else {
-            mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 46.770439, longitude: 23.591423), span: MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta))
+            coordinates = CLLocationCoordinate2D(latitude: 46.770439, longitude: 23.591423)
         }
+        mapRegion = MKCoordinateRegion(
+            center: coordinates,
+            span: MKCoordinateSpan(latitudeDelta: delta, longitudeDelta: delta)
+        )
     }
     
     var body: some View {

@@ -47,7 +47,10 @@ final class WeatherViewModel: NSObject, ObservableObject {
         self.useCase = useCase
         self.weatherStore = weatherStore
         self.defaults = defaults
-        self.lastUpdated = Self.makeLastUpdatedString(date: defaults.object(forKey: Self.lastUpdatedKey) as? Date, formatter: formatter)
+        self.lastUpdated = Self.makeLastUpdatedString(
+            date: defaults.object(forKey: Self.lastUpdatedKey) as? Date,
+            formatter: formatter
+        )
         super.init()
         setupLocationManager()
     }
@@ -63,7 +66,8 @@ final class WeatherViewModel: NSObject, ObservableObject {
         guard !isGettingWeather else { return }
         isGettingWeather = true
         do {
-            let results = try await useCase.getWeather(currentLocation: locationManager.currentLocation?.weatherAppCoordinates) { [weak self] cachedWeather in
+            let coord = locationManager.currentLocation?.coordinate.weatherAppCoordinates
+            let results = try await useCase.getWeather(currentLocation: coord) { [weak self] cachedWeather in
                 DispatchQueue.main.async {
                     self?.weatherStore.weatherInformation = cachedWeather
                 }
@@ -102,16 +106,11 @@ final class WeatherViewModel: NSObject, ObservableObject {
     }
 }
 
-// MARK: - CLLocation + util
-
-private extension CLLocation {
-    var weatherAppCoordinates: Coordinates {
-        .init(latitude: coordinate.latitude, longitude: coordinate.longitude)
-    }
-}
+// MARK: - Utils
 
 extension WeatherViewModel {
-    /// This is used when first launching the app to have a pleasant UI while the weather for current location is loading
+    /// This is used when first launching the app to have a pleasant UI while
+    /// the weather for current location is loading
     /// 
     var emptyWeather: WeatherInformation {
         WeatherInformation(

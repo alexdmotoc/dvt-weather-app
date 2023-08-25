@@ -41,7 +41,9 @@ final class FavouritesListViewModel {
         self.store = store
         self.useCase = useCase
         self.appSettings = appSettings
-        items = store.weatherInformation.map { $0.toListData(unitTemperature: appSettings.temperatureType.unitTemperature) }
+        items = store.weatherInformation.map {
+            $0.toListData(unitTemperature: appSettings.temperatureType.unitTemperature)
+        }
         
         settingsObservation = appSettings.$temperatureType
             .receive(on: DispatchQueue.main)
@@ -123,7 +125,9 @@ final class FavouritesListViewModel {
     
     @MainActor
     private func addFavouriteLocation(coordinate: CLLocationCoordinate2D) async throws {
-        let location = try await useCase.addFavouriteLocation(coordinates: Coordinates(latitude: coordinate.latitude, longitude: coordinate.longitude))
+        let location = try await useCase.addFavouriteLocation(
+            coordinates: coordinate.weatherAppCoordinates
+        )
         isInternallyModifyingStore = true
         store.weatherInformation.append(location)
         let listItem = location.toListData(unitTemperature: appSettings.temperatureType.unitTemperature)

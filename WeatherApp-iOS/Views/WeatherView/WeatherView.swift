@@ -99,8 +99,21 @@ struct WeatherView: View {
 struct WeatherView_Previews: PreviewProvider {
     
     static var previews: some View {
-        WeatherView(weatherInfo: .init(info: .makeMock(name: "some weather", isCurrentLocation: true, weatherType: .sunny), temperatureType: .celsius, lastUpdated: "Last updated: 12/23 10:30 PM", onRefresh: {}))
-        WeatherView(weatherInfo: .init(info: .emptyWeather, temperatureType: .celsius, lastUpdated: "Last updated: --", onRefresh: {}))
+        WeatherView(weatherInfo: .init(
+            info: .makeMock(
+                name: "some weather",
+                isCurrentLocation: true,
+                weatherType: .sunny
+            ),
+            temperatureType: .celsius,
+            lastUpdated: "Last updated: 12/23 10:30 PM",
+            onRefresh: {})
+        )
+        WeatherView(weatherInfo: .init(
+            info: .emptyWeather,
+            temperatureType: .celsius,
+            lastUpdated: "Last updated: --",
+            onRefresh: {})
+        )
     }
-    
 }

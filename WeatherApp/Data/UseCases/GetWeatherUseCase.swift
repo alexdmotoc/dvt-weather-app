@@ -8,7 +8,10 @@
 import Foundation
 
 public protocol GetWeatherUseCase {
-    func getWeather(currentLocation: Coordinates?, cacheHandler: ([WeatherInformation]) -> Void) async throws -> [WeatherInformation]
+    func getWeather(
+        currentLocation: Coordinates?,
+        cacheHandler: ([WeatherInformation]) -> Void
+    ) async throws -> [WeatherInformation]
 }
 
 // MARK: - Implementation
@@ -23,7 +26,10 @@ public final class GetWeatherUseCaseImpl: GetWeatherUseCase {
         self.cache = cache
     }
     
-    public func getWeather(currentLocation: Coordinates?, cacheHandler: ([WeatherInformation]) -> Void) async throws -> [WeatherInformation] {
+    public func getWeather(
+        currentLocation: Coordinates?,
+        cacheHandler: ([WeatherInformation]) -> Void
+    ) async throws -> [WeatherInformation] {
         
         let weatherCache = try cache.load()
         cacheHandler(weatherCache)
@@ -36,7 +42,10 @@ public final class GetWeatherUseCaseImpl: GetWeatherUseCase {
         }
         
         for favouriteWeather in weatherCache.filter({ !$0.isCurrentLocation }) {
-            let updatedFavouriteWeather = try await fetcher.fetch(coordinates: favouriteWeather.location.coordinates, isCurrentLocation: false)
+            let updatedFavouriteWeather = try await fetcher.fetch(
+                coordinates: favouriteWeather.location.coordinates,
+                isCurrentLocation: false
+            )
             results.append(updatedFavouriteWeather)
         }
         

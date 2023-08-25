@@ -11,7 +11,11 @@ import CoreData
 // MARK: - From local to CoreData
 
 extension WeatherInformationMO {
-    static func insertedInto(_ context: NSManagedObjectContext, from weather: WeatherInformation, order: Int) -> WeatherInformationMO {
+    static func insertedInto(
+        _ context: NSManagedObjectContext,
+        from weather: WeatherInformation,
+        order: Int
+    ) -> WeatherInformationMO {
         let location = LocationMO(context: context)
         location.name = weather.location.name
         location.latitude = weather.location.coordinates.latitude

@@ -86,6 +86,7 @@
 		87ACFBC22A9615B200068877 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ACFBC12A9615B200068877 /* DIContainer.swift */; };
 		87ACFBC52A96184200068877 /* LocationManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ACFBC42A96184200068877 /* LocationManagerTests.swift */; };
 		87DC20262A98D06B0061A604 /* FavouritesListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DC20252A98D06B0061A604 /* FavouritesListHeader.swift */; };
+		87DC20292A98DDB10061A604 /* CLLocation+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DC20282A98DDB10061A604 /* CLLocation+Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -227,6 +228,7 @@
 		87ACFBC12A9615B200068877 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
 		87ACFBC42A96184200068877 /* LocationManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerTests.swift; sourceTree = "<group>"; };
 		87DC20252A98D06B0061A604 /* FavouritesListHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesListHeader.swift; sourceTree = "<group>"; };
+		87DC20282A98DDB10061A604 /* CLLocation+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Utils.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -521,6 +523,7 @@
 			children = (
 				877D49DB2A950A4E00AA41D3 /* CLLocationManager+Utils.swift */,
 				87ACFBAD2A9552B500068877 /* LocationManager.swift */,
+				87DC20282A98DDB10061A604 /* CLLocation+Utils.swift */,
 			);
 			path = Location;
 			sourceTree = "<group>";
@@ -995,6 +998,7 @@
 				87768C222A9652040050B4AC /* WeatherView.swift in Sources */,
 				87768C492A97A0D90050B4AC /* SearchSuggestionsViewController.swift in Sources */,
 				87768C352A96A4CB0050B4AC /* WeatherViewHelpers.swift in Sources */,
+				87DC20292A98DDB10061A604 /* CLLocation+Utils.swift in Sources */,
 				877D49E02A9517CC00AA41D3 /* WeatherViewModel.swift in Sources */,
 				87768C332A96A4AC0050B4AC /* ForecastViewModel.swift in Sources */,
 				87768C442A9797C30050B4AC /* FavouritesListViewController.swift in Sources */,

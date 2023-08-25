@@ -8,7 +8,11 @@
 import WeatherApp
 
 extension WeatherInformation {
-    static func makeMock(name: String, isCurrentLocation: Bool, weatherType: WeatherInformation.WeatherType) -> WeatherInformation {
+    static func makeMock(
+        name: String,
+        isCurrentLocation: Bool,
+        weatherType: WeatherInformation.WeatherType
+    ) -> WeatherInformation {
         WeatherInformation(
             isCurrentLocation: isCurrentLocation,
             location: Location(name: name, coordinates: Coordinates(latitude: 46.770439, longitude: 23.591423)),

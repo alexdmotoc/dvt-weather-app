@@ -14,7 +14,13 @@ public struct WeatherInformation: Equatable {
     public let weatherType: WeatherType
     public let forecast: [Forecast]
     
-    public init(isCurrentLocation: Bool, location: Location, temperature: Temperature, weatherType: WeatherType, forecast: [Forecast]) {
+    public init(
+        isCurrentLocation: Bool,
+        location: Location,
+        temperature: Temperature,
+        weatherType: WeatherType,
+        forecast: [Forecast]
+    ) {
         self.isCurrentLocation = isCurrentLocation
         self.location = location
         self.temperature = temperature
@@ -64,8 +70,10 @@ extension WeatherInformation {
     public enum WeatherType: Int {
         case sunny, cloudy, rainy
         
-        /// Initialization with weather ID. The possible ID values are found [here](https://openweathermap.org/weather-conditions).
-        /// Other weather types that are not supported are blended into the .rainy type (e.g. snow, mist, thunderstorm, etc).
+        /// Initialization with weather ID.
+        /// The possible ID values are found [here](https://openweathermap.org/weather-conditions).
+        /// Other weather types that are not supported are blended into the .rainy type
+        /// (e.g. snow, mist, thunderstorm, etc).
         /// - Parameter weatherId: the weather ID
         ///
         public init(weatherId: Int?) {

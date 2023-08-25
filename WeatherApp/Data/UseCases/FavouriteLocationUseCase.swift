@@ -60,9 +60,17 @@ private extension FavouriteLocationUseCaseImpl {
         var errorDescription: String? {
             switch self {
             case .itemAlreadyExists:
-                return NSLocalizedString("locationAlreadyExists.error.message", bundle: Bundle(for: FavouriteLocationUseCaseImpl.self), comment: "")
+                return NSLocalizedString(
+                    "locationAlreadyExists.error.message",
+                    bundle: Bundle(for: FavouriteLocationUseCaseImpl.self),
+                    comment: ""
+                )
             case .itemNonExistent:
-                return NSLocalizedString("locationNonExistent.error.message", bundle: Bundle(for: FavouriteLocationUseCaseImpl.self), comment: "")
+                return NSLocalizedString(
+                    "locationNonExistent.error.message",
+                    bundle: Bundle(for: FavouriteLocationUseCaseImpl.self),
+                    comment: ""
+                )
             }
         }
     }

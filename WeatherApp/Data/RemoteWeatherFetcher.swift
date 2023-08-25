@@ -23,7 +23,11 @@ public final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
         public var errorDescription: String? {
             switch self {
             case.invalidData:
-                return NSLocalizedString("api.error.message", bundle: Bundle(for: RemoteWeatherFetcherImpl.self), comment: "")
+                return NSLocalizedString(
+                    "api.error.message",
+                    bundle: Bundle(for: RemoteWeatherFetcherImpl.self),
+                    comment: ""
+                )
             }
         }
     }
@@ -36,7 +40,10 @@ public final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
     public func fetch(coordinates: Coordinates, isCurrentLocation: Bool) async throws -> WeatherInformation {
         let currentWeather = try await fetchCurrentWeather(coordinates: coordinates)
         let forecast = try await fetchForecastWeather(coordinates: coordinates)
-        return currentWeather.weatherInformation(with: ForecastReducer.reduceHourlyForecastToDaily(forecast.forecast), isCurrentLocation: isCurrentLocation)
+        return currentWeather.weatherInformation(
+            with: ForecastReducer.reduceHourlyForecastToDaily(forecast.forecast),
+            isCurrentLocation: isCurrentLocation
+        )
     }
     
     private func fetchCurrentWeather(coordinates: Coordinates) async throws -> CurrentWeatherAPIDTO {

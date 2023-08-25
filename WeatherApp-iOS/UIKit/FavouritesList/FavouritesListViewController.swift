@@ -7,6 +7,8 @@
 
 import UIKit
 
+// swiftlint:disable line_length
+
 class FavouritesListViewController: UIViewController {
     
     // MARK: - Private properties
@@ -73,18 +75,28 @@ class FavouritesListViewController: UIViewController {
     
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<FavouritesListCell, FavouriteItemsListData.Item> { cell, indexPath, item in
-            cell.titleLabel.text = item.isCurrentLocation ? NSLocalizedString("currentLocation.title", comment: "") : item.locationName
-            cell.subtitleLabel.text = item.isCurrentLocation ? item.locationName : NSLocalizedString(item.weatherTypeTitleKey, comment: "").localizedCapitalized
+            cell.titleLabel.text = item.isCurrentLocation
+            ? NSLocalizedString("currentLocation.title", comment: "")
+            : item.locationName
+            
+            cell.subtitleLabel.text = item.isCurrentLocation
+            ? item.locationName
+            : NSLocalizedString(item.weatherTypeTitleKey, comment: "").localizedCapitalized
+            
             cell.currentTemperatureLabel.text = "\(item.currentTemperature)º"
-            cell.minTemperatureLabel.text = String(format: NSLocalizedString("temperature.cell.min.format", comment: ""), "\(item.minTemperature)º")
-            cell.maxTemperatureLabel.text = String(format: NSLocalizedString("temperature.cell.max.format", comment: ""), "\(item.maxTemperature)º")
+            cell.minTemperatureLabel.text = String(
+                format: NSLocalizedString("temperature.cell.min.format", comment: ""), "\(item.minTemperature)º"
+            )
+            cell.maxTemperatureLabel.text = String(
+                format: NSLocalizedString("temperature.cell.max.format", comment: ""), "\(item.maxTemperature)º"
+            )
             cell.contentView.backgroundColor = UIColor(named: item.backgroundColorName)
         }
         
         let headerRegistration = UICollectionView.SupplementaryRegistration<FavouritesListHeader>(elementKind: UICollectionView.elementKindSectionHeader) { _, _, _ in }
         
         dataSource = UICollectionViewDiffableDataSource<FavouriteItemsListData.Section, FavouriteItemsListData.Item>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, item: FavouriteItemsListData.Item) -> UICollectionViewCell? in
+            collectionView, indexPath, item in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
         }
         
@@ -103,7 +115,11 @@ class FavouritesListViewController: UIViewController {
     
     private func displayError(_ error: Swift.Error) {
         let alertTitle = NSLocalizedString("error.title", comment: "")
-        let alertController = UIAlertController(title: alertTitle, message: error.localizedDescription, preferredStyle: .alert)
+        let alertController = UIAlertController(
+            title: alertTitle,
+            message: error.localizedDescription,
+            preferredStyle: .alert
+        )
         let okAction = UIAlertAction(title: NSLocalizedString("dismiss.title", comment: ""), style: .cancel)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
@@ -140,11 +156,19 @@ extension FavouritesListViewController: UICollectionViewDelegate {
         collectionView.deselectItem(at: indexPath, animated: true)
     }
     
-    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        contextMenuConfigurationForItemAt indexPath: IndexPath,
+        point: CGPoint
+    ) -> UIContextMenuConfiguration? {
         guard dataSource.itemIdentifier(for: indexPath)?.isCurrentLocation == false else { return nil }
         
         let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
-            let deleteAction = UIAction(title: NSLocalizedString("delete.title", comment: ""), image: UIImage(systemName: "trash.fill"), attributes: .destructive) { [weak self] _ in
+            let deleteAction = UIAction(
+                title: NSLocalizedString("delete.title", comment: ""),
+                image: UIImage(systemName: "trash.fill"),
+                attributes: .destructive
+            ) { [weak self] _ in
                 self?.deleteItem(at: indexPath)
             }
             return UIMenu(title: "", children: [deleteAction])
@@ -195,3 +219,5 @@ extension FavouritesListViewController: UISearchControllerDelegate {
         suggestionController.collectionView.delegate = self
     }
 }
+
+// swiftlint:enable line_length

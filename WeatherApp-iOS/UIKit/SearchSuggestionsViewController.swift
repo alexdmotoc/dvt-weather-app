@@ -79,11 +79,19 @@ class SearchSuggestionsViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Row> { [weak self] cell, indexPath, item in
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Row> {
+            [weak self] cell, indexPath, item in
+            
             var content = UIListContentConfiguration.subtitleCell()
             let suggestion = item.searchCompletion
-            content.attributedText = self?.createHighlightedString(text: suggestion.title, rangeValues: suggestion.titleHighlightRanges)
-            content.secondaryAttributedText = self?.createHighlightedString(text: suggestion.subtitle, rangeValues: suggestion.subtitleHighlightRanges)
+            content.attributedText = self?.createHighlightedString(
+                text: suggestion.title,
+                rangeValues: suggestion.titleHighlightRanges
+            )
+            content.secondaryAttributedText = self?.createHighlightedString(
+                text: suggestion.subtitle,
+                rangeValues: suggestion.subtitleHighlightRanges
+            )
             cell.contentConfiguration = content
         }
         
@@ -126,18 +134,11 @@ class SearchSuggestionsViewController: UIViewController {
 // MARK: - MKLocalSearchCompleterDelegate
 
 extension SearchSuggestionsViewController: MKLocalSearchCompleterDelegate {
-    
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         let results = completer.results.map { result in
             Row(searchCompletion: result)
         }
         updateCollectionViewSnapshot(results)
-    }
-    
-    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-        if let error = error as NSError? {
-            print("MKLocalSearchCompleter encountered an error: \(error.localizedDescription). The query fragment is: \"\(completer.queryFragment)\"")
-        }
     }
 }
 

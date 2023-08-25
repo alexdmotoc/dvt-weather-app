@@ -25,6 +25,10 @@ struct FavouritesTab: UIViewControllerRepresentable {
 
 struct FavouritesTab_Previews: PreviewProvider {
     static var previews: some View {
-        FavouritesTab(viewModel: .init(store: WeatherInformationStore(), useCase: MockFavouriteLocationUseCase(), appSettings: .init()))
+        FavouritesTab(viewModel: .init(
+            store: WeatherInformationStore(),
+            useCase: MockFavouriteLocationUseCase(),
+            appSettings: .init())
+        )
     }
 }

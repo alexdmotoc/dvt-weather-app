@@ -13,7 +13,9 @@ import CoreData
 @MainActor
 enum DIContainer {
     
-    private static let remoteWeatherFetcher: RemoteWeatherFetcher = RemoteWeatherFetcherImpl(client: URLSessionHTTPClient())
+    private static let remoteWeatherFetcher: RemoteWeatherFetcher = RemoteWeatherFetcherImpl(
+        client: URLSessionHTTPClient()
+    )
 
     private static let weatherCache: WeatherCache = {
         let store: WeatherStore = {
@@ -32,9 +34,13 @@ enum DIContainer {
 
     private static let locationManager = LocationManager(manager: CLLocationManager())
 
-    private static let getWeatherUseCase: GetWeatherUseCase = GetWeatherUseCaseImpl(fetcher: remoteWeatherFetcher, cache: weatherCache)
+    private static let getWeatherUseCase: GetWeatherUseCase = GetWeatherUseCaseImpl(
+        fetcher: remoteWeatherFetcher, cache: weatherCache
+    )
     
-    private static let favouritesUseCase: FavouriteLocationUseCase = FavouriteLocationUseCaseImpl(fetcher: remoteWeatherFetcher, cache: weatherCache)
+    private static let favouritesUseCase: FavouriteLocationUseCase = FavouriteLocationUseCaseImpl(
+        fetcher: remoteWeatherFetcher, cache: weatherCache
+    )
     
     private static let weatherStore = WeatherInformationStore()
     
