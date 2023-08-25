@@ -31,9 +31,19 @@ class FavouriteLocationUseCaseTests: XCTestCase {
         XCTAssertEqual(cache.messages, [.load, .save(cacheMock + [remoteMock])])
     }
     
-    func test_addLocation_doesNotAddALocationThatAlreadyExistsWithTheSameName() async throws {
+    func test_addLocation_doesNotAddALocationThatAlreadyExistsWithTheSameName() async {
+        await assert_throwsErrorWhenAdding(isRandomCoordinates: true)
+    }
+    
+    func test_addLocation_doesNotAddALocationThatAlreadyExistsWithTheSameCoordinates() async {
+        await assert_throwsErrorWhenAdding(isRandomCoordinates: false)
+    }
+    
+    // MARK: - Helpers
+    
+    private func assert_throwsErrorWhenAdding(isRandomCoordinates: Bool) async {
         let (fetcher, cache, sut) = makeSUT()
-        let remoteMock = makeWeatherInformationWithForecast()
+        let remoteMock = makeWeatherInformationWithForecast(isRandomCoordinates: isRandomCoordinates)
         let cacheMock = [remoteMock]
         fetcher.stub = (nil, remoteMock)
         cache.stubbedWeather = cacheMock
@@ -42,13 +52,12 @@ class FavouriteLocationUseCaseTests: XCTestCase {
         do {
             _ = try await sut.addFavouriteLocation(coordinates: Self.makeLocation())
         } catch {
+            XCTAssertEqual(error.localizedDescription, NSLocalizedString("locationAlreadyExists.error.message", bundle: Bundle(for: FavouriteLocationUseCaseImpl.self), comment: ""))
             didThrow = true
         }
         
         XCTAssertTrue(didThrow)
     }
-    
-    // MARK: - Helpers
     
     private func makeSUT(
         file: StaticString = #filePath,

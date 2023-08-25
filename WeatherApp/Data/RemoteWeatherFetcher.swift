@@ -17,8 +17,15 @@ public final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
     private let client: HTTPClient
     private let builder: WeatherAPIURLRequestBuilder
     
-    public enum Error: Swift.Error {
+    public enum Error: Swift.Error, LocalizedError {
         case invalidData
+        
+        public var errorDescription: String? {
+            switch self {
+            case.invalidData:
+                return NSLocalizedString("api.error.message", bundle: Bundle(for: RemoteWeatherFetcherImpl.self), comment: "")
+            }
+        }
     }
     
     public init(client: HTTPClient, builder: WeatherAPIURLRequestBuilder = .init()) {

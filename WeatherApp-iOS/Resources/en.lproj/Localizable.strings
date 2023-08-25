@@ -31,3 +31,4 @@
 "currentLocation.title" = "My location";
 "temperature.cell.min.format" = "L:%@";
 "temperature.cell.max.format" = "H:%@";
+"delete.title" = "Delete";
