@@ -7,6 +7,7 @@
 
 import Foundation
 import WeatherApp
+import CoreLocation
 
 extension WeatherInformation.WeatherType {
     var backgroundColorName: String {
@@ -23,5 +24,11 @@ extension WeatherInformation.WeatherType {
         case .cloudy: return "cloudy.title"
         case .rainy: return "rainy.title"
         }
+    }
+}
+
+extension Coordinates {
+    var toCLCoordinates: CLLocationCoordinate2D {
+        .init(latitude: latitude, longitude: longitude)
     }
 }

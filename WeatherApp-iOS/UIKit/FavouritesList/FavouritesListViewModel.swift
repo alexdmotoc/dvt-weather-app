@@ -7,7 +7,6 @@
 
 import Foundation
 import WeatherApp
-import CoreLocation
 import MapKit
 import Combine
 
