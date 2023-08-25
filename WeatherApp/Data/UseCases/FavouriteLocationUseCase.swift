@@ -29,6 +29,9 @@ public final class FavouriteLocationUseCaseImpl: FavouriteLocationUseCase {
         guard !cached.map(\.location.name).contains(weather.location.name) else {
             throw ItemAlreadyExistsError()
         }
+        guard !cached.map(\.location.coordinates).contains(weather.location.coordinates) else {
+            throw ItemAlreadyExistsError()
+        }
         cached.append(weather)
         try cache.save(cached)
         return weather
