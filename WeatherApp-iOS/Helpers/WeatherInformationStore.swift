@@ -9,7 +9,7 @@ import Foundation
 import WeatherApp
 
 @MainActor
-class WeatherInformationStore: ObservableObject {
+final class WeatherInformationStore: ObservableObject {
     @Published var weatherInformation: [WeatherInformation]
     
     init(weatherInformation: [WeatherInformation] = []) {

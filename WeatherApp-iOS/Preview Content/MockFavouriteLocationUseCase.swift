@@ -27,4 +27,8 @@ class MockFavouriteLocationUseCase: FavouriteLocationUseCase {
         if let result = stub.result { return result }
         throw noStubError
     }
+    
+    func removeFavouriteLocation(_ location: WeatherInformation) throws {
+        
+    }
 }

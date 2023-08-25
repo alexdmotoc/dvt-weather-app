@@ -58,6 +58,7 @@ class FavouritesListViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: makeCollectionViewLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
+        collectionView.delegate = self
         
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
@@ -91,6 +92,7 @@ class FavouritesListViewController: UIViewController {
     private func bindViewModel() {
         viewModel.displayError = displayError
         viewModel.didReloadItems = didReloadItems
+        viewModel.didAppendItem = didAppendItem
     }
     
     private func displayError(_ error: Swift.Error) {
@@ -106,7 +108,15 @@ class FavouritesListViewController: UIViewController {
         sectionSnapshot.append(items)
         dataSource.apply(sectionSnapshot, to: .main, animatingDifferences: true)
     }
+    
+    private func didAppendItem(_ item: FavouriteItemsListData.Item) {
+        var snapshot = dataSource.snapshot()
+        snapshot.appendItems([item])
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
 }
+
+// MARK: - UICollectionViewDelegate
 
 extension FavouritesListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -117,9 +127,31 @@ extension FavouritesListViewController: UICollectionViewDelegate {
             searchController.isActive = false
             searchController.searchBar.text = ""
             viewModel.search(for: row.searchCompletion)
+        } else {
+            print("did tap item")
         }
         
         collectionView.deselectItem(at: indexPath, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        guard dataSource.itemIdentifier(for: indexPath)?.isCurrentLocation == false else { return nil }
+        
+        let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            let deleteAction = UIAction(title: NSLocalizedString("delete.title", comment: ""), image: UIImage(systemName: "trash.fill"), attributes: .destructive) { [weak self] _ in
+                self?.deleteItem(at: indexPath)
+            }
+            return UIMenu(title: "", children: [deleteAction])
+        }
+        return configuration
+    }
+    
+    private func deleteItem(at indexPath: IndexPath) {
+        guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
+        var snapshot = dataSource.snapshot()
+        snapshot.deleteItems([item])
+        dataSource.apply(snapshot, animatingDifferences: true)
+        viewModel.deleteItem(at: indexPath.row)
     }
 }
 

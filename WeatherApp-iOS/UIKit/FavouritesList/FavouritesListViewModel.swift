@@ -26,12 +26,14 @@ final class FavouritesListViewModel {
             localSearch?.cancel()
         }
     }
+    private var isInternallyModifyingStore = false
     
     // MARK: - Public properties
     
     private(set) var items: [FavouriteItemsListData.Item]
     var displayError: ((Swift.Error) -> Void)?
     var didReloadItems: (([FavouriteItemsListData.Item]) -> Void)?
+    var didAppendItem: ((FavouriteItemsListData.Item) -> Void)?
     
     // MARK: - Lifecycle
     
@@ -44,16 +46,15 @@ final class FavouritesListViewModel {
         settingsObservation = appSettings.$temperatureType
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self, weak store] tempType in
-                self?.items = store?.weatherInformation.map { $0.toListData(unitTemperature: tempType.unitTemperature) } ?? []
-                self?.didReloadItems?(self?.items ?? [])
+                guard let self, let store else { return }
+                self.items = store.weatherInformation.map { $0.toListData(unitTemperature: tempType.unitTemperature) }
+                self.didReloadItems?(self.items)
             })
         
         itemsObservation = store.$weatherInformation
             .receive(on: DispatchQueue.main)
-            .sink(receiveValue: { [weak self, weak appSettings] items in
-                guard let appSettings else { return }
-                self?.items = items.map { $0.toListData(unitTemperature: appSettings.temperatureType.unitTemperature) }
-                self?.didReloadItems?(self?.items ?? [])
+            .sink(receiveValue: { [weak self] items in
+                self?.handleItemChangeNotification(items: items)
             })
     }
     
@@ -75,7 +76,28 @@ final class FavouritesListViewModel {
         search(using: searchRequest)
     }
     
+    func deleteItem(at index: Int) {
+        guard items.indices.contains(index), store.weatherInformation.indices.contains(index) else { return }
+        isInternallyModifyingStore = true
+        items.remove(at: index)
+        let item = store.weatherInformation.remove(at: index)
+        do {
+            try useCase.removeFavouriteLocation(item)
+        } catch {
+            displayError?(error)
+        }
+    }
+    
     // MARK: - Private methods
+    
+    private func handleItemChangeNotification(items: [WeatherInformation]) {
+        guard !isInternallyModifyingStore else {
+            isInternallyModifyingStore = false
+            return
+        }
+        self.items = items.map { $0.toListData(unitTemperature: appSettings.temperatureType.unitTemperature) }
+        didReloadItems?(self.items)
+    }
     
     private func search(using searchRequest: MKLocalSearch.Request) {
         searchRequest.region = MKCoordinateRegion(MKMapRect.world)
@@ -102,7 +124,11 @@ final class FavouritesListViewModel {
     @MainActor
     private func addFavouriteLocation(coordinate: CLLocationCoordinate2D) async throws {
         let location = try await useCase.addFavouriteLocation(coordinates: Coordinates(latitude: coordinate.latitude, longitude: coordinate.longitude))
+        isInternallyModifyingStore = true
         store.weatherInformation.append(location)
+        let listItem = location.toListData(unitTemperature: appSettings.temperatureType.unitTemperature)
+        items.append(listItem)
+        didAppendItem?(listItem)
     }
 }
 
