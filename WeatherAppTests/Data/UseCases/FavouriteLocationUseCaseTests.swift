@@ -32,19 +32,59 @@ class FavouriteLocationUseCaseTests: XCTestCase {
     }
     
     func test_addLocation_doesNotAddALocationThatAlreadyExistsWithTheSameName() async {
-        await assert_throwsErrorWhenAdding(isRandomCoordinates: true)
+        await assert_throwsErrorWhenAdding(isSameName: true)
     }
     
     func test_addLocation_doesNotAddALocationThatAlreadyExistsWithTheSameCoordinates() async {
-        await assert_throwsErrorWhenAdding(isRandomCoordinates: false)
+        await assert_throwsErrorWhenAdding(isSameName: false)
+    }
+    
+    func test_removeLocation_updatesCacheWithRemovedObject() throws {
+        let (_, cache, sut) = makeSUT()
+        var cacheMock = makeWeatherInformationArray(name: "cached items")
+        cache.stubbedWeather = cacheMock
+        let itemToRemove = cacheMock[Int.random(in: 1 ..< cacheMock.count)] // 0 is current location, can't delete it
+        
+        try sut.removeFavouriteLocation(itemToRemove)
+        
+        cacheMock.removeAll(where: { $0 == itemToRemove })
+        XCTAssertEqual(cache.messages, [.load, .save(cacheMock)])
+    }
+    
+    func test_removeLocation_throwsErrorWhenTryingToRemoveNonExistentItem() {
+        let (_, cache, sut) = makeSUT()
+        let cacheMock = makeWeatherInformationArray(name: "cached items")
+        cache.stubbedWeather = cacheMock
+        var didThrow = false
+        
+        do {
+            try sut.removeFavouriteLocation(makeWeatherInformationWithForecast(name: "inexistent weather"))
+        } catch {
+            XCTAssertEqual(error.localizedDescription, NSLocalizedString("locationNonExistent.error.message", bundle: Bundle(for: FavouriteLocationUseCaseImpl.self), comment: ""))
+            didThrow = true
+        }
+        
+        XCTAssertTrue(didThrow)
     }
     
     // MARK: - Helpers
     
-    private func assert_throwsErrorWhenAdding(isRandomCoordinates: Bool) async {
+    private func assert_throwsErrorWhenAdding(isSameName: Bool) async {
         let (fetcher, cache, sut) = makeSUT()
-        let remoteMock = makeWeatherInformationWithForecast(isRandomCoordinates: isRandomCoordinates)
-        let cacheMock = [remoteMock]
+        
+        let remoteMock: WeatherInformation
+        let cacheMock: [WeatherInformation]
+        
+        if isSameName {
+            // can use same name
+            remoteMock = makeWeatherInformationWithForecast()
+            cacheMock = [remoteMock]
+        } else {
+            // need to use different name
+            remoteMock = makeWeatherInformationWithForecast(name: "remote", isRandomCoordinates: false)
+            cacheMock = [makeWeatherInformationWithForecast(name: "cache", isRandomCoordinates: false)]
+        }
+        
         fetcher.stub = (nil, remoteMock)
         cache.stubbedWeather = cacheMock
         var didThrow = false

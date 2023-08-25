@@ -7,4 +7,5 @@
 */
 
 "locationAlreadyExists.error.message" = "This location already exists";
+"locationNonExistent.error.message" = "This location does not exist";
 "api.error.message" = "There was a problem with the network data. Please try again later";
