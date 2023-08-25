@@ -22,6 +22,8 @@ When fetching the weather information for a location, we execute 2 API calls, on
 
 When searching for a favourite location, it may be that the name of the location displayed by the app after it's added doesn't match the name the user selected when he searched for the location. This is because we are using the name returned by the API as a source of truth. For example the user searches for Paris and our search algorithm returns some coordinates; when we feed those coordinates into the OpenMaps API, it may be that it returns the name of the neighbourhood for those coordinates, instead of the city name.
 
+Refreshing the weather data could take some time. We are fetching from the API the weather for the current location + the weather for all favourite locations the user has added. This is done _sequentially_, in order to preserve the order of the locations added by the user, so naturally, the more favourite locations the user has, the more time it takes to refresh the weather information. This could be improved by having a `sortOrder` property and fetching all the weather data (current location + favourite locations) concurrently, so all the requests run in parallel. Unfortunately I didn't have time to implement this improvement.
+
 ## Specs
 
 In the following section I added the specifications for the application in a user-story based approach, in order to be clear what the app needs to do.
