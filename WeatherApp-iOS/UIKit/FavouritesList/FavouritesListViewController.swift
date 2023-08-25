@@ -7,8 +7,6 @@
 
 import UIKit
 
-// swiftlint:disable line_length
-
 class FavouritesListViewController: UIViewController {
     
     // MARK: - Private properties
@@ -16,6 +14,7 @@ class FavouritesListViewController: UIViewController {
     private let viewModel: FavouritesListViewModel
     private var suggestionController: SearchSuggestionsViewController!
     private var searchController: UISearchController!
+    // swiftlint:disable:next line_length
     private var dataSource: UICollectionViewDiffableDataSource<FavouriteItemsListData.Section, FavouriteItemsListData.Item>! = nil
     private var collectionView: UICollectionView!
     
@@ -74,6 +73,7 @@ class FavouritesListViewController: UIViewController {
     }
     
     private func configureDataSource() {
+        // swiftlint:disable:next line_length
         let cellRegistration = UICollectionView.CellRegistration<FavouritesListCell, FavouriteItemsListData.Item> { cell, indexPath, item in
             cell.titleLabel.text = item.isCurrentLocation
             ? NSLocalizedString("currentLocation.title", comment: "")
@@ -93,8 +93,10 @@ class FavouritesListViewController: UIViewController {
             cell.contentView.backgroundColor = UIColor(named: item.backgroundColorName)
         }
         
+        // swiftlint:disable:next line_length
         let headerRegistration = UICollectionView.SupplementaryRegistration<FavouritesListHeader>(elementKind: UICollectionView.elementKindSectionHeader) { _, _, _ in }
         
+        // swiftlint:disable:next line_length
         dataSource = UICollectionViewDiffableDataSource<FavouriteItemsListData.Section, FavouriteItemsListData.Item>(collectionView: collectionView) {
             collectionView, indexPath, item in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: item)
@@ -149,8 +151,6 @@ extension FavouritesListViewController: UICollectionViewDelegate {
             searchController.isActive = false
             searchController.searchBar.text = ""
             viewModel.search(for: row.searchCompletion)
-        } else {
-            print("did tap item")
         }
         
         collectionView.deselectItem(at: indexPath, animated: true)
@@ -219,5 +219,3 @@ extension FavouritesListViewController: UISearchControllerDelegate {
         suggestionController.collectionView.delegate = self
     }
 }
-
-// swiftlint:enable line_length
