@@ -15,7 +15,6 @@ public protocol RemoteWeatherFetcher {
 
 public final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
     private let client: HTTPClient
-    private let builder: WeatherAPIURLRequestBuilder
     
     public enum Error: Swift.Error, LocalizedError {
         case invalidData
@@ -32,9 +31,8 @@ public final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
         }
     }
     
-    public init(client: HTTPClient, builder: WeatherAPIURLRequestBuilder = .init()) {
+    public init(client: HTTPClient) {
         self.client = client
-        self.builder = builder
     }
     
     public func fetch(coordinates: Coordinates, isCurrentLocation: Bool) async throws -> WeatherInformation {
@@ -47,13 +45,13 @@ public final class RemoteWeatherFetcherImpl: RemoteWeatherFetcher {
     }
     
     private func fetchCurrentWeather(coordinates: Coordinates) async throws -> CurrentWeatherAPIDTO {
-        let request = try builder.path("/weather").coordinates(coordinates).build()
+        let request = try WeatherAPIURLRequestFactory.makeURLRequest(path: "/weather", coordinates: coordinates)
         let (data, response) = try await client.load(urlReqeust: request)
         return try DataMapper.map(data: data, response: response)
     }
     
     private func fetchForecastWeather(coordinates: Coordinates) async throws -> ForecastWeatherAPIDTO {
-        let request = try builder.path("/forecast").coordinates(coordinates).build()
+        let request = try WeatherAPIURLRequestFactory.makeURLRequest(path: "/forecast", coordinates: coordinates)
         let (data, response) = try await client.load(urlReqeust: request)
         return try DataMapper.map(data: data, response: response)
     }

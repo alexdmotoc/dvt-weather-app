@@ -110,7 +110,7 @@ class URLSessionHTTPClientTests: XCTestCase {
     }
     
     private func makeURLRequest() -> URLRequest {
-        try! WeatherAPIURLRequestBuilder().path("/mock").build()
+        try! WeatherAPIURLRequestFactory.makeURLRequest(path: "/mock", coordinates: .init(latitude: 0, longitude: 0))
     }
     
     private func makeData() -> Data {

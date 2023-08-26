@@ -103,11 +103,11 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     }
     
     private func weatherURLRequest() -> URLRequest {
-        try! WeatherAPIURLRequestBuilder().path("/weather").coordinates(makeCoordinates()).build()
+        try! WeatherAPIURLRequestFactory.makeURLRequest(path: "/weather", coordinates: makeCoordinates())
     }
     
     private func forecastURLRequest() -> URLRequest {
-        try! WeatherAPIURLRequestBuilder().path("/forecast").coordinates(makeCoordinates()).build()
+        try! WeatherAPIURLRequestFactory.makeURLRequest(path: "/forecast", coordinates: makeCoordinates())
     }
     
     private func expect(
