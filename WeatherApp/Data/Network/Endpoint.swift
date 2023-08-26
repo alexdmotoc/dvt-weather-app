@@ -35,7 +35,7 @@ public struct Endpoint {
         let queryItems = queryParameters
             .map { URLQueryItem(name: $0, value: $1) }
             .sorted { $0.name < $1.name }
-        url.append(queryItems: queryItems)
+        if !queryItems.isEmpty { url.append(queryItems: queryItems) }
         var request = URLRequest(url: url)
         request.httpMethod = httpMethod.rawValue
         return request

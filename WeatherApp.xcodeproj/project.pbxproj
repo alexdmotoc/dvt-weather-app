@@ -88,6 +88,7 @@
 		87DC20292A98DDB10061A604 /* CLLocation+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DC20282A98DDB10061A604 /* CLLocation+Utils.swift */; };
 		87DC202C2A98F8120061A604 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87DC202B2A98F8120061A604 /* Assets.xcassets */; };
 		87DC20302A9A16A00061A604 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DC202F2A9A16A00061A604 /* Endpoint.swift */; };
+		87DC20322A9A21850061A604 /* EndpointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DC20312A9A21850061A604 /* EndpointTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -224,6 +225,7 @@
 		87DC202A2A98E0F80061A604 /* CI_iOS.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = CI_iOS.xctestplan; sourceTree = "<group>"; };
 		87DC202B2A98F8120061A604 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		87DC202F2A9A16A00061A604 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		87DC20312A9A21850061A604 /* EndpointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -383,6 +385,7 @@
 		8704C5102A912F150076BB69 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				87DC20312A9A21850061A604 /* EndpointTests.swift */,
 				8704C51D2A9271800076BB69 /* URLSessionHTTPClientTests.swift */,
 				8704C5132A9134D50076BB69 /* WeatherAPIURLRequestFactoryTests.swift */,
 			);
@@ -927,6 +930,7 @@
 				874E1B612A93D659000AE0E4 /* CoreDataWeatherStoreTests.swift in Sources */,
 				8704C5142A9134D50076BB69 /* WeatherAPIURLRequestFactoryTests.swift in Sources */,
 				8704C5122A91333A0076BB69 /* XCTestCase+Utils.swift in Sources */,
+				87DC20322A9A21850061A604 /* EndpointTests.swift in Sources */,
 				874E1B862A948455000AE0E4 /* CoordinatesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
