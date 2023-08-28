@@ -17,14 +17,21 @@ class RemotePlaceDetailsFetcherImpl: RemotePlaceDetailsFetcher {
     }
     
     func fetchDetails(placeName: String) async throws -> PlaceDetails {
-        let getPlaceRequest = try PlacesAPIURLRequestFactory.makeGetPlaceURLRequest(query: placeName)
-        let (data, response) = try await client.load(urlReqeust: getPlaceRequest)
+        let place = try await fetchPlace(name: placeName)
+        guard let placeId = place.place_id else { throw Error.placeNotFound }
+        let request = try PlacesAPIURLRequestFactory.makeGetPlaceDetailsURLRequest(placeId: placeId)
+        let (data, response) = try await client.load(urlReqeust: request)
+        return PlaceDetails(photoRefs: [])
+    }
+    
+    private func fetchPlace(name: String) async throws -> PlaceDTO {
+        let request = try PlacesAPIURLRequestFactory.makeGetPlaceURLRequest(query: name)
+        let (data, response) = try await client.load(urlReqeust: request)
         guard
             response.statusCode == 200,
             let place = try? JSONDecoder().decode(PlaceDTO.self, from: data)
         else { throw Error.invalidData }
-        guard let placeId = place.place_id else { throw Error.placeNotFound }
-        return PlaceDetails(photoRefs: [])
+        return place
     }
     
     // MARK: - Error
@@ -45,21 +52,21 @@ class RemotePlaceDetailsFetcherTests: XCTestCase {
         XCTAssertEqual(client.loadCalledCount, 0)
     }
     
-    func test_fetchDetailsOnce_callsClientOnce() async throws {
+    func test_fetchDetailsOnce_callsClientTwice() async throws {
         let (client, sut) = makeSUT()
         
-        _ = try await sut.fetchDetails(placeName: "mock")
-        
-        XCTAssertEqual(client.loadCalledCount, 1)
-    }
-    
-    func test_fetchDetailsTwice_callsClientTwice() async throws {
-        let (client, sut) = makeSUT()
-        
-        _ = try await sut.fetchDetails(placeName: "mock")
-        _ = try await sut.fetchDetails(placeName: "mock")
+        _ = try await sut.fetchDetails(placeName: placeName)
         
         XCTAssertEqual(client.loadCalledCount, 2)
+    }
+    
+    func test_fetchDetailsTwice_callsClient4Times() async throws {
+        let (client, sut) = makeSUT()
+        
+        _ = try await sut.fetchDetails(placeName: placeName)
+        _ = try await sut.fetchDetails(placeName: placeName)
+        
+        XCTAssertEqual(client.loadCalledCount, 4)
     }
     
     func test_onClientError_deliversClientError() async throws {
@@ -93,6 +100,16 @@ class RemotePlaceDetailsFetcherTests: XCTestCase {
         client.stubs[makeGetPlaceRequest()] = .init(data: makeNilPlaceData(), response: makeResponse(statusCode: 200), error: nil)
         
         await expect(sut, toCompleteWith: RemotePlaceDetailsFetcherImpl.Error.placeNotFound)
+    }
+    
+    func test_fetchDetails_onValidPlace_onPlaceDetails_returnsClientError() async throws {
+        let (client, sut) = makeSUT()
+        
+        let error = makeNSError()
+        client.stubs[makeGetPlaceRequest()] = .init(data: makeValidPlaceData(), response: makeResponse(statusCode: 200), error: nil)
+        client.stubs[makeGetPlaceDetailsRequest()] = .init(data: nil, response: nil, error: error)
+        
+        await expect(sut, toCompleteWith: error)
     }
     
     // MARK: - Helpers
