@@ -7,14 +7,14 @@
 
 import Foundation
 
-public struct PlaceDetails {
+public struct PlaceDetails: Equatable {
     public let photoRefs: [PhotoRef]
     
     public init(photoRefs: [PhotoRef]) {
         self.photoRefs = photoRefs
     }
     
-    public struct PhotoRef {
+    public struct PhotoRef: Equatable {
         let reference: String
         let width: Int
         let height: Int

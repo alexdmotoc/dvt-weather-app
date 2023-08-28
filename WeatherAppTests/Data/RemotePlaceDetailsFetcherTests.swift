@@ -173,10 +173,46 @@ class RemotePlaceDetailsFetcherTests: XCTestCase {
         await expect(sut, toCompleteWith: RemotePlaceDetailsFetcherImpl.Error.invalidData)
     }
     
+    func test_fetchDetails_onValidPlace_onPlaceDetails_on200StatusCodeWithValidDataReturnsPlaceDetails() async throws {
+        let (client, sut) = makeSUT()
+        
+        client.stubs[makeGetPlaceRequest()] = .init(data: makeValidPlaceData(), response: makeResponse(statusCode: 200), error: nil)
+        client.stubs[makeGetPlaceDetailsRequest()] = .init(data: makeValidPlaceDetailsData(), response: makeResponse(statusCode: 200), error: nil)
+        
+        let expectedResult = makePlaceDetails()
+        let result = try await sut.fetchDetails(placeName: placeName)
+        
+        XCTAssertEqual(result, expectedResult)
+    }
+    
+    func test_fetchDetails_onValidPlace_onPlaceDetails_on200StatusCodeWithNilDataReturnsPlaceDetails() async throws {
+        let (client, sut) = makeSUT()
+        
+        client.stubs[makeGetPlaceRequest()] = .init(data: makeValidPlaceData(), response: makeResponse(statusCode: 200), error: nil)
+        client.stubs[makeGetPlaceDetailsRequest()] = .init(data: makeNilPlaceDetailsData(), response: makeResponse(statusCode: 200), error: nil)
+        
+        let expectedResult = makeEmptyPlaceDetails()
+        let result = try await sut.fetchDetails(placeName: placeName)
+        
+        XCTAssertEqual(result, expectedResult)
+    }
+    
     // MARK: - Helpers
     
     private let placeName = "mock"
     private let placeId = "mock"
+    
+    private func makePlaceDetails() -> PlaceDetails {
+        .init(photoRefs: [
+            .init(reference: "mock1", width: 100, height: 100),
+            .init(reference: "mock2", width: 100, height: 100),
+            .init(reference: "mock3", width: 100, height: 100)
+        ])
+    }
+    
+    private func makeEmptyPlaceDetails() -> PlaceDetails {
+        .init(photoRefs: [])
+    }
     
     private func makeValidPlaceData() -> Data {
         try! JSONSerialization.data(withJSONObject: [
@@ -203,6 +239,14 @@ class RemotePlaceDetailsFetcherTests: XCTestCase {
                     ["width": 100, "height": 100, "photo_reference": "mock3"] as [String: Any]
                 ]
             ]
+        ])
+    }
+    
+    private func makeNilPlaceDetailsData() -> Data {
+        try! JSONSerialization.data(withJSONObject: [
+            "result": [
+                "photos": nil
+            ] as [String: Any?]
         ])
     }
     
