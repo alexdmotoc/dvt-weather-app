@@ -94,6 +94,7 @@
 		87DC20382A9CB9B20061A604 /* HTTPClientSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DC20372A9CB9B20061A604 /* HTTPClientSpy.swift */; };
 		87DC203A2A9CFDC60061A604 /* PlacesAPIURLRequestFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DC20392A9CFDC60061A604 /* PlacesAPIURLRequestFactoryTests.swift */; };
 		87DC203C2A9D00850061A604 /* PlacesAPIURLRequestFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DC203B2A9D00850061A604 /* PlacesAPIURLRequestFactory.swift */; };
+		87DC203E2A9D02F90061A604 /* RemotePlaceDetailsFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DC203D2A9D02F90061A604 /* RemotePlaceDetailsFetcherTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -236,6 +237,7 @@
 		87DC20372A9CB9B20061A604 /* HTTPClientSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientSpy.swift; sourceTree = "<group>"; };
 		87DC20392A9CFDC60061A604 /* PlacesAPIURLRequestFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesAPIURLRequestFactoryTests.swift; sourceTree = "<group>"; };
 		87DC203B2A9D00850061A604 /* PlacesAPIURLRequestFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesAPIURLRequestFactory.swift; sourceTree = "<group>"; };
+		87DC203D2A9D02F90061A604 /* RemotePlaceDetailsFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePlaceDetailsFetcherTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -367,6 +369,7 @@
 			children = (
 				8704C4F62A90CDCE0076BB69 /* RemoteWeatherFetcherTests.swift */,
 				870B6FA22A92AE4F00BE5B87 /* ForecastReducerTests.swift */,
+				87DC203D2A9D02F90061A604 /* RemotePlaceDetailsFetcherTests.swift */,
 				870B6FB02A93A33300BE5B87 /* Cache */,
 				8704C5102A912F150076BB69 /* Network */,
 				87ACFBB22A96067E00068877 /* UseCases */,
@@ -938,6 +941,7 @@
 			files = (
 				87ACFBBC2A96082600068877 /* FavouriteLocationUseCaseTests.swift in Sources */,
 				8704C4F72A90CDCE0076BB69 /* RemoteWeatherFetcherTests.swift in Sources */,
+				87DC203E2A9D02F90061A604 /* RemotePlaceDetailsFetcherTests.swift in Sources */,
 				87ACFBB62A96074600068877 /* RemoteWeatherFetcherSpy.swift in Sources */,
 				8704C51C2A926EC20076BB69 /* WeatherInformationTests.swift in Sources */,
 				87DC20382A9CB9B20061A604 /* HTTPClientSpy.swift in Sources */,
