@@ -26,21 +26,13 @@ class RemotePlaceDetailsFetcherImpl: RemotePlaceDetailsFetcher {
     private func fetchPlace(name: String) async throws -> PlaceResponseDTO {
         let request = try PlacesAPIURLRequestFactory.makeGetPlaceURLRequest(query: name)
         let (data, response) = try await client.load(urlReqeust: request)
-        guard
-            response.statusCode == 200,
-            let place = try? JSONDecoder().decode(PlaceResponseDTO.self, from: data)
-        else { throw Error.invalidData }
-        return place
+        return try DataMapper.map(data: data, response: response)
     }
     
     private func fetchPlaceDetails(placeId: String) async throws -> PlaceDetailsDTO {
         let request = try PlacesAPIURLRequestFactory.makeGetPlaceDetailsURLRequest(placeId: placeId)
         let (data, response) = try await client.load(urlReqeust: request)
-        guard
-            response.statusCode == 200,
-            let details = try? JSONDecoder().decode(PlaceDetailsDTO.self, from: data)
-        else { throw Error.invalidData }
-        return details
+        return try DataMapper.map(data: data, response: response)
     }
     
     // MARK: - Error
@@ -48,6 +40,18 @@ class RemotePlaceDetailsFetcherImpl: RemotePlaceDetailsFetcher {
     enum Error: Swift.Error {
         case invalidData
         case placeNotFound
+    }
+    
+    // MARK: - DataMapper
+    
+    private enum DataMapper {
+        static func map<T: Decodable>(data: Data, response: HTTPURLResponse) throws -> T {
+            guard
+                response.statusCode == 200,
+                let mapped = try? JSONDecoder().decode(T.self, from: data)
+            else { throw Error.invalidData }
+            return mapped
+        }
     }
 }
 
