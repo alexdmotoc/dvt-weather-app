@@ -45,7 +45,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         let (client, sut) = makeSUT()
         
         for statusCode in [199, 201, 300, 400, 500] {
-            client.stubs[weatherURLRequest()] = .init(data: nil, response: makeResponse(statusCode: statusCode), error: nil)
+            client.stubs[weatherURLRequest()] = .init(data: Data(), response: makeResponse(statusCode: statusCode), error: nil)
             try await expect(sut, toCompleteWith: RemoteWeatherFetcherImpl.Error.invalidData)
         }
     }
@@ -54,7 +54,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         let (client, sut) = makeSUT()
         
         for statusCode in [199, 201, 300, 400, 500] {
-            client.stubs[forecastURLRequest()] = .init(data: nil, response: makeResponse(statusCode: statusCode), error: nil)
+            client.stubs[forecastURLRequest()] = .init(data: Data(), response: makeResponse(statusCode: statusCode), error: nil)
             try await expect(sut, toCompleteWith: RemoteWeatherFetcherImpl.Error.invalidData)
         }
     }

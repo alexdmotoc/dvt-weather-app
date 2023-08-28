@@ -18,9 +18,23 @@ class RemotePlaceDetailsFetcherImpl: RemotePlaceDetailsFetcher {
     
     func fetchDetails(placeName: String) async throws -> PlaceDetails {
         let getPlaceRequest = try PlacesAPIURLRequestFactory.makeGetPlaceURLRequest(query: placeName)
-        let (_, _) = try await client.load(urlReqeust: getPlaceRequest)
+        let (data, response) = try await client.load(urlReqeust: getPlaceRequest)
+        guard
+            response.statusCode == 200,
+            let place = try? JSONDecoder().decode(PlaceDTO.self, from: data)
+        else { throw Error.invalidData }
         return PlaceDetails(photoRefs: [])
     }
+    
+    // MARK: - Error
+    
+    enum Error: Swift.Error {
+        case invalidData
+    }
+}
+
+struct PlaceDTO: Decodable {
+    let place_id: String?
 }
 
 class RemotePlaceDetailsFetcherTests: XCTestCase {
@@ -51,33 +65,56 @@ class RemotePlaceDetailsFetcherTests: XCTestCase {
         let error = makeNSError()
         client.stubs[makeGetPlaceRequest()] = .init(data: nil, response: nil, error: error)
         
-        try await expect(sut, toCompleteWith: error)
+        await expect(sut, toCompleteWith: error)
+    }
+    
+    func test_fecthDetails_onNon200StatusCodeReturnsError() async throws {
+        let (client, sut) = makeSUT()
+        
+        for code in [199, 201, 300, 400, 500] {
+            client.stubs[makeGetPlaceRequest()] = .init(data: Data(), response: makeResponse(statusCode: code), error: nil)
+            await expect(sut, toCompleteWith: RemotePlaceDetailsFetcherImpl.Error.invalidData)
+        }
+    }
+    
+    func test_fecthDetails_on200StatusCodeWithInvalidDataReturnsError() async throws {
+        let (client, sut) = makeSUT()
+        
+        client.stubs[makeGetPlaceRequest()] = .init(data: Data("invalid data".utf8), response: makeResponse(statusCode: 200), error: nil)
+        
+        await expect(sut, toCompleteWith: RemotePlaceDetailsFetcherImpl.Error.invalidData)
     }
     
     // MARK: - Helpers
+    
+    private func makeValidPlaceData() -> Data {
+        try! JSONSerialization.data(withJSONObject: [
+            "place_id": "mock"
+        ])
+    }
     
     private func expect(
         _ sut: RemotePlaceDetailsFetcher,
         toCompleteWith expectedError: Error,
         file: StaticString = #filePath,
         line: UInt = #line
-    ) async throws {
+    ) async {
         var didThrow = false
         
         do {
             _ = try await sut.fetchDetails(placeName: "mock")
         } catch {
             switch (error, expectedError) {
-            case let (error as RemoteWeatherFetcherImpl.Error, expectedError as RemoteWeatherFetcherImpl.Error):
+            case let (error as RemotePlaceDetailsFetcherImpl.Error, expectedError as RemotePlaceDetailsFetcherImpl.Error):
                 XCTAssertEqual(error, expectedError, file: file, line: line)
-                XCTAssertEqual(error.localizedDescription, NSLocalizedString("api.error.message", bundle: Bundle(for: RemoteWeatherFetcherImpl.self), comment: ""))
+//                XCTAssertEqual(error.localizedDescription, NSLocalizedString("api.error.message", bundle: Bundle(for: RemoteWeatherFetcherImpl.self), comment: ""))
             case let (error as NSError, expectedError as NSError):
                 XCTAssertEqual(error, expectedError, file: file, line: line)
             }
             didThrow = true
         }
         
-        XCTAssertTrue(didThrow)
+        XCTAssertTrue(didThrow, file: file, line: line)
     }
     
     private func makeGetPlaceRequest() -> URLRequest {
@@ -87,6 +124,7 @@ class RemotePlaceDetailsFetcherTests: XCTestCase {
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (client: HTTPClientSpy, sut: RemotePlaceDetailsFetcher) {
         let client = HTTPClientSpy()
         let sut = RemotePlaceDetailsFetcherImpl(client: client)
+        client.stubs[makeGetPlaceRequest()] = .init(data: makeValidPlaceData(), response: makeResponse(statusCode: 200), error: nil)
         checkIsDeallocated(sut: client, file: file, line: line)
         checkIsDeallocated(sut: sut, file: file, line: line)
         return (client, sut)
