@@ -46,7 +46,43 @@ class RemotePlaceDetailsFetcherTests: XCTestCase {
         XCTAssertEqual(client.loadCalledCount, 2)
     }
     
+    func test_onClientError_deliversClientError() async throws {
+        let (client, sut) = makeSUT()
+        let error = makeNSError()
+        client.stubs[makeGetPlaceRequest()] = .init(data: nil, response: nil, error: error)
+        
+        try await expect(sut, toCompleteWith: error)
+    }
+    
     // MARK: - Helpers
+    
+    private func expect(
+        _ sut: RemotePlaceDetailsFetcher,
+        toCompleteWith expectedError: Error,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) async throws {
+        var didThrow = false
+        
+        do {
+            _ = try await sut.fetchDetails(placeName: "mock")
+        } catch {
+            switch (error, expectedError) {
+            case let (error as RemoteWeatherFetcherImpl.Error, expectedError as RemoteWeatherFetcherImpl.Error):
+                XCTAssertEqual(error, expectedError, file: file, line: line)
+                XCTAssertEqual(error.localizedDescription, NSLocalizedString("api.error.message", bundle: Bundle(for: RemoteWeatherFetcherImpl.self), comment: ""))
+            case let (error as NSError, expectedError as NSError):
+                XCTAssertEqual(error, expectedError, file: file, line: line)
+            }
+            didThrow = true
+        }
+        
+        XCTAssertTrue(didThrow)
+    }
+    
+    private func makeGetPlaceRequest() -> URLRequest {
+        try! PlacesAPIURLRequestFactory.makeGetPlaceURLRequest(query: "mock")
+    }
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (client: HTTPClientSpy, sut: RemotePlaceDetailsFetcher) {
         let client = HTTPClientSpy()

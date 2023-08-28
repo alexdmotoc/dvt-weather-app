@@ -98,10 +98,6 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeResponse(statusCode: Int) -> HTTPURLResponse {
-        .init(url: URL(string: "https://someurl.com")!, statusCode: statusCode, httpVersion: nil, headerFields: nil)!
-    }
-    
     private func weatherURLRequest() -> URLRequest {
         try! WeatherAPIURLRequestFactory.makeURLRequest(path: "/weather", coordinates: makeCoordinates())
     }
