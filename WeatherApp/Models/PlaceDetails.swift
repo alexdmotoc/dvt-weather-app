@@ -10,6 +10,10 @@ import Foundation
 public struct PlaceDetails {
     public let photoRefs: [PhotoRef]
     
+    public init(photoRefs: [PhotoRef]) {
+        self.photoRefs = photoRefs
+    }
+    
     public struct PhotoRef {
         let reference: String
         let width: Int

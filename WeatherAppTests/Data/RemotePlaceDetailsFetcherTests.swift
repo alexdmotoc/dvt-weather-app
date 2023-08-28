@@ -17,7 +17,9 @@ class RemotePlaceDetailsFetcherImpl: RemotePlaceDetailsFetcher {
     }
     
     func fetchDetails(placeName: String) async throws -> PlaceDetails {
-        throw NSError(domain: "error", code: 0)
+        let getPlaceRequest = try PlacesAPIURLRequestFactory.makeGetPlaceURLRequest(query: placeName)
+        let (_, _) = try await client.load(urlReqeust: getPlaceRequest)
+        return PlaceDetails(photoRefs: [])
     }
 }
 
@@ -25,6 +27,23 @@ class RemotePlaceDetailsFetcherTests: XCTestCase {
     func test_init_doesntHaveSideEffects() {
         let (client, _) = makeSUT()
         XCTAssertEqual(client.loadCalledCount, 0)
+    }
+    
+    func test_fetchDetailsOnce_callsClientOnce() async throws {
+        let (client, sut) = makeSUT()
+        
+        _ = try await sut.fetchDetails(placeName: "mock")
+        
+        XCTAssertEqual(client.loadCalledCount, 1)
+    }
+    
+    func test_fetchDetailsTwice_callsClientTwice() async throws {
+        let (client, sut) = makeSUT()
+        
+        _ = try await sut.fetchDetails(placeName: "mock")
+        _ = try await sut.fetchDetails(placeName: "mock")
+        
+        XCTAssertEqual(client.loadCalledCount, 2)
     }
     
     // MARK: - Helpers
