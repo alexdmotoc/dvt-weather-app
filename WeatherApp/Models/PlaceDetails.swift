@@ -18,5 +18,11 @@ public struct PlaceDetails {
         let reference: String
         let width: Int
         let height: Int
+        
+        public init(reference: String, width: Int, height: Int) {
+            self.reference = reference
+            self.width = width
+            self.height = height
+        }
     }
 }

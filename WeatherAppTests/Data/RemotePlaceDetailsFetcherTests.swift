@@ -17,22 +17,30 @@ class RemotePlaceDetailsFetcherImpl: RemotePlaceDetailsFetcher {
     }
     
     func fetchDetails(placeName: String) async throws -> PlaceDetails {
-        let place = try await fetchPlace(name: placeName)
-        guard let placeId = place.place_id else { throw Error.placeNotFound }
-        let request = try PlacesAPIURLRequestFactory.makeGetPlaceDetailsURLRequest(placeId: placeId)
-        let (data, response) = try await client.load(urlReqeust: request)
-        guard response.statusCode == 200 else { throw Error.invalidData }
-        return PlaceDetails(photoRefs: [])
+        let response = try await fetchPlace(name: placeName)
+        guard let placeId = response.results.first?.place_id else { throw Error.placeNotFound }
+        let details = try await fetchPlaceDetails(placeId: placeId)
+        return details.toLocal
     }
     
-    private func fetchPlace(name: String) async throws -> PlaceDTO {
+    private func fetchPlace(name: String) async throws -> PlaceResponseDTO {
         let request = try PlacesAPIURLRequestFactory.makeGetPlaceURLRequest(query: name)
         let (data, response) = try await client.load(urlReqeust: request)
         guard
             response.statusCode == 200,
-            let place = try? JSONDecoder().decode(PlaceDTO.self, from: data)
+            let place = try? JSONDecoder().decode(PlaceResponseDTO.self, from: data)
         else { throw Error.invalidData }
         return place
+    }
+    
+    private func fetchPlaceDetails(placeId: String) async throws -> PlaceDetailsDTO {
+        let request = try PlacesAPIURLRequestFactory.makeGetPlaceDetailsURLRequest(placeId: placeId)
+        let (data, response) = try await client.load(urlReqeust: request)
+        guard
+            response.statusCode == 200,
+            let details = try? JSONDecoder().decode(PlaceDetailsDTO.self, from: data)
+        else { throw Error.invalidData }
+        return details
     }
     
     // MARK: - Error
@@ -43,8 +51,36 @@ class RemotePlaceDetailsFetcherImpl: RemotePlaceDetailsFetcher {
     }
 }
 
-struct PlaceDTO: Decodable {
-    let place_id: String?
+struct PlaceResponseDTO: Decodable {
+    let results: [Result]
+    
+    struct Result: Decodable {
+        let place_id: String?
+    }
+}
+
+struct PlaceDetailsDTO: Decodable {
+    let result: Result
+    
+    struct Result: Decodable {
+        let photos: [Photo]?
+    }
+    
+    struct Photo: Decodable {
+        let height: Int
+        let width: Int
+        let photo_reference: String
+    }
+    
+    var toLocal: PlaceDetails {
+        .init(photoRefs: result.photos?.map {
+            PlaceDetails.PhotoRef(
+                reference: $0.photo_reference,
+                width: $0.width,
+                height: $0.height
+            )
+        } ?? [])
+    }
 }
 
 class RemotePlaceDetailsFetcherTests: XCTestCase {
@@ -124,6 +160,15 @@ class RemotePlaceDetailsFetcherTests: XCTestCase {
         }
     }
     
+    func test_fetchDetails_onValidPlace_onPlaceDetails_on200StatusCodeWithInvalidDataReturnsError() async throws {
+        let (client, sut) = makeSUT()
+        
+        client.stubs[makeGetPlaceRequest()] = .init(data: makeValidPlaceData(), response: makeResponse(statusCode: 200), error: nil)
+        client.stubs[makeGetPlaceDetailsRequest()] = .init(data: Data("invalid data".utf8), response: makeResponse(statusCode: 200), error: nil)
+        
+        await expect(sut, toCompleteWith: RemotePlaceDetailsFetcherImpl.Error.invalidData)
+    }
+    
     // MARK: - Helpers
     
     private let placeName = "mock"
@@ -131,14 +176,30 @@ class RemotePlaceDetailsFetcherTests: XCTestCase {
     
     private func makeValidPlaceData() -> Data {
         try! JSONSerialization.data(withJSONObject: [
-            "place_id": placeId
+            "results": [
+                ["place_id": placeId]
+            ]
         ])
     }
     
     private func makeNilPlaceData() -> Data {
         try! JSONSerialization.data(withJSONObject: [
-            "place_id": nil
-        ] as [String: Any?])
+            "results": [
+                ["place_id": nil] as [String: Any?]
+            ]
+        ])
+    }
+    
+    private func makeValidPlaceDetailsData() -> Data {
+        try! JSONSerialization.data(withJSONObject: [
+            "result": [
+                "photos": [
+                    ["width": 100, "height": 100, "photo_reference": "mock1"] as [String: Any],
+                    ["width": 100, "height": 100, "photo_reference": "mock2"] as [String: Any],
+                    ["width": 100, "height": 100, "photo_reference": "mock3"] as [String: Any]
+                ]
+            ]
+        ])
     }
     
     private func expect(
@@ -177,6 +238,7 @@ class RemotePlaceDetailsFetcherTests: XCTestCase {
         let client = HTTPClientSpy()
         let sut = RemotePlaceDetailsFetcherImpl(client: client)
         client.stubs[makeGetPlaceRequest()] = .init(data: makeValidPlaceData(), response: makeResponse(statusCode: 200), error: nil)
+        client.stubs[makeGetPlaceDetailsRequest()] = .init(data: makeValidPlaceDetailsData(), response: makeResponse(statusCode: 200), error: nil)
         checkIsDeallocated(sut: client, file: file, line: line)
         checkIsDeallocated(sut: sut, file: file, line: line)
         return (client, sut)
