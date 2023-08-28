@@ -193,33 +193,6 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         
         return (client, sut)
     }
-    
-    private class HTTPClientSpy: HTTPClient {
-        struct Stub {
-            let data: Data?
-            let response: HTTPURLResponse?
-            let error: Error?
-        }
-        
-        var loadCalledCount = 0
-        var stubs: [URLRequest: Stub] = [:]
-        
-        func load(urlReqeust: URLRequest) async throws -> (Data, HTTPURLResponse) {
-            loadCalledCount += 1
-            
-            let stub = stubs[urlReqeust]
-            
-            if let error = stub?.error {
-                throw error
-            }
-            
-            if let data = stub?.data, let response = stub?.response {
-                return (data, response)
-            }
-            
-            return (Data(), HTTPURLResponse())
-        }
-    }
 }
 
 private extension WeatherInformation.WeatherType {
