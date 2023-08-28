@@ -21,6 +21,7 @@ class RemotePlaceDetailsFetcherImpl: RemotePlaceDetailsFetcher {
         guard let placeId = place.place_id else { throw Error.placeNotFound }
         let request = try PlacesAPIURLRequestFactory.makeGetPlaceDetailsURLRequest(placeId: placeId)
         let (data, response) = try await client.load(urlReqeust: request)
+        guard response.statusCode == 200 else { throw Error.invalidData }
         return PlaceDetails(photoRefs: [])
     }
     
@@ -110,6 +111,17 @@ class RemotePlaceDetailsFetcherTests: XCTestCase {
         client.stubs[makeGetPlaceDetailsRequest()] = .init(data: nil, response: nil, error: error)
         
         await expect(sut, toCompleteWith: error)
+    }
+    
+    func test_fetchDetails_onValidPlace_onPlaceDetails_onNon200StatusCodeReturnsError() async throws {
+        let (client, sut) = makeSUT()
+        
+        client.stubs[makeGetPlaceRequest()] = .init(data: makeValidPlaceData(), response: makeResponse(statusCode: 200), error: nil)
+        
+        for code in [199, 201, 300, 400, 500] {
+            client.stubs[makeGetPlaceDetailsRequest()] = .init(data: Data(), response: makeResponse(statusCode: code), error: nil)
+            await expect(sut, toCompleteWith: RemotePlaceDetailsFetcherImpl.Error.invalidData)
+        }
     }
     
     // MARK: - Helpers
