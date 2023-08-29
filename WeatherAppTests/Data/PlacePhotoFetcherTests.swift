@@ -50,9 +50,45 @@ class PlacePhotoFetcherTests: XCTestCase {
         XCTAssertEqual(client.loadCalledCount, 2)
     }
     
+    func test_onClientError_returnsError() async {
+        let (client, sut) = makeSUT()
+        let error = makeNSError()
+        client.stubs[makeGetPhotoRequest()] = .init(data: nil, response: nil, error: error)
+        
+        await expect(sut, toCompleteWith: error)
+    }
+    
     // MARK: - Helpers
     
     private let photoReference = "mock"
+    
+    private func makeGetPhotoRequest() -> URLRequest {
+        try! PlacesAPIURLRequestFactory.makeGetPhotoURLRequest(photoReference: photoReference)
+    }
+    
+    private func expect(
+        _ sut: PlacePhotoFetcher,
+        toCompleteWith expectedError: Error,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) async {
+        var didThrow = false
+        
+        do {
+            _ = try await sut.fetchPhoto(reference: photoReference, maxWidth: nil, maxHeight: nil)
+        } catch {
+            switch (error, expectedError) {
+            case let (error as RemotePlaceDetailsFetcherImpl.Error, expectedError as RemotePlaceDetailsFetcherImpl.Error):
+                XCTAssertEqual(error, expectedError, file: file, line: line)
+                XCTAssertFalse(error.localizedDescription.isEmpty)
+            case let (error as NSError, expectedError as NSError):
+                XCTAssertEqual(error, expectedError, file: file, line: line)
+            }
+            didThrow = true
+        }
+        
+        XCTAssertTrue(didThrow, file: file, line: line)
+    }
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (client: HTTPClientSpy, sut: PlacePhotoFetcher) {
         let client = HTTPClientSpy()
