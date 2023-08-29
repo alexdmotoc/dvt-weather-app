@@ -95,7 +95,7 @@ class PlacePhotoFetcherTests: XCTestCase {
             _ = try await sut.fetchPhoto(reference: photoReference, maxWidth: maxWidth, maxHeight: nil)
         } catch {
             switch (error, expectedError) {
-            case let (error as RemotePlaceDetailsFetcherImpl.Error, expectedError as RemotePlaceDetailsFetcherImpl.Error):
+            case let (error as PlacePhotoFetcherImpl.Error, expectedError as PlacePhotoFetcherImpl.Error):
                 XCTAssertEqual(error, expectedError, file: file, line: line)
                 XCTAssertFalse(error.localizedDescription.isEmpty)
             case let (error as NSError, expectedError as NSError):
