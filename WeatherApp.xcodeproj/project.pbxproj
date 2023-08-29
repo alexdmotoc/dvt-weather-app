@@ -48,6 +48,8 @@
 		8756CAB42A9DFCB6008F99C0 /* PlacesAPIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAB32A9DFCB6008F99C0 /* PlacesAPIConstants.swift */; };
 		8756CAB62A9E11C0008F99C0 /* PlacePhotoFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAB52A9E11C0008F99C0 /* PlacePhotoFetcher.swift */; };
 		8756CAB82A9E120D008F99C0 /* PlacePhotoFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAB72A9E120D008F99C0 /* PlacePhotoFetcherTests.swift */; };
+		8756CABB2A9E50DC008F99C0 /* PlaceDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CABA2A9E50DC008F99C0 /* PlaceDetailsViewController.swift */; };
+		8756CABD2A9E50F8008F99C0 /* PlaceDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CABC2A9E50F8008F99C0 /* PlaceDetailsViewModel.swift */; };
 		87768C222A9652040050B4AC /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C212A9652040050B4AC /* WeatherView.swift */; };
 		87768C252A9654CB0050B4AC /* WeatherInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C242A9654CB0050B4AC /* WeatherInfoViewModel.swift */; };
 		87768C282A965D8E0050B4AC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87768C2A2A965D8E0050B4AC /* Localizable.strings */; };
@@ -198,6 +200,8 @@
 		8756CAB32A9DFCB6008F99C0 /* PlacesAPIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesAPIConstants.swift; sourceTree = "<group>"; };
 		8756CAB52A9E11C0008F99C0 /* PlacePhotoFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacePhotoFetcher.swift; sourceTree = "<group>"; };
 		8756CAB72A9E120D008F99C0 /* PlacePhotoFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacePhotoFetcherTests.swift; sourceTree = "<group>"; };
+		8756CABA2A9E50DC008F99C0 /* PlaceDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailsViewController.swift; sourceTree = "<group>"; };
+		8756CABC2A9E50F8008F99C0 /* PlaceDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailsViewModel.swift; sourceTree = "<group>"; };
 		87768C212A9652040050B4AC /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
 		87768C242A9654CB0050B4AC /* WeatherInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInfoViewModel.swift; sourceTree = "<group>"; };
 		87768C292A965D8E0050B4AC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -533,6 +537,15 @@
 			path = WeatherAppCacheIntegrationTests;
 			sourceTree = "<group>";
 		};
+		8756CAB92A9E50BA008F99C0 /* PlaceDetails */ = {
+			isa = PBXGroup;
+			children = (
+				8756CABA2A9E50DC008F99C0 /* PlaceDetailsViewController.swift */,
+				8756CABC2A9E50F8008F99C0 /* PlaceDetailsViewModel.swift */,
+			);
+			path = PlaceDetails;
+			sourceTree = "<group>";
+		};
 		87768C232A9654BF0050B4AC /* WeatherView */ = {
 			isa = PBXGroup;
 			children = (
@@ -566,6 +579,7 @@
 			isa = PBXGroup;
 			children = (
 				87768C472A979FA50050B4AC /* FavouritesList */,
+				8756CAB92A9E50BA008F99C0 /* PlaceDetails */,
 				87768C482A97A0D90050B4AC /* SearchSuggestionsViewController.swift */,
 			);
 			path = UIKit;
@@ -1002,6 +1016,7 @@
 				87768C372A9740CF0050B4AC /* MapTab.swift in Sources */,
 				87ACFBC02A9612FB00068877 /* MockFavouriteLocationUseCase.swift in Sources */,
 				877D49E92A9540FA00AA41D3 /* NullWeatherStore.swift in Sources */,
+				8756CABB2A9E50DC008F99C0 /* PlaceDetailsViewController.swift in Sources */,
 				87ACFBC22A9615B200068877 /* DIContainer.swift in Sources */,
 				87768C222A9652040050B4AC /* WeatherView.swift in Sources */,
 				87768C492A97A0D90050B4AC /* SearchSuggestionsViewController.swift in Sources */,
@@ -1017,6 +1032,7 @@
 				87768C4F2A97D5EF0050B4AC /* FavouritesListCell.swift in Sources */,
 				874C64692A94F63C00D0185F /* WeatherApp_iOSApp.swift in Sources */,
 				87768C252A9654CB0050B4AC /* WeatherInfoViewModel.swift in Sources */,
+				8756CABD2A9E50F8008F99C0 /* PlaceDetailsViewModel.swift in Sources */,
 				87768C4D2A97D0EA0050B4AC /* FavouriteItemsListData.swift in Sources */,
 				877D49E52A953A4C00AA41D3 /* MockGetWeatherUseCase.swift in Sources */,
 				87768C392A9741CF0050B4AC /* FavouritesTab.swift in Sources */,

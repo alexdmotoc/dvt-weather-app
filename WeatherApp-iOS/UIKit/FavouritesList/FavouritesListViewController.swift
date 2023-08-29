@@ -18,6 +18,10 @@ class FavouritesListViewController: UIViewController {
     private var dataSource: UICollectionViewDiffableDataSource<FavouriteItemsListData.Section, FavouriteItemsListData.Item>! = nil
     private var collectionView: UICollectionView!
     
+    // MARK: - Public properties
+    
+    var didSelectPlaceNamed: ((String) -> Void)?
+    
     // MARK: - Lifecycle
     
     init(viewModel: FavouritesListViewModel) {
@@ -151,6 +155,9 @@ extension FavouritesListViewController: UICollectionViewDelegate {
             searchController.isActive = false
             searchController.searchBar.text = ""
             viewModel.search(for: row.searchCompletion)
+        } else if collectionView == self.collectionView {
+            guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
+            didSelectPlaceNamed?(item.locationName)
         }
         
         collectionView.deselectItem(at: indexPath, animated: true)
