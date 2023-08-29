@@ -8,30 +8,6 @@
 import XCTest
 import WeatherApp
 
-final class PlacePhotoFetcherImpl: PlacePhotoFetcher {
-    
-    private let client: HTTPClient
-    
-    init(client: HTTPClient) {
-        self.client = client
-    }
-    
-    func fetchPhoto(reference: String, maxWidth: Int?, maxHeight: Int?) async throws -> Data {
-        let request = try PlacesAPIURLRequestFactory.makeGetPhotoURLRequest(
-            photoReference: reference,
-            maxWidth: maxWidth,
-            maxHeight: maxHeight
-        )
-        let (data, response) = try await client.load(urlReqeust: request)
-        guard response.statusCode == 200, !data.isEmpty else { throw Error.invalidData }
-        return data
-    }
-    
-    enum Error: Swift.Error {
-        case invalidData
-    }
-}
-
 class PlacePhotoFetcherTests: XCTestCase {
     func test_init_doesntProduceSideEffects() {
         let (client, _) = makeSUT()
