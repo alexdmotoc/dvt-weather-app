@@ -10,14 +10,14 @@ import Foundation
 public enum PlacesAPIURLRequestFactory {
     public static func makeGetPlaceURLRequest(
         query: String,
-        apiKey: String = "AIzaSyDT08Q1TUdrMQRRRcdyzkn8idQ0YxEBUIo"
+        apiKey: String? = nil
     ) throws -> URLRequest {
         let endpoint = Endpoint(
-            baseURL: "https://maps.googleapis.com/maps/api/place",
+            baseURL: PlacesAPIConstants.baseURL,
             path: "/textsearch/json",
             queryParameters: [
                 "query": query,
-                "key": apiKey
+                "key": apiKey ?? PlacesAPIConstants.apiKey
             ]
         )
         return try endpoint.makeUrlRequest()
@@ -25,14 +25,14 @@ public enum PlacesAPIURLRequestFactory {
     
     public static func makeGetPlaceDetailsURLRequest(
         placeId: String,
-        apiKey: String = "AIzaSyDT08Q1TUdrMQRRRcdyzkn8idQ0YxEBUIo"
+        apiKey: String? = nil
     ) throws -> URLRequest {
         let endpoint = Endpoint(
-            baseURL: "https://maps.googleapis.com/maps/api/place",
+            baseURL: PlacesAPIConstants.baseURL,
             path: "/details/json",
             queryParameters: [
                 "place_id": placeId,
-                "key": apiKey
+                "key": apiKey ?? PlacesAPIConstants.apiKey
             ]
         )
         return try endpoint.makeUrlRequest()
