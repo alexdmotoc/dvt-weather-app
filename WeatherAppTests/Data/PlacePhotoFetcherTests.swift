@@ -16,8 +16,14 @@ final class PlacePhotoFetcherImpl: PlacePhotoFetcher {
         self.client = client
     }
     
-    func fetchPhoto(reference: String, minWidth: Int?, minHeight: Int?) async throws -> Data {
-        Data()
+    func fetchPhoto(reference: String, maxWidth: Int?, maxHeight: Int?) async throws -> Data {
+        let request = try PlacesAPIURLRequestFactory.makeGetPhotoURLRequest(
+            photoReference: reference,
+            maxWidth: maxWidth,
+            maxHeight: maxHeight
+        )
+        let (data, response) = try await client.load(urlReqeust: request)
+        return data
     }
 }
 
@@ -27,7 +33,26 @@ class PlacePhotoFetcherTests: XCTestCase {
         XCTAssertEqual(client.loadCalledCount, 0)
     }
     
+    func test_fetchOnce_callsClientOnce() async throws {
+        let (client, sut) = makeSUT()
+        
+        _ = try await sut.fetchPhoto(reference: photoReference, maxWidth: nil, maxHeight: nil)
+        
+        XCTAssertEqual(client.loadCalledCount, 1)
+    }
+    
+    func test_fetchTwice_callsClientTwice() async throws {
+        let (client, sut) = makeSUT()
+        
+        _ = try await sut.fetchPhoto(reference: photoReference, maxWidth: nil, maxHeight: nil)
+        _ = try await sut.fetchPhoto(reference: photoReference, maxWidth: nil, maxHeight: nil)
+        
+        XCTAssertEqual(client.loadCalledCount, 2)
+    }
+    
     // MARK: - Helpers
+    
+    private let photoReference = "mock"
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (client: HTTPClientSpy, sut: PlacePhotoFetcher) {
         let client = HTTPClientSpy()

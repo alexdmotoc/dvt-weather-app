@@ -8,5 +8,5 @@
 import Foundation
 
 public protocol PlacePhotoFetcher {
-    func fetchPhoto(reference: String, minWidth: Int?, minHeight: Int?) async throws -> Data
+    func fetchPhoto(reference: String, maxWidth: Int?, maxHeight: Int?) async throws -> Data
 }
