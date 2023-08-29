@@ -10,8 +10,11 @@ import WeatherApp
 
 final class PlaceDetailsViewModel {
     let locationName: String
+    let photoFetcher: PlacePhotoFetcher
     private let detailsFetcher: RemotePlaceDetailsFetcher
-    private let photoFetcher: PlacePhotoFetcher
+    
+    var didLoadDetails: (([Item]) -> Void)?
+    var didEncounterError: ((Error) -> Void)?
     
     init(
         locationName: String,
@@ -21,5 +24,34 @@ final class PlaceDetailsViewModel {
         self.locationName = locationName
         self.detailsFetcher = detailsFetcher
         self.photoFetcher = photoFetcher
+    }
+    
+    func loadDetails() {
+        Task {
+            do {
+                let details = try await detailsFetcher.fetchDetails(placeName: locationName)
+                DispatchQueue.main.async {
+                    self.didLoadDetails?(details.photoRefs.map {
+                        .init(reference: $0.reference, width: $0.width, height: $0.height)
+                    })
+                }
+            } catch {
+                didEncounterError?(error)
+            }
+        }
+    }
+}
+
+// MARK: - Diffable Data
+
+extension PlaceDetailsViewModel {
+    enum Section {
+        case main
+    }
+    
+    struct Item: Hashable {
+        let reference: String
+        let width: Int
+        let height: Int
     }
 }

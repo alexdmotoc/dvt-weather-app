@@ -33,3 +33,4 @@
 "temperature.cell.max.format" = "H:%@";
 "delete.title" = "Delete";
 "longPressToDelete.title" = "Long press to delete";
+"noPhotos.error.message" = "There are no images to show for this location";
