@@ -17,7 +17,7 @@ class PlacePhotoFetcherTests: XCTestCase {
     func test_fetchOnce_callsClientOnce() async throws {
         let (client, sut) = makeSUT()
         
-        _ = try await sut.fetchPhoto(reference: photoReference, maxWidth: nil, maxHeight: nil)
+        _ = try await sut.fetchPhoto(reference: photoReference, maxWidth: maxWidth, maxHeight: nil)
         
         XCTAssertEqual(client.loadCalledCount, 1)
     }
@@ -25,8 +25,8 @@ class PlacePhotoFetcherTests: XCTestCase {
     func test_fetchTwice_callsClientTwice() async throws {
         let (client, sut) = makeSUT()
         
-        _ = try await sut.fetchPhoto(reference: photoReference, maxWidth: nil, maxHeight: nil)
-        _ = try await sut.fetchPhoto(reference: photoReference, maxWidth: nil, maxHeight: nil)
+        _ = try await sut.fetchPhoto(reference: photoReference, maxWidth: maxWidth, maxHeight: nil)
+        _ = try await sut.fetchPhoto(reference: photoReference, maxWidth: maxWidth, maxHeight: nil)
         
         XCTAssertEqual(client.loadCalledCount, 2)
     }
@@ -61,7 +61,7 @@ class PlacePhotoFetcherTests: XCTestCase {
         let data = makeNonEmptyData()
         
         client.stubs[makeGetPhotoRequest()] = .init(data: data, response: makeResponse(statusCode: 200), error: nil)
-        let result = try await sut.fetchPhoto(reference: photoReference, maxWidth: nil, maxHeight: nil)
+        let result = try await sut.fetchPhoto(reference: photoReference, maxWidth: maxWidth, maxHeight: nil)
         
         XCTAssertEqual(result, data)
     }
@@ -69,9 +69,10 @@ class PlacePhotoFetcherTests: XCTestCase {
     // MARK: - Helpers
     
     private let photoReference = "mock"
+    private let maxWidth = 100
     
     private func makeGetPhotoRequest() -> URLRequest {
-        try! PlacesAPIURLRequestFactory.makeGetPhotoURLRequest(photoReference: photoReference)
+        try! PlacesAPIURLRequestFactory.makeGetPhotoURLRequest(photoReference: photoReference, maxWidth: maxWidth)
     }
     
     private func makeNonEmptyData() -> Data {
@@ -91,7 +92,7 @@ class PlacePhotoFetcherTests: XCTestCase {
         var didThrow = false
         
         do {
-            _ = try await sut.fetchPhoto(reference: photoReference, maxWidth: nil, maxHeight: nil)
+            _ = try await sut.fetchPhoto(reference: photoReference, maxWidth: maxWidth, maxHeight: nil)
         } catch {
             switch (error, expectedError) {
             case let (error as RemotePlaceDetailsFetcherImpl.Error, expectedError as RemotePlaceDetailsFetcherImpl.Error):

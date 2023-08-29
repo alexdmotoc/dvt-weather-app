@@ -40,15 +40,15 @@ public enum PlacesAPIURLRequestFactory {
     
     public static func makeGetPhotoURLRequest(
         photoReference: String,
-        maxWidth: Int? = nil,
+        maxWidth: Int,
         maxHeight: Int? = nil,
         apiKey: String? = nil
     ) throws -> URLRequest {
         var queryParams = [
             "photo_reference": photoReference,
+            "maxwidth": String(maxWidth),
             "key": apiKey ?? PlacesAPIConstants.apiKey
         ]
-        if let maxWidth { queryParams["maxwidth"] = String(maxWidth) }
         if let maxHeight { queryParams["maxheight"] = String(maxHeight) }
         let endpoint = Endpoint(
             baseURL: PlacesAPIConstants.baseURL,

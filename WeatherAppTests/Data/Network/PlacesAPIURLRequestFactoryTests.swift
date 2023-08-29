@@ -21,22 +21,10 @@ class PlacesAPIURLRequestFactoryTests: XCTestCase {
         XCTAssertEqual(request.url?.absoluteString, "https://maps.googleapis.com/maps/api/place/details/json?key=mockApiKey&place_id=mockPlaceId")
     }
     
-    func test_factory_buildsCorrectRequestForGetPhotosWithNoExtraParameters() throws {
-        let request = try PlacesAPIURLRequestFactory.makeGetPhotoURLRequest(photoReference: "mockReference", apiKey: "mockApiKey")
-        
-        XCTAssertEqual(request.url?.absoluteString, "https://maps.googleapis.com/maps/api/place/photo?key=mockApiKey&photo_reference=mockReference")
-    }
-    
     func test_factory_buildsCorrectRequestForGetPhotosWithMaxWidthExtraParameters() throws {
         let request = try PlacesAPIURLRequestFactory.makeGetPhotoURLRequest(photoReference: "mockReference", maxWidth: 123, apiKey: "mockApiKey")
         
         XCTAssertEqual(request.url?.absoluteString, "https://maps.googleapis.com/maps/api/place/photo?key=mockApiKey&maxwidth=123&photo_reference=mockReference")
-    }
-    
-    func test_factory_buildsCorrectRequestForGetPhotosWithMaxHeightExtraParameters() throws {
-        let request = try PlacesAPIURLRequestFactory.makeGetPhotoURLRequest(photoReference: "mockReference", maxHeight: 123, apiKey: "mockApiKey")
-        
-        XCTAssertEqual(request.url?.absoluteString, "https://maps.googleapis.com/maps/api/place/photo?key=mockApiKey&maxheight=123&photo_reference=mockReference")
     }
     
     func test_factory_buildsCorrectRequestForGetPhotosWithMaxWidthMaxHeightExtraParameters() throws {

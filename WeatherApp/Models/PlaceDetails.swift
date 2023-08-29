@@ -15,9 +15,9 @@ public struct PlaceDetails: Equatable {
     }
     
     public struct PhotoRef: Equatable {
-        let reference: String
-        let width: Int
-        let height: Int
+        public let reference: String
+        public let width: Int
+        public let height: Int
         
         public init(reference: String, width: Int, height: Int) {
             self.reference = reference

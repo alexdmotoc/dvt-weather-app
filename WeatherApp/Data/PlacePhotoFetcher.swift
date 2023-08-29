@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol PlacePhotoFetcher {
-    func fetchPhoto(reference: String, maxWidth: Int?, maxHeight: Int?) async throws -> Data
+    func fetchPhoto(reference: String, maxWidth: Int, maxHeight: Int?) async throws -> Data
 }
 
 // MARK: - Implementation
@@ -21,7 +21,7 @@ public final class PlacePhotoFetcherImpl: PlacePhotoFetcher {
         self.client = client
     }
     
-    public func fetchPhoto(reference: String, maxWidth: Int?, maxHeight: Int?) async throws -> Data {
+    public func fetchPhoto(reference: String, maxWidth: Int, maxHeight: Int?) async throws -> Data {
         let request = try PlacesAPIURLRequestFactory.makeGetPhotoURLRequest(
             photoReference: reference,
             maxWidth: maxWidth,
