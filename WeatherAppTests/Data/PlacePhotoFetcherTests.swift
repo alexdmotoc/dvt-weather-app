@@ -80,6 +80,16 @@ class PlacePhotoFetcherTests: XCTestCase {
         await expect(sut, toCompleteWith: PlacePhotoFetcherImpl.Error.invalidData)
     }
     
+    func test_fetch_on200StatusCodeWithNonEmptyDataReturnsData() async throws {
+        let (client, sut) = makeSUT()
+        let data = makeNonEmptyData()
+        
+        client.stubs[makeGetPhotoRequest()] = .init(data: data, response: makeResponse(statusCode: 200), error: nil)
+        let result = try await sut.fetchPhoto(reference: photoReference, maxWidth: nil, maxHeight: nil)
+        
+        XCTAssertEqual(result, data)
+    }
+    
     // MARK: - Helpers
     
     private let photoReference = "mock"
