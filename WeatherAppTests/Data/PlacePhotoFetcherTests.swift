@@ -23,7 +23,12 @@ final class PlacePhotoFetcherImpl: PlacePhotoFetcher {
             maxHeight: maxHeight
         )
         let (data, response) = try await client.load(urlReqeust: request)
+        guard response.statusCode == 200, !data.isEmpty else { throw Error.invalidData }
         return data
+    }
+    
+    enum Error: Swift.Error {
+        case invalidData
     }
 }
 
@@ -58,12 +63,37 @@ class PlacePhotoFetcherTests: XCTestCase {
         await expect(sut, toCompleteWith: error)
     }
     
+    func test_fetch_onNon200StatusCodeReturnsError() async {
+        let (client, sut) = makeSUT()
+        
+        for statusCode in [199, 201, 300, 400, 500] {
+            client.stubs[makeGetPhotoRequest()] = .init(data: makeNonEmptyData(), response: makeResponse(statusCode: statusCode), error: nil)
+            await expect(sut, toCompleteWith: PlacePhotoFetcherImpl.Error.invalidData)
+        }
+    }
+    
+    func test_fetch_on200StatusCodeWithEmptyDataReturnsError() async {
+        let (client, sut) = makeSUT()
+        
+        client.stubs[makeGetPhotoRequest()] = .init(data: makeEmptyData(), response: makeResponse(statusCode: 200), error: nil)
+        
+        await expect(sut, toCompleteWith: PlacePhotoFetcherImpl.Error.invalidData)
+    }
+    
     // MARK: - Helpers
     
     private let photoReference = "mock"
     
     private func makeGetPhotoRequest() -> URLRequest {
         try! PlacesAPIURLRequestFactory.makeGetPhotoURLRequest(photoReference: photoReference)
+    }
+    
+    private func makeNonEmptyData() -> Data {
+        Data("non empty".utf8)
+    }
+    
+    private func makeEmptyData() -> Data {
+        Data()
     }
     
     private func expect(
@@ -93,6 +123,7 @@ class PlacePhotoFetcherTests: XCTestCase {
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (client: HTTPClientSpy, sut: PlacePhotoFetcher) {
         let client = HTTPClientSpy()
         let sut = PlacePhotoFetcherImpl(client: client)
+        client.stubs[makeGetPhotoRequest()] = .init(data: makeNonEmptyData(), response: makeResponse(statusCode: 200), error: nil)
         checkIsDeallocated(sut: client, file: file, line: line)
         checkIsDeallocated(sut: sut, file: file, line: line)
         return (client, sut)
