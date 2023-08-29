@@ -46,6 +46,8 @@
 		8756CAB02A9D1F78008F99C0 /* PlaceDetailsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAAF2A9D1F78008F99C0 /* PlaceDetailsDTO.swift */; };
 		8756CAB22A9D2120008F99C0 /* PlacesAPIEndToEndTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAB12A9D2120008F99C0 /* PlacesAPIEndToEndTests.swift */; };
 		8756CAB42A9DFCB6008F99C0 /* PlacesAPIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAB32A9DFCB6008F99C0 /* PlacesAPIConstants.swift */; };
+		8756CAB62A9E11C0008F99C0 /* PlacePhotoFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAB52A9E11C0008F99C0 /* PlacePhotoFetcher.swift */; };
+		8756CAB82A9E120D008F99C0 /* PlacePhotoFetcherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAB72A9E120D008F99C0 /* PlacePhotoFetcherTests.swift */; };
 		87768C222A9652040050B4AC /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C212A9652040050B4AC /* WeatherView.swift */; };
 		87768C252A9654CB0050B4AC /* WeatherInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C242A9654CB0050B4AC /* WeatherInfoViewModel.swift */; };
 		87768C282A965D8E0050B4AC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87768C2A2A965D8E0050B4AC /* Localizable.strings */; };
@@ -194,6 +196,8 @@
 		8756CAAF2A9D1F78008F99C0 /* PlaceDetailsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailsDTO.swift; sourceTree = "<group>"; };
 		8756CAB12A9D2120008F99C0 /* PlacesAPIEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesAPIEndToEndTests.swift; sourceTree = "<group>"; };
 		8756CAB32A9DFCB6008F99C0 /* PlacesAPIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesAPIConstants.swift; sourceTree = "<group>"; };
+		8756CAB52A9E11C0008F99C0 /* PlacePhotoFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacePhotoFetcher.swift; sourceTree = "<group>"; };
+		8756CAB72A9E120D008F99C0 /* PlacePhotoFetcherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacePhotoFetcherTests.swift; sourceTree = "<group>"; };
 		87768C212A9652040050B4AC /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
 		87768C242A9654CB0050B4AC /* WeatherInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInfoViewModel.swift; sourceTree = "<group>"; };
 		87768C292A965D8E0050B4AC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -362,6 +366,7 @@
 				8704C5052A9121250076BB69 /* RemoteWeatherFetcher.swift */,
 				870B6FA02A92AC0500BE5B87 /* ForecastReducer.swift */,
 				87DC20352A9CB6680061A604 /* RemotePlaceDetailsFetcher.swift */,
+				8756CAB52A9E11C0008F99C0 /* PlacePhotoFetcher.swift */,
 				8704C5152A9261AE0076BB69 /* DTO */,
 				870B6FA52A93920300BE5B87 /* Cache */,
 				8704C50D2A9127330076BB69 /* Network */,
@@ -376,6 +381,7 @@
 				8704C4F62A90CDCE0076BB69 /* RemoteWeatherFetcherTests.swift */,
 				870B6FA22A92AE4F00BE5B87 /* ForecastReducerTests.swift */,
 				87DC203D2A9D02F90061A604 /* RemotePlaceDetailsFetcherTests.swift */,
+				8756CAB72A9E120D008F99C0 /* PlacePhotoFetcherTests.swift */,
 				870B6FB02A93A33300BE5B87 /* Cache */,
 				8704C5102A912F150076BB69 /* Network */,
 				87ACFBB22A96067E00068877 /* UseCases */,
@@ -930,6 +936,7 @@
 				87DC20362A9CB6680061A604 /* RemotePlaceDetailsFetcher.swift in Sources */,
 				8704C5062A9121250076BB69 /* RemoteWeatherFetcher.swift in Sources */,
 				870B6FA12A92AC0500BE5B87 /* ForecastReducer.swift in Sources */,
+				8756CAB62A9E11C0008F99C0 /* PlacePhotoFetcher.swift in Sources */,
 				870B6FB42A93BAAF00BE5B87 /* CoreDataHelpers.swift in Sources */,
 				87DC203C2A9D00850061A604 /* PlacesAPIURLRequestFactory.swift in Sources */,
 				8756CAB42A9DFCB6008F99C0 /* PlacesAPIConstants.swift in Sources */,
@@ -966,6 +973,7 @@
 				8704C5142A9134D50076BB69 /* WeatherAPIURLRequestFactoryTests.swift in Sources */,
 				8704C5122A91333A0076BB69 /* XCTestCase+Utils.swift in Sources */,
 				87DC20322A9A21850061A604 /* EndpointTests.swift in Sources */,
+				8756CAB82A9E120D008F99C0 /* PlacePhotoFetcherTests.swift in Sources */,
 				874E1B862A948455000AE0E4 /* CoordinatesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

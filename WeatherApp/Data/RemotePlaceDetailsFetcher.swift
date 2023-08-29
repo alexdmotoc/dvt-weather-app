@@ -13,7 +13,7 @@ public protocol RemotePlaceDetailsFetcher {
 
 // MARK: - Implementation
 
-public class RemotePlaceDetailsFetcherImpl: RemotePlaceDetailsFetcher {
+public final class RemotePlaceDetailsFetcherImpl: RemotePlaceDetailsFetcher {
     
     private let client: HTTPClient
     
