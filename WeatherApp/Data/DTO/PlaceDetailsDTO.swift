@@ -7,6 +7,8 @@
 
 import Foundation
 
+// swiftlint:disable identifier_name
+
 struct PlaceResponseDTO: Decodable {
     let results: [Result]
     
@@ -38,3 +40,5 @@ struct PlaceDetailsDTO: Decodable {
         } ?? [])
     }
 }
+
+// swiftlint:enable identifier_name
