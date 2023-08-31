@@ -122,7 +122,10 @@ class PlaceDetailsViewController: UIViewController {
 
 extension PlaceDetailsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("didSelect \(indexPath)")
+        guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
+        let viewController = ZoomableImageViewController(photo: item, photoFetcher: viewModel.photoFetcher)
+        let nav = UINavigationController(rootViewController: viewController)
+        present(nav, animated: true)
     }
 }
 

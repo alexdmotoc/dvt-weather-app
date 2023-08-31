@@ -52,6 +52,8 @@
 		8756CABD2A9E50F8008F99C0 /* PlaceDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CABC2A9E50F8008F99C0 /* PlaceDetailsViewModel.swift */; };
 		8756CABF2A9E629B008F99C0 /* PlaceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CABE2A9E629B008F99C0 /* PlaceCell.swift */; };
 		8756CAC22A9E63DC008F99C0 /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAC12A9E63DC008F99C0 /* UIViewController+Utils.swift */; };
+		8756CAC52A9F6A5A008F99C0 /* ZoomableImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAC42A9F6A5A008F99C0 /* ZoomableImageViewController.swift */; };
+		8756CAC72A9F6B13008F99C0 /* UIView+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAC62A9F6B13008F99C0 /* UIView+Utils.swift */; };
 		87768C222A9652040050B4AC /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C212A9652040050B4AC /* WeatherView.swift */; };
 		87768C252A9654CB0050B4AC /* WeatherInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C242A9654CB0050B4AC /* WeatherInfoViewModel.swift */; };
 		87768C282A965D8E0050B4AC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87768C2A2A965D8E0050B4AC /* Localizable.strings */; };
@@ -206,6 +208,8 @@
 		8756CABC2A9E50F8008F99C0 /* PlaceDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailsViewModel.swift; sourceTree = "<group>"; };
 		8756CABE2A9E629B008F99C0 /* PlaceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCell.swift; sourceTree = "<group>"; };
 		8756CAC12A9E63DC008F99C0 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
+		8756CAC42A9F6A5A008F99C0 /* ZoomableImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableImageViewController.swift; sourceTree = "<group>"; };
+		8756CAC62A9F6B13008F99C0 /* UIView+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Utils.swift"; sourceTree = "<group>"; };
 		87768C212A9652040050B4AC /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
 		87768C242A9654CB0050B4AC /* WeatherInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInfoViewModel.swift; sourceTree = "<group>"; };
 		87768C292A965D8E0050B4AC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -555,8 +559,17 @@
 			isa = PBXGroup;
 			children = (
 				8756CAC12A9E63DC008F99C0 /* UIViewController+Utils.swift */,
+				8756CAC62A9F6B13008F99C0 /* UIView+Utils.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		8756CAC32A9F6A3D008F99C0 /* ZoomableImage */ = {
+			isa = PBXGroup;
+			children = (
+				8756CAC42A9F6A5A008F99C0 /* ZoomableImageViewController.swift */,
+			);
+			path = ZoomableImage;
 			sourceTree = "<group>";
 		};
 		87768C232A9654BF0050B4AC /* WeatherView */ = {
@@ -593,6 +606,7 @@
 			children = (
 				87768C472A979FA50050B4AC /* FavouritesList */,
 				8756CAB92A9E50BA008F99C0 /* PlaceDetails */,
+				8756CAC32A9F6A3D008F99C0 /* ZoomableImage */,
 				8756CAC02A9E63C1008F99C0 /* Utils */,
 			);
 			path = UIKit;
@@ -1021,6 +1035,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				877D49E22A95188000AA41D3 /* MockCLLocationManager.swift in Sources */,
+				8756CAC72A9F6B13008F99C0 /* UIView+Utils.swift in Sources */,
 				87768C3F2A976E460050B4AC /* MapTabViewModel.swift in Sources */,
 				87768C572A97EC3B0050B4AC /* WeatherInformation+Utils.swift in Sources */,
 				874C646B2A94F63C00D0185F /* ContentView.swift in Sources */,
@@ -1045,6 +1060,7 @@
 				87768C4B2A97D0030050B4AC /* FavouritesListViewController+Utils.swift in Sources */,
 				87768C2C2A965F350050B4AC /* AppSettings.swift in Sources */,
 				87768C462A9797F00050B4AC /* FavouritesListViewModel.swift in Sources */,
+				8756CAC52A9F6A5A008F99C0 /* ZoomableImageViewController.swift in Sources */,
 				87768C4F2A97D5EF0050B4AC /* FavouritesListCell.swift in Sources */,
 				874C64692A94F63C00D0185F /* WeatherApp_iOSApp.swift in Sources */,
 				87768C252A9654CB0050B4AC /* WeatherInfoViewModel.swift in Sources */,
