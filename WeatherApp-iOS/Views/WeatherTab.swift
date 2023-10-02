@@ -15,23 +15,16 @@ struct WeatherTab: View {
     
     var body: some View {
         if viewModel.isLocationPermissionGranted {
-            weatherContent
+            PageView(pages: makeWeatherPages(isLocationPermissionGranted: true))
+                .id(UUID())
+                .edgesIgnoringSafeArea(.top)
         } else {
-            noLocationPermissionView
+            let weatherPages = makeWeatherPages(isLocationPermissionGranted: false).map { AnyView($0) }
+            let pages: [AnyView] = [AnyView(noLocationPermissionView)] + weatherPages
+            PageView(pages: pages)
+                .id(UUID())
+                .edgesIgnoringSafeArea(.top)
         }
-    }
-    
-    @ViewBuilder
-    var weatherContent: some View {
-        let weather = store.weatherInformation.first(where: { $0.isCurrentLocation })
-        WeatherView(weatherInfo: .init(
-            info: weather ?? viewModel.emptyWeather,
-            temperatureType: appSettings.temperatureType,
-            lastUpdated: viewModel.lastUpdated,
-            onRefresh: {
-                Task { await viewModel.getWeather() }
-            }
-        ))
     }
     
     @ViewBuilder
@@ -42,5 +35,22 @@ struct WeatherTab: View {
             Link("locationPermission.openSettings", destination: URL(string: UIApplication.openSettingsURLString)!)
         }
         .padding()
+    }
+    
+    func makeWeatherPages(isLocationPermissionGranted: Bool) -> [WeatherView] {
+        var array = store.weatherInformation
+        if array.isEmpty && isLocationPermissionGranted {
+            array = [viewModel.emptyWeather]
+        }
+        return array.map {
+            WeatherView(weatherInfo: .init(
+                info: $0,
+                temperatureType: appSettings.temperatureType,
+                lastUpdated: viewModel.lastUpdated,
+                onRefresh: {
+                    Task { await viewModel.getWeather() }
+                })
+            )
+        }
     }
 }

@@ -54,6 +54,9 @@
 		8756CAC22A9E63DC008F99C0 /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAC12A9E63DC008F99C0 /* UIViewController+Utils.swift */; };
 		8756CAC52A9F6A5A008F99C0 /* ZoomableImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAC42A9F6A5A008F99C0 /* ZoomableImageViewController.swift */; };
 		8756CAC72A9F6B13008F99C0 /* UIView+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAC62A9F6B13008F99C0 /* UIView+Utils.swift */; };
+		8756CAC92AA1F992008F99C0 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAC82AA1F992008F99C0 /* PageViewController.swift */; };
+		8756CACC2AA20FF1008F99C0 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CACB2AA20FF1008F99C0 /* PageView.swift */; };
+		8756CACE2AA2111C008F99C0 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CACD2AA2111C008F99C0 /* PageControl.swift */; };
 		87768C222A9652040050B4AC /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C212A9652040050B4AC /* WeatherView.swift */; };
 		87768C252A9654CB0050B4AC /* WeatherInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C242A9654CB0050B4AC /* WeatherInfoViewModel.swift */; };
 		87768C282A965D8E0050B4AC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87768C2A2A965D8E0050B4AC /* Localizable.strings */; };
@@ -210,6 +213,9 @@
 		8756CAC12A9E63DC008F99C0 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
 		8756CAC42A9F6A5A008F99C0 /* ZoomableImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableImageViewController.swift; sourceTree = "<group>"; };
 		8756CAC62A9F6B13008F99C0 /* UIView+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Utils.swift"; sourceTree = "<group>"; };
+		8756CAC82AA1F992008F99C0 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		8756CACB2AA20FF1008F99C0 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
+		8756CACD2AA2111C008F99C0 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		87768C212A9652040050B4AC /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
 		87768C242A9654CB0050B4AC /* WeatherInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInfoViewModel.swift; sourceTree = "<group>"; };
 		87768C292A965D8E0050B4AC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -572,6 +578,16 @@
 			path = ZoomableImage;
 			sourceTree = "<group>";
 		};
+		8756CACA2AA20FA4008F99C0 /* PageView */ = {
+			isa = PBXGroup;
+			children = (
+				8756CACB2AA20FF1008F99C0 /* PageView.swift */,
+				8756CAC82AA1F992008F99C0 /* PageViewController.swift */,
+				8756CACD2AA2111C008F99C0 /* PageControl.swift */,
+			);
+			path = PageView;
+			sourceTree = "<group>";
+		};
 		87768C232A9654BF0050B4AC /* WeatherView */ = {
 			isa = PBXGroup;
 			children = (
@@ -643,6 +659,7 @@
 				87768C2F2A966D670050B4AC /* SettingsTab.swift */,
 				87768C3D2A976E2E0050B4AC /* MapTab */,
 				87768C232A9654BF0050B4AC /* WeatherView */,
+				8756CACA2AA20FA4008F99C0 /* PageView */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -789,7 +806,6 @@
 				874C64632A94F63C00D0185F /* Frameworks */,
 				874C64642A94F63C00D0185F /* Resources */,
 				877D49D72A95034800AA41D3 /* Embed Frameworks */,
-				87DC20272A98D5170061A604 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -845,7 +861,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					8704C4E82A90CDCE0076BB69 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -941,28 +957,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		87DC20272A98D5170061A604 /* Swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = Swiftlint;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		8704C4E52A90CDCE0076BB69 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1052,9 +1046,11 @@
 				87768C492A97A0D90050B4AC /* SearchSuggestionsViewController.swift in Sources */,
 				87768C352A96A4CB0050B4AC /* WeatherViewHelpers.swift in Sources */,
 				87DC20292A98DDB10061A604 /* CLLocation+Utils.swift in Sources */,
+				8756CAC92AA1F992008F99C0 /* PageViewController.swift in Sources */,
 				877D49E02A9517CC00AA41D3 /* WeatherViewModel.swift in Sources */,
 				87768C332A96A4AC0050B4AC /* ForecastViewModel.swift in Sources */,
 				87768C442A9797C30050B4AC /* FavouritesListViewController.swift in Sources */,
+				8756CACC2AA20FF1008F99C0 /* PageView.swift in Sources */,
 				8756CABF2A9E629B008F99C0 /* PlaceCell.swift in Sources */,
 				877D49E72A953D4800AA41D3 /* WeatherInformation+Mock.swift in Sources */,
 				87768C4B2A97D0030050B4AC /* FavouritesListViewController+Utils.swift in Sources */,
@@ -1070,6 +1066,7 @@
 				87768C392A9741CF0050B4AC /* FavouritesTab.swift in Sources */,
 				877D49DC2A950A4E00AA41D3 /* CLLocationManager+Utils.swift in Sources */,
 				87ACFBAE2A9552B500068877 /* LocationManager.swift in Sources */,
+				8756CACE2AA2111C008F99C0 /* PageControl.swift in Sources */,
 				87ACFBBE2A9609B600068877 /* WeatherInformationStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1179,9 +1176,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1242,9 +1241,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1268,9 +1269,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1307,9 +1310,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1347,6 +1352,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -1363,6 +1369,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -1378,6 +1385,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -1393,6 +1401,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -1520,6 +1529,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -1535,6 +1545,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
