@@ -24,6 +24,10 @@ extension XCTestCase {
         NSError(domain: "mock", code: 0)
     }
     
+    func makeResponse(statusCode: Int) -> HTTPURLResponse {
+        .init(url: URL(string: "https://someurl.com")!, statusCode: statusCode, httpVersion: nil, headerFields: nil)!
+    }
+    
     func makeWeatherInformation(
         locationName: String = "mock",
         isCurrentLocation: Bool = false,

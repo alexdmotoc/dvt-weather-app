@@ -45,7 +45,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         let (client, sut) = makeSUT()
         
         for statusCode in [199, 201, 300, 400, 500] {
-            client.stubs[weatherURLRequest()] = .init(data: nil, response: makeResponse(statusCode: statusCode), error: nil)
+            client.stubs[weatherURLRequest()] = .init(data: Data(), response: makeResponse(statusCode: statusCode), error: nil)
             try await expect(sut, toCompleteWith: RemoteWeatherFetcherImpl.Error.invalidData)
         }
     }
@@ -54,7 +54,7 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         let (client, sut) = makeSUT()
         
         for statusCode in [199, 201, 300, 400, 500] {
-            client.stubs[forecastURLRequest()] = .init(data: nil, response: makeResponse(statusCode: statusCode), error: nil)
+            client.stubs[forecastURLRequest()] = .init(data: Data(), response: makeResponse(statusCode: statusCode), error: nil)
             try await expect(sut, toCompleteWith: RemoteWeatherFetcherImpl.Error.invalidData)
         }
     }
@@ -98,16 +98,12 @@ final class RemoteWeatherFetcherTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeResponse(statusCode: Int) -> HTTPURLResponse {
-        .init(url: URL(string: "https://someurl.com")!, statusCode: statusCode, httpVersion: nil, headerFields: nil)!
-    }
-    
     private func weatherURLRequest() -> URLRequest {
-        try! WeatherAPIURLRequestBuilder().path("/weather").coordinates(makeCoordinates()).build()
+        try! WeatherAPIURLRequestFactory.makeURLRequest(path: "/weather", coordinates: makeCoordinates())
     }
     
     private func forecastURLRequest() -> URLRequest {
-        try! WeatherAPIURLRequestBuilder().path("/forecast").coordinates(makeCoordinates()).build()
+        try! WeatherAPIURLRequestFactory.makeURLRequest(path: "/forecast", coordinates: makeCoordinates())
     }
     
     private func expect(
@@ -192,33 +188,6 @@ final class RemoteWeatherFetcherTests: XCTestCase {
         checkIsDeallocated(sut: sut, file: file, line: line)
         
         return (client, sut)
-    }
-    
-    private class HTTPClientSpy: HTTPClient {
-        struct Stub {
-            let data: Data?
-            let response: HTTPURLResponse?
-            let error: Error?
-        }
-        
-        var loadCalledCount = 0
-        var stubs: [URLRequest: Stub] = [:]
-        
-        func load(urlReqeust: URLRequest) async throws -> (Data, HTTPURLResponse) {
-            loadCalledCount += 1
-            
-            let stub = stubs[urlReqeust]
-            
-            if let error = stub?.error {
-                throw error
-            }
-            
-            if let data = stub?.data, let response = stub?.response {
-                return (data, response)
-            }
-            
-            return (Data(), HTTPURLResponse())
-        }
     }
 }
 
