@@ -58,4 +58,12 @@ enum DIContainer {
         useCase: favouritesUseCase,
         appSettings: appSettings
     )
+    
+    static func makePlaceDetailsViewModel(locationName: String) -> PlaceDetailsViewModel {
+        .init(
+            locationName: locationName,
+            detailsFetcher: RemotePlaceDetailsFetcherImpl(client: URLSessionHTTPClient()),
+            photoFetcher: PlacePhotoFetcherImpl(client: URLSessionHTTPClient())
+        )
+    }
 }

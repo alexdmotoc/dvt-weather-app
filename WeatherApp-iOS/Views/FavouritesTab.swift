@@ -15,6 +15,13 @@ struct FavouritesTab: UIViewControllerRepresentable {
         let viewController = FavouritesListViewController(viewModel: viewModel)
         let nav = UINavigationController(rootViewController: viewController)
         nav.navigationBar.prefersLargeTitles = true
+        
+        viewController.didSelectPlaceNamed = { [weak nav] placeName in
+            let placeDetailsVM = DIContainer.makePlaceDetailsViewModel(locationName: placeName)
+            let placeDetailsVC = PlaceDetailsViewController(viewModel: placeDetailsVM)
+            nav?.pushViewController(placeDetailsVC, animated: true)
+        }
+        
         return nav
     }
     

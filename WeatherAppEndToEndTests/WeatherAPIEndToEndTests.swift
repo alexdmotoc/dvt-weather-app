@@ -1,5 +1,5 @@
 //
-//  WeatherAppEndToEndTests.swift
+//  WeatherAPIEndToEndTests.swift
 //  WeatherAppEndToEndTests
 //
 //  Created by Alex Motoc on 20.08.2023.
@@ -8,7 +8,7 @@
 import XCTest
 import WeatherApp
 
-final class WeatherAppEndToEndTests: XCTestCase {
+final class WeatherAPIEndToEndTests: XCTestCase {
     func test_fetchWeatherFromAPI_worksCorrectly() async throws {
         let clujNapocaCoordinates = Coordinates(latitude: 46.770439, longitude: 23.591423)
         

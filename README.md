@@ -167,7 +167,7 @@ The API secret is pushed to git to facilitate testing. It's not a best practice 
 
 ## Final thoughts
 
-The app is missing the functionality by which a user can get more details about a favourite location (Using the Google Places API - https://developers.google.com/places/web-service/intro)
+The app is missing the functionality by which a user can get more details about a favourite location (Using the Google Places API - https://developers.google.com/places/web-service/intro). However, I added a pull request with this functionality, but since it was after the deadline I didn't merge it. I also added a pull request for allowing the user to swipe between weather locations in the main screen.
 
 The app is also missing some tests for the Favourites section, especially the `FavouritesListViewModel`. The UIViewControllers could also be tested, but I was short on time unfortunately.
 

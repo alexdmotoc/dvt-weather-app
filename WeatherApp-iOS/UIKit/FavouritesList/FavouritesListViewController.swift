@@ -18,6 +18,10 @@ class FavouritesListViewController: UIViewController {
     private var dataSource: UICollectionViewDiffableDataSource<FavouriteItemsListData.Section, FavouriteItemsListData.Item>! = nil
     private var collectionView: UICollectionView!
     
+    // MARK: - Public properties
+    
+    var didSelectPlaceNamed: ((String) -> Void)?
+    
     // MARK: - Lifecycle
     
     init(viewModel: FavouritesListViewModel) {
@@ -115,18 +119,6 @@ class FavouritesListViewController: UIViewController {
         viewModel.didAppendItem = didAppendItem
     }
     
-    private func displayError(_ error: Swift.Error) {
-        let alertTitle = NSLocalizedString("error.title", comment: "")
-        let alertController = UIAlertController(
-            title: alertTitle,
-            message: error.localizedDescription,
-            preferredStyle: .alert
-        )
-        let okAction = UIAlertAction(title: NSLocalizedString("dismiss.title", comment: ""), style: .cancel)
-        alertController.addAction(okAction)
-        present(alertController, animated: true, completion: nil)
-    }
-    
     private func didReloadItems(_ items: [FavouriteItemsListData.Item]) {
         var sectionSnapshot = NSDiffableDataSourceSectionSnapshot<FavouriteItemsListData.Item>()
         sectionSnapshot.append(items)
@@ -151,6 +143,9 @@ extension FavouritesListViewController: UICollectionViewDelegate {
             searchController.isActive = false
             searchController.searchBar.text = ""
             viewModel.search(for: row.searchCompletion)
+        } else if collectionView == self.collectionView {
+            guard let item = dataSource.itemIdentifier(for: indexPath) else { return }
+            didSelectPlaceNamed?(item.locationName)
         }
         
         collectionView.deselectItem(at: indexPath, animated: true)
