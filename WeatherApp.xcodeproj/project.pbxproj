@@ -43,9 +43,6 @@
 		874E1B7E2A93DFF8000AE0E4 /* XCTestCase+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C5112A91333A0076BB69 /* XCTestCase+Utils.swift */; };
 		874E1B842A9482BE000AE0E4 /* Coordinates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874E1B832A9482BE000AE0E4 /* Coordinates.swift */; };
 		874E1B862A948455000AE0E4 /* CoordinatesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874E1B852A948455000AE0E4 /* CoordinatesTests.swift */; };
-		8756CAC92AA1F992008F99C0 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAC82AA1F992008F99C0 /* PageViewController.swift */; };
-		8756CACC2AA20FF1008F99C0 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CACB2AA20FF1008F99C0 /* PageView.swift */; };
-		8756CACE2AA2111C008F99C0 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CACD2AA2111C008F99C0 /* PageControl.swift */; };
 		8756CAB02A9D1F78008F99C0 /* PlaceDetailsDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAAF2A9D1F78008F99C0 /* PlaceDetailsDTO.swift */; };
 		8756CAB22A9D2120008F99C0 /* PlacesAPIEndToEndTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAB12A9D2120008F99C0 /* PlacesAPIEndToEndTests.swift */; };
 		8756CAB42A9DFCB6008F99C0 /* PlacesAPIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAB32A9DFCB6008F99C0 /* PlacesAPIConstants.swift */; };
@@ -57,6 +54,9 @@
 		8756CAC22A9E63DC008F99C0 /* UIViewController+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAC12A9E63DC008F99C0 /* UIViewController+Utils.swift */; };
 		8756CAC52A9F6A5A008F99C0 /* ZoomableImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAC42A9F6A5A008F99C0 /* ZoomableImageViewController.swift */; };
 		8756CAC72A9F6B13008F99C0 /* UIView+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAC62A9F6B13008F99C0 /* UIView+Utils.swift */; };
+		8756CAC92AA1F992008F99C0 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CAC82AA1F992008F99C0 /* PageViewController.swift */; };
+		8756CACC2AA20FF1008F99C0 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CACB2AA20FF1008F99C0 /* PageView.swift */; };
+		8756CACE2AA2111C008F99C0 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8756CACD2AA2111C008F99C0 /* PageControl.swift */; };
 		87768C222A9652040050B4AC /* WeatherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C212A9652040050B4AC /* WeatherView.swift */; };
 		87768C252A9654CB0050B4AC /* WeatherInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87768C242A9654CB0050B4AC /* WeatherInfoViewModel.swift */; };
 		87768C282A965D8E0050B4AC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 87768C2A2A965D8E0050B4AC /* Localizable.strings */; };
@@ -202,9 +202,6 @@
 		874E1B762A93DF4E000AE0E4 /* WeatherAppCacheIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppCacheIntegrationTests.swift; sourceTree = "<group>"; };
 		874E1B832A9482BE000AE0E4 /* Coordinates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinates.swift; sourceTree = "<group>"; };
 		874E1B852A948455000AE0E4 /* CoordinatesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatesTests.swift; sourceTree = "<group>"; };
-		8756CAC82AA1F992008F99C0 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
-		8756CACB2AA20FF1008F99C0 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
-		8756CACD2AA2111C008F99C0 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		8756CAAF2A9D1F78008F99C0 /* PlaceDetailsDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailsDTO.swift; sourceTree = "<group>"; };
 		8756CAB12A9D2120008F99C0 /* PlacesAPIEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesAPIEndToEndTests.swift; sourceTree = "<group>"; };
 		8756CAB32A9DFCB6008F99C0 /* PlacesAPIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesAPIConstants.swift; sourceTree = "<group>"; };
@@ -216,6 +213,9 @@
 		8756CAC12A9E63DC008F99C0 /* UIViewController+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Utils.swift"; sourceTree = "<group>"; };
 		8756CAC42A9F6A5A008F99C0 /* ZoomableImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomableImageViewController.swift; sourceTree = "<group>"; };
 		8756CAC62A9F6B13008F99C0 /* UIView+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Utils.swift"; sourceTree = "<group>"; };
+		8756CAC82AA1F992008F99C0 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		8756CACB2AA20FF1008F99C0 /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
+		8756CACD2AA2111C008F99C0 /* PageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		87768C212A9652040050B4AC /* WeatherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherView.swift; sourceTree = "<group>"; };
 		87768C242A9654CB0050B4AC /* WeatherInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInfoViewModel.swift; sourceTree = "<group>"; };
 		87768C292A965D8E0050B4AC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -551,16 +551,6 @@
 			path = WeatherAppCacheIntegrationTests;
 			sourceTree = "<group>";
 		};
-		8756CACA2AA20FA4008F99C0 /* PageView */ = {
-			isa = PBXGroup;
-			children = (
-				8756CACB2AA20FF1008F99C0 /* PageView.swift */,
-				8756CAC82AA1F992008F99C0 /* PageViewController.swift */,
-				8756CACD2AA2111C008F99C0 /* PageControl.swift */,
-			);
-			path = PageView;
-			sourceTree = "<group>";
-		};
 		8756CAB92A9E50BA008F99C0 /* PlaceDetails */ = {
 			isa = PBXGroup;
 			children = (
@@ -586,6 +576,16 @@
 				8756CAC42A9F6A5A008F99C0 /* ZoomableImageViewController.swift */,
 			);
 			path = ZoomableImage;
+			sourceTree = "<group>";
+		};
+		8756CACA2AA20FA4008F99C0 /* PageView */ = {
+			isa = PBXGroup;
+			children = (
+				8756CACB2AA20FF1008F99C0 /* PageView.swift */,
+				8756CAC82AA1F992008F99C0 /* PageViewController.swift */,
+				8756CACD2AA2111C008F99C0 /* PageControl.swift */,
+			);
+			path = PageView;
 			sourceTree = "<group>";
 		};
 		87768C232A9654BF0050B4AC /* WeatherView */ = {
@@ -806,7 +806,6 @@
 				874C64632A94F63C00D0185F /* Frameworks */,
 				874C64642A94F63C00D0185F /* Resources */,
 				877D49D72A95034800AA41D3 /* Embed Frameworks */,
-				87DC20272A98D5170061A604 /* Swiftlint */,
 			);
 			buildRules = (
 			);
@@ -862,7 +861,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					8704C4E82A90CDCE0076BB69 = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -957,28 +956,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		87DC20272A98D5170061A604 /* Swiftlint */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = Swiftlint;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8704C4E52A90CDCE0076BB69 /* Sources */ = {
@@ -1199,9 +1176,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1262,9 +1241,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1288,9 +1269,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1327,9 +1310,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1367,6 +1352,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -1383,6 +1369,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -1398,6 +1385,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -1413,6 +1401,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -1540,6 +1529,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -1555,6 +1545,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = F48VQGX2CM;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
